@@ -16,16 +16,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onResume() {
+        super.onResume()
         Intent(this, SensorService::class.java).also { intent ->
             bindService(intent, serviceConnection, Service.BIND_AUTO_CREATE)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         unbindService(serviceConnection)
     }
-
 
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         private var messenger: Messenger = Messenger(ResponseHandler(this@MainActivity))

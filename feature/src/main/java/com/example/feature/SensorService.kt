@@ -48,15 +48,14 @@ class SensorService: Service() {
                 //sensorManager.unregisterListener(this)
                 val message: Message = Message.obtain(null, DETECT_SHAKE, 0, 0)
                 messenger.send(message)
+                stopSelf()
             }
         }
     }
 
     private lateinit var messenger: Messenger
 
-    internal class IncomingHandler(
-        context: Context
-    ) : Handler() {
+    internal class IncomingHandler: Handler() {
         lateinit var hostMessenger: Messenger
 
         override fun handleMessage(message: Message) {
@@ -76,7 +75,7 @@ class SensorService: Service() {
         val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         sensorManager.registerListener(sensorEventListener, sensor, Sensor.TYPE_ACCELEROMETER, SensorManager.SENSOR_DELAY_NORMAL)
 
-        messenger = Messenger(IncomingHandler(this))
+        messenger = Messenger(IncomingHandler())
 
         return messenger.binder
     }
@@ -86,5 +85,4 @@ class SensorService: Service() {
 
         return super.onUnbind(intent)
     }
-
 }

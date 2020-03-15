@@ -1,5 +1,6 @@
 package com.example.feature
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,6 +17,10 @@ class IssueViewModel(
     val body = MutableLiveData("body")
     val command = MutableLiveData<Command>()
 
+    init {
+        command.postValue(Command.ShowFilePath(filePath))
+    }
+
     fun post() {
         viewModelScope.launch(Dispatchers.IO) {
             val issue = Issue("title", "body")
@@ -27,4 +32,5 @@ class IssueViewModel(
 
 sealed class Command {
     object Finish: Command()
+    class ShowFilePath(val filePath: String?): Command()
 }

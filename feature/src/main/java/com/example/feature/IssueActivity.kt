@@ -3,6 +3,7 @@ package com.example.feature
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -14,18 +15,23 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.parameter.parametersOf
+import java.lang.Exception
 
 class IssueActivity : AppCompatActivity() {
     init {
-        startKoin {
-            androidLogger()
-            modules(
-                listOf(
-                    viewModelModule,
-                    apiModule,
-                    repositoryModule
+        try {
+            startKoin {
+                androidLogger()
+                modules(
+                    listOf(
+                        viewModelModule,
+                        apiModule,
+                        repositoryModule
+                    )
                 )
-            )
+            }
+        } catch (e: Exception) {
+
         }
     }
 
@@ -49,7 +55,10 @@ class IssueActivity : AppCompatActivity() {
 
         model.command.observe(this) {
             when(it) {
-                Command.Finish -> finish()
+                is Command.Finish -> finish()
+                is Command.ShowFilePath -> {
+                    // Toast.makeText(this, "filePath: ${it.filePath}", android.widget.Toast.LENGTH_LONG).show()
+                }
             }
         }
 
