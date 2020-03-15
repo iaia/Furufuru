@@ -3,7 +3,7 @@
     package="com.example.feature">
 
     <application>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".IssueActivity"></activity>
     </application>
 
 </manifest>

@@ -8,7 +8,7 @@ import com.example.data.repository.IssueRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(
+class IssueViewModel(
     private val issueRepository: IssueRepository
 ) : ViewModel() {
     val title = MutableLiveData("title")
