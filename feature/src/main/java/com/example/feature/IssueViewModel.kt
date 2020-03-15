@@ -9,7 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class IssueViewModel(
-    private val issueRepository: IssueRepository
+    private val issueRepository: IssueRepository,
+    private val filePath: String?
 ) : ViewModel() {
     val title = MutableLiveData("title")
     val body = MutableLiveData("body")

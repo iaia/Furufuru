@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
+import com.example.feature.Furufuru
 import com.example.feature.SensorService
 
 
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
         }
         override fun onServiceDisconnected(name: ComponentName?) {
+            Furufuru.openIssue(this@MainActivity)
         }
     }
 }

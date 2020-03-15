@@ -1,14 +1,23 @@
 package com.example.feature
 
+import android.app.Activity
+import android.app.Application
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Environment
 import android.os.IBinder
+import android.text.format.DateFormat
+import android.view.View
 import android.widget.Toast
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
 import kotlin.math.sqrt
 
 class SensorService: Service() {
@@ -33,10 +42,6 @@ class SensorService: Service() {
             if (access > 12) {
                 Toast.makeText(applicationContext, "Shake event detected", Toast.LENGTH_SHORT).show()
                 sensorManager.unregisterListener(this)
-                IssueActivity.createIntent(this@SensorService).run {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    application.startActivity(this)
-                }
             }
         }
     }

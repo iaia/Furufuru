@@ -13,15 +13,23 @@ import com.example.feature.di.viewModelModule
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.startKoin
+import org.koin.core.parameter.parametersOf
 
 class IssueActivity : AppCompatActivity() {
-
     companion object {
-        fun createIntent(context: Context) = Intent(context, IssueActivity::class.java)
+        private const val ARG_FILE_PATH = "file_path"
+
+        fun createIntent(
+            context: Context,
+            filePath: String?
+        ) = Intent(context, IssueActivity::class.java).apply {
+            putExtra(ARG_FILE_PATH, filePath)
+        }
     }
 
-    private val model by viewModel<IssueViewModel>()
+    private val model by viewModel<IssueViewModel> { parametersOf(filePath) }
     private val binding by lazy { DataBindingUtil.setContentView<ActivityIssueBinding>(this, R.layout.activity_issue) }
+    private val filePath by lazy { intent.extras?.getString(ARG_FILE_PATH) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
