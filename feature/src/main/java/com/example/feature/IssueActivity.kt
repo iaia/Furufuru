@@ -35,16 +35,21 @@ class IssueActivity : AppCompatActivity() {
 
     companion object {
         private const val ARG_FILE_PATH = "file_path"
+        private const val ARG_FILE_STR = "file_str"
 
         fun createIntent(
             context: Context,
-            filePath: String?
+            filePath: String?,
+            fileStr: String?
         ) = Intent(context, IssueActivity::class.java).apply {
             putExtra(ARG_FILE_PATH, filePath)
+            putExtra(ARG_FILE_STR, fileStr)
         }
     }
 
-    private val model by viewModel<IssueViewModel> { parametersOf(filePath) }
+    private val model by viewModel<IssueViewModel> {
+        parametersOf(filePath, fileStr)
+    }
     private val binding by lazy {
         DataBindingUtil.setContentView<ActivityIssueBinding>(
             this,
@@ -52,6 +57,7 @@ class IssueActivity : AppCompatActivity() {
         )
     }
     private val filePath by lazy { intent.extras?.getString(ARG_FILE_PATH) }
+    private val fileStr by lazy { intent.extras?.getString(ARG_FILE_STR) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

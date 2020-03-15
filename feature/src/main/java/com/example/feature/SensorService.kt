@@ -23,6 +23,7 @@ class SensorService : Service() {
     companion object {
         const val HELLO = 0
         const val DETECT_SHAKE = 1
+        const val ACCEPTING = 2
     }
 
     private val sensorEventListener = object : SensorEventListener {
@@ -44,7 +45,6 @@ class SensorService : Service() {
                 //sensorManager.unregisterListener(this)
                 val message: Message = Message.obtain(null, DETECT_SHAKE, 0, 0)
                 messenger.send(message)
-                stopSelf()
             }
         }
     }
@@ -53,6 +53,7 @@ class SensorService : Service() {
 
     internal class IncomingHandler : Handler() {
         lateinit var hostMessenger: Messenger
+        var processing = false
 
         override fun handleMessage(message: Message) {
             when (message.what) {
@@ -60,7 +61,13 @@ class SensorService : Service() {
                     hostMessenger = message.replyTo
                 }
                 DETECT_SHAKE -> {
-                    hostMessenger.send(Message.obtain())
+                    if (!processing) {
+                        processing = true
+                        hostMessenger.send(Message.obtain())
+                    }
+                }
+                ACCEPTING -> {
+                    processing = false
                 }
             }
         }
@@ -77,6 +84,7 @@ class SensorService : Service() {
         )
 
         messenger = Messenger(IncomingHandler())
+        messenger.send(Message.obtain(null, ACCEPTING, 0, 0))
 
         return messenger.binder
     }

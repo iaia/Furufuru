@@ -9,6 +9,7 @@ import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.feature.Furufuru
 import com.example.feature.SensorService
+import com.example.feature.SensorService.Companion.ACCEPTING
 import com.example.feature.SensorService.Companion.HELLO
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         Intent(this, SensorService::class.java).also { intent ->
             bindService(intent, serviceConnection, Service.BIND_AUTO_CREATE)
         }
+
+        serviceMessenger?.send(Message.obtain(null, ACCEPTING, 0, 0))
     }
 
     override fun onStop() {
@@ -29,9 +32,10 @@ class MainActivity : AppCompatActivity() {
         unbindService(serviceConnection)
     }
 
+    private var serviceMessenger: Messenger? = null
+
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         private var messenger: Messenger = Messenger(ResponseHandler(this@MainActivity))
-        private var serviceMessenger: Messenger? = null
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             serviceMessenger = Messenger(service)
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private class ResponseHandler(
         val activity: Activity
     ) : Handler() {
-        override fun handleMessage(msg: Message) {
+        override fun handleMessage(message: Message) {
             Furufuru.openIssue(activity)
         }
     }
