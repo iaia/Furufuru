@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import com.example.data.di.apiModule
 import com.example.data.di.repositoryModule
 import com.example.feature.databinding.ActivityIssueBinding
@@ -33,6 +34,12 @@ class IssueActivity : AppCompatActivity() {
                     repositoryModule
                 )
             )
+        }
+
+        model.command.observe(this) {
+            when(it) {
+                Command.Finish -> finish()
+            }
         }
 
         binding.viewModel = model

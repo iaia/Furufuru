@@ -4,6 +4,7 @@
 
     <application>
         <activity android:name=".IssueActivity"></activity>
+        <service android:name=".SensorService"></service>
     </application>
 
 </manifest>

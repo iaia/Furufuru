@@ -1,54 +1,33 @@
 package com.example.furufuru
 
-import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
+import android.app.Service
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
-import android.widget.Toast
+import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.math.sqrt
+import com.example.feature.SensorService
+
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var sensorManager: SensorManager
-    private var mAccel = 0f
-    private var mAccelCurrent = 0f
-    private var mAccelLast = 0f
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
-        sensorManager.registerListener(sensorEventListener, sensor, Sensor.TYPE_ACCELEROMETER, SensorManager.SENSOR_DELAY_NORMAL)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        sensorManager.unregisterListener(sensorEventListener)
-    }
-
-    private val sensorEventListener = object: SensorEventListener {
-        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        Intent(this, SensorService::class.java).also { intent ->
+            bindService(intent, serviceConnection, Service.BIND_AUTO_CREATE)
         }
+    }
 
-        override fun onSensorChanged(event: SensorEvent) {
-            val x: Float = event.values[0]
-            val y: Float = event.values[1]
-            val z: Float = event.values[2]
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(serviceConnection)
+    }
 
-            mAccelLast = mAccelCurrent
-            mAccelCurrent = sqrt((x * x + y * y + z * z).toDouble()).toFloat()
-            val delta: Float = mAccelCurrent - mAccelLast
-            mAccel = mAccel * 0.9f + delta
-            if (mAccel > 12) {
-                Toast.makeText(applicationContext, "Shake event detected", Toast.LENGTH_SHORT).show()
-            }
+    private val serviceConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+        }
+        override fun onServiceDisconnected(name: ComponentName?) {
         }
     }
 }

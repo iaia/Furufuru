@@ -14,10 +14,18 @@ class IssueViewModel(
     val title = MutableLiveData("title")
     val body = MutableLiveData("body")
 
+    val command = MutableLiveData<Command>()
+
+
     fun post() {
         viewModelScope.launch(Dispatchers.IO) {
             val issue = Issue("title", "body")
             issueRepository.post(issue)
+            command.postValue(Command.Finish)
         }
     }
+}
+
+sealed class Command {
+    object Finish: Command()
 }
