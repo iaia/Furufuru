@@ -1,6 +1,5 @@
 package com.example.data.entity
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.Serializable
 
 @Serializable

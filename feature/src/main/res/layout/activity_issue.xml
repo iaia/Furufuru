@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.feature.IssueViewModel" />
@@ -20,19 +19,18 @@
             android:id="@+id/til_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="12dp"
-            android:hint="title">
+            android:hint="title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.title}"
                 android:singleLine="true"
-                tools:text="title"
-                />
+                android:text="@={viewModel.title}"
+                tools:text="title" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -40,19 +38,18 @@
             android:id="@+id/til_body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_title"
             android:layout_marginTop="12dp"
-            android:hint="body">
+            android:hint="body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.body}"
                 android:lines="4"
-                tools:text="body"
-                />
+                android:text="@={viewModel.body}"
+                tools:text="body" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,25 +57,23 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@{viewModel.filePath}"
-            app:layout_constraintTop_toBottomOf="@id/til_body"
             app:layout_constraintBottom_toTopOf="@+id/mb_post"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@tools:sample/avatars"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_body"
+            tools:src="@tools:sample/avatars" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mb_post"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="post"
             android:onClick="@{() -> viewModel.post()}"
-            android:theme="@style/FormButton"
+            android:text="post"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:theme="@style/FormButton"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

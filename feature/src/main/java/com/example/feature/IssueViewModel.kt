@@ -1,6 +1,5 @@
 package com.example.feature
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,6 +30,6 @@ class IssueViewModel(
 }
 
 sealed class Command {
-    object Finish: Command()
-    class ShowFilePath(val filePath: String?): Command()
+    object Finish : Command()
+    class ShowFilePath(val filePath: String?) : Command()
 }

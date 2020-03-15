@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.feature.Furufuru
 import com.example.feature.SensorService
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             }
             serviceMessenger?.send(helloMessage)
         }
+
         override fun onServiceDisconnected(name: ComponentName?) {
             serviceMessenger = null
         }

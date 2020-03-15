@@ -3,8 +3,6 @@ package com.example.data.repository
 import android.util.Log
 import com.example.data.entity.Issue
 import com.example.data.remote.github.GithubService
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 class IssueRepositoryImpl(
     private val owner: String,
@@ -13,7 +11,8 @@ class IssueRepositoryImpl(
 ) : IssueRepository {
     override suspend fun post(issue: Issue) {
         try {
-            service.postIssue(owner, repo,
+            service.postIssue(
+                owner, repo,
                 mapOf(
                     Pair("title", issue.title), Pair("body", issue.body)
                 )

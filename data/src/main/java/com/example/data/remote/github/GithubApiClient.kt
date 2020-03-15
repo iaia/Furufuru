@@ -2,13 +2,12 @@ package com.example.data.remote.github
 
 import android.util.Log
 import com.example.data.BuildConfig
-import com.example.data.entity.Issue
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
-import okhttp3.*
+import okhttp3.MediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
-import java.io.IOException
 
 object GithubApiClient {
     fun build(): GithubService {
