@@ -35,7 +35,6 @@ class IssueActivity : AppCompatActivity() {
             )
         }
 
-
         binding.viewModel = model
     }
 }
