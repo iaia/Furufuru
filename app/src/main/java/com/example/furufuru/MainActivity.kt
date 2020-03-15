@@ -1,15 +1,16 @@
 package com.example.furufuru
 
+import android.app.Activity
 import android.app.Service
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.feature.Furufuru
 import com.example.feature.SensorService
-
+import com.example.feature.SensorService.Companion.HELLO
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,11 +26,28 @@ class MainActivity : AppCompatActivity() {
         unbindService(serviceConnection)
     }
 
+
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
+        private var messenger: Messenger = Messenger(ResponseHandler(this@MainActivity))
+        private var serviceMessenger: Messenger? = null
+
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            serviceMessenger = Messenger(service)
+            val helloMessage = Message.obtain(null, HELLO, 0, 0).apply {
+                replyTo = messenger
+            }
+            serviceMessenger?.send(helloMessage)
         }
         override fun onServiceDisconnected(name: ComponentName?) {
-            Furufuru.openIssue(this@MainActivity)
+            serviceMessenger = null
+        }
+    }
+
+    private class ResponseHandler(
+        val activity: Activity
+    ) : Handler() {
+        override fun handleMessage(msg: Message) {
+            Furufuru.openIssue(activity)
         }
     }
 }

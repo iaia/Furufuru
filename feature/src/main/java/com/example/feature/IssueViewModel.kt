@@ -10,13 +10,11 @@ import kotlinx.coroutines.launch
 
 class IssueViewModel(
     private val issueRepository: IssueRepository,
-    private val filePath: String?
+    val filePath: String?
 ) : ViewModel() {
     val title = MutableLiveData("title")
     val body = MutableLiveData("body")
-
     val command = MutableLiveData<Command>()
-
 
     fun post() {
         viewModelScope.launch(Dispatchers.IO) {

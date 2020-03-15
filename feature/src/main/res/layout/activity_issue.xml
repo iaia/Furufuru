@@ -56,6 +56,17 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@{viewModel.filePath}"
+            app:layout_constraintTop_toBottomOf="@id/til_body"
+            app:layout_constraintBottom_toTopOf="@+id/mb_post"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@tools:sample/avatars"
+            />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mb_post"
             android:layout_width="0dp"

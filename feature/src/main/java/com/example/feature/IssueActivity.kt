@@ -16,6 +16,19 @@ import org.koin.core.context.startKoin
 import org.koin.core.parameter.parametersOf
 
 class IssueActivity : AppCompatActivity() {
+    init {
+        startKoin {
+            androidLogger()
+            modules(
+                listOf(
+                    viewModelModule,
+                    apiModule,
+                    repositoryModule
+                )
+            )
+        }
+    }
+
     companion object {
         private const val ARG_FILE_PATH = "file_path"
 
@@ -33,16 +46,6 @@ class IssueActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startKoin {
-            androidLogger()
-            modules(
-                listOf(
-                    viewModelModule,
-                    apiModule,
-                    repositoryModule
-                )
-            )
-        }
 
         model.command.observe(this) {
             when(it) {
