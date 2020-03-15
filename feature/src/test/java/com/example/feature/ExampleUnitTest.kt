@@ -1,4 +1,4 @@
-package com.example.furufuru
+package com.example.feature
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

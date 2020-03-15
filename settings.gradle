@@ -1,2 +1,4 @@
 rootProject.name='Furufuru'
 include ':app'
+include ':data'
+include ':feature'
