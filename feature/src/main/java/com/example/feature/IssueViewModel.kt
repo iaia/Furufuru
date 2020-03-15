@@ -16,7 +16,7 @@ class IssueViewModel(
 
     fun post() {
         viewModelScope.launch(Dispatchers.IO) {
-            val issue = Issue("title")
+            val issue = Issue("title", "body")
             issueRepository.post(issue)
         }
     }

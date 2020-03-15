@@ -11,5 +11,5 @@ val apiModule = module {
 }
 
 val repositoryModule = module {
-    single<IssueRepository> { IssueRepositoryImpl(get()) }
+    single<IssueRepository> { IssueRepositoryImpl("iaia", "SampleAndroidApplication", get()) }
 }

@@ -20,14 +20,21 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    def keys = new Properties()
+    file("../keys.properties").withInputStream {
+        stream -> keys.load(stream)
+    }
+
     buildTypes {
         debug {
             buildConfigField("String", "GITHUB_API_URL", "\"https://api.github.com\"")
+            buildConfigField("String", "GITHUB_API_TOKEN", "\"" + keys.GITHUB_API_TOKEN + "\"")
         }
         release {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
             buildConfigField("String", "GITHUB_API_URL", "\"https://api.github.com\"")
+            buildConfigField("String", "GITHUB_API_TOKEN", "\"" + keys.GITHUB_API_TOKEN + "\"")
         }
     }
 }
@@ -43,7 +50,7 @@ dependencies {
 
     // kotlin-serialization
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.14.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0")
 
     // retrofit
