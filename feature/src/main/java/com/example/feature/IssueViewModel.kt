@@ -28,6 +28,7 @@ class IssueViewModel(
     fun post() {
         viewModelScope.launch(Dispatchers.IO) {
             var imageUrl = ""
+            var fileUrl = ""
             if (!filePath.isNullOrEmpty() && !fileStr.isNullOrEmpty()) {
                 val content = Content(
                     "furufuru",
@@ -41,12 +42,13 @@ class IssueViewModel(
                         it.last()
                     }
                 )?.let {
+                    fileUrl = it.content.url
                     imageUrl = it.content.downloadUrl
                 }
             }
             val issue = Issue(
                 title.value ?: return@launch,
-                "${body.value}\n\n![furufuru](${imageUrl})"
+                "${body.value}\n\n![furufuru](${imageUrl})\n\n${fileUrl}"
             )
             issueRepository.post(issue)
             command.postValue(Command.Finish)

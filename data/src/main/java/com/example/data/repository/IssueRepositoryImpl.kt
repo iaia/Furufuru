@@ -11,10 +11,12 @@ class IssueRepositoryImpl(
     override suspend fun post(issue: Issue) {
         try {
             service.postIssue(
-                owner, repo,
+                owner, repo, issue
+                /*
                 mapOf(
                     Pair("title", issue.title), Pair("body", issue.body)
                 )
+                 */
             )
         } catch (e: Exception) {
         }

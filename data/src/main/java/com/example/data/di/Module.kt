@@ -1,5 +1,7 @@
 package com.example.data.di
 
+import com.example.data.REPOSITORY
+import com.example.data.REPOSITORY_OWNER
 import com.example.data.remote.github.GithubApiClient
 import com.example.data.remote.github.GithubService
 import com.example.data.repository.ContentRepository
@@ -13,6 +15,6 @@ val apiModule = module {
 }
 
 val repositoryModule = module {
-    single<IssueRepository> { IssueRepositoryImpl("iaia", "SampleAndroidApplication", get()) }
-    single<ContentRepository> { ContentRepositoryImpl("iaia", "SampleAndroidApplication", get()) }
+    single<IssueRepository> { IssueRepositoryImpl(REPOSITORY_OWNER, REPOSITORY, get()) }
+    single<ContentRepository> { ContentRepositoryImpl(REPOSITORY_OWNER, REPOSITORY, get()) }
 }

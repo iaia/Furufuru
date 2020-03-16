@@ -29,7 +29,6 @@ class IssueActivity : AppCompatActivity() {
                 )
             }
         } catch (e: Exception) {
-
         }
     }
 

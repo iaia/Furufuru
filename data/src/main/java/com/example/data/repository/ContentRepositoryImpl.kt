@@ -13,12 +13,15 @@ class ContentRepositoryImpl(
         try {
             service.postContent(
                 owner, repo,
+                content,
+                /*
                 mapOf(
                     Pair("message", content.message),
                     Pair("content", content.content),
                     Pair("sha", content.sha),
                     Pair("branch", content.branch)
                 ),
+                 */
                 path
             ).run {
                 return body()
