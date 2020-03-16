@@ -1,7 +1,5 @@
 package com.example.feature
 
-import android.util.Base64
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +9,6 @@ import com.example.data.repository.ContentRepository
 import com.example.data.repository.IssueRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.IOException
-import java.nio.file.Files
-import java.security.MessageDigest
 
 
 class IssueViewModel(
@@ -38,7 +32,7 @@ class IssueViewModel(
                 val content = Content(
                     "furufuru",
                     fileStr,
-                    "3d677692c18a07ca16916f7863c302399b25280f",
+                    null,
                     "furufuru-image-branch"
                 )
                 contentRepository.post(

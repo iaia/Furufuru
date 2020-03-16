@@ -1,9 +1,7 @@
 package com.example.data.repository
 
-import android.util.Log
 import com.example.data.entity.Content
 import com.example.data.entity.ContentResponse
-import com.example.data.entity.Issue
 import com.example.data.remote.github.GithubService
 
 class ContentRepositoryImpl(
@@ -23,13 +21,9 @@ class ContentRepositoryImpl(
                 ),
                 path
             ).run {
-                Log.d("koko", "koko234")
-                // Log.d("koko", "$isSuccessful")
-                // Log.d("koko", "${message()}")
                 return body()
             }
         } catch (e: Exception) {
-            Log.d("koko", e.toString())
         }
         return null
     }

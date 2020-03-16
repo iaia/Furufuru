@@ -1,6 +1,5 @@
 package com.example.data.remote.github
 
-import android.util.Log
 import com.example.data.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -21,8 +20,6 @@ object GithubApiClient {
             val newRequest: Request = chain.request().newBuilder()
                 .addHeader("Authorization", "token ${BuildConfig.GITHUB_API_TOKEN}")
                 .build()
-            Log.d("koko", "${newRequest.method()} ${newRequest.url()}")
-            Log.d("koko", "${newRequest.header("Authorization")}")
             chain.proceed(newRequest)
         }.build()
         return Retrofit.Builder().run {

@@ -1,12 +1,10 @@
 package com.example.feature
 
-import android.R.attr.bitmap
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.text.format.DateFormat
 import android.util.Base64
-import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 import java.util.*
@@ -49,8 +47,6 @@ class Furufuru(private val activity: Activity) {
         b.compress(Bitmap.CompressFormat.JPEG, 90, out)
         out.flush()
 
-        Log.d("koko", "filefile")
-        Log.d("koko", fileStr)
         return Pair(path, fileStr)
     }
 }
