@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.iaiabot.furufuru.feature">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <application>
+        <activity
+            android:name=".ui.prepare.PrepareActivity"
+            android:theme="@style/Theme.Transparent"
+            />
+        <activity android:name=".ui.issue.IssueActivity"
+            />
+        <service android:name=".service.SensorService"
+            />
+        <service
+            android:name=".service.MediaProjectionService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection"
+            />
+    </application>
+
+</manifest>

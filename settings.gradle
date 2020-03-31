@@ -1,4 +1,4 @@
 rootProject.name='Furufuru'
-include ':app'
+include ':example'
 include ':data'
-include ':feature'
+include ':furufuru'
