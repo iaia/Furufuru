@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
+    id("maven")
 }
 
 android {
@@ -32,6 +33,19 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+}
+
+def repo = new File(rootDir, "repository")
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: "file://${repo.absolutePath}"
+            pom.version = '1.0'
+            pom.groupId = 'dev.iaiabot'
+            pom.artifactId = 'furufuru'
+        }
     }
 }
 
