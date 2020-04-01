@@ -6,6 +6,8 @@ plugins {
     id("maven-publish")
 }
 
+ext.version = "1.2"
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -14,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.1"
+        versionName "$version"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -46,19 +48,9 @@ publishing {
         gpr(MavenPublication) {
             groupId "dev.iaiabot"
             artifactId "furufuru"
-            version "1.1"
+            version "$version"
             artifact sourceJar
             artifact "${rootDir}/furufuru/build/outputs/aar/furufuru-release.aar"
-        }
-    }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/iaia/Furufuru")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
         }
     }
 }
