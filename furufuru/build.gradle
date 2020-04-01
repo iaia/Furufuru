@@ -74,7 +74,7 @@ dependencies {
     implementation("org.koin:koin-androidx-ext:$koin_version")
 
     // permission dispatcher
-    ext.permission_dispatcher_version = '4.6.0'
+    ext.permission_dispatcher_version = '4.7.0'
     implementation("org.permissionsdispatcher:permissionsdispatcher:$permission_dispatcher_version")
     kapt("org.permissionsdispatcher:permissionsdispatcher-processor:$permission_dispatcher_version")
 
