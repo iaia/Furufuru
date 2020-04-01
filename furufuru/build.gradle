@@ -3,7 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
-    id("maven")
+    id("maven-publish")
 }
 
 android {
@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -36,15 +36,29 @@ android {
     }
 }
 
-def repo = new File(rootDir, "repository")
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set("sources")
+}
 
-uploadArchives {
+publishing {
+    publications {
+        gpr(MavenPublication) {
+            groupId "dev.iaiabot"
+            artifactId "furufuru"
+            version "1.1"
+            artifact sourceJar
+            artifact "${rootDir}/furufuru/build/outputs/aar/furufuru-release.aar"
+        }
+    }
     repositories {
-        mavenDeployer {
-            repository url: "file://${repo.absolutePath}"
-            pom.version = '1.0'
-            pom.groupId = 'dev.iaiabot'
-            pom.artifactId = 'furufuru'
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/iaia/Furufuru")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
         }
     }
 }

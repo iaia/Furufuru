@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
+import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY_OWNER
 import dev.iaiabot.furufuru.feature.service.SensorService
@@ -16,13 +17,15 @@ import dev.iaiabot.furufuru.feature.ui.prepare.PrepareActivity
 
 class Furufuru(private val application: Application) {
     companion object {
-        const val DEFAULT_FURUFURU_BRANCH = "furufuru-image-branch"
+        private const val DEFAULT_FURUFURU_BRANCH = "furufuru-image-branch"
         fun builder(
             application: Application,
+            githubApiToken: String,
             githubReposOwner: String,
             githubRepository: String,
             furufuruBranch: String? = null
         ): Furufuru {
+            GITHUB_API_TOKEN = githubApiToken
             GITHUB_REPOSITORY_OWNER = githubReposOwner
             GITHUB_REPOSITORY = githubRepository
             FURUFURU_BRANCH = furufuruBranch ?: DEFAULT_FURUFURU_BRANCH

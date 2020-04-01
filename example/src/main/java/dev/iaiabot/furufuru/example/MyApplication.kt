@@ -8,6 +8,7 @@ class MyApplication : Application() {
         super.onCreate()
         Furufuru.builder(
             this,
+            BuildConfig.GITHUB_API_TOKEN,
             "iaia",
             "Furufuru"
         ).build()

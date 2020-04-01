@@ -16,7 +16,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    def keys = new Properties()
+    file("../keys.properties").withInputStream {
+        stream -> keys.load(stream)
+    }
+
     buildTypes {
+        debug {
+            buildConfigField("String", "GITHUB_API_TOKEN", "\"" + keys.GITHUB_API_TOKEN + "\"")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

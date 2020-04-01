@@ -2,6 +2,7 @@ package dev.iaiabot.furufuru.data.remote.github
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dev.iaiabot.furufuru.data.BuildConfig
+import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -18,7 +19,7 @@ object GithubApiClient {
         val json = Json.nonstrict
         val client = OkHttpClient.Builder().addInterceptor { chain ->
             val newRequest: Request = chain.request().newBuilder()
-                .addHeader("Authorization", "token ${BuildConfig.GITHUB_API_TOKEN}")
+                .addHeader("Authorization", "token $GITHUB_API_TOKEN")
                 .build()
             chain.proceed(newRequest)
         }.build()
