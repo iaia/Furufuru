@@ -46,6 +46,24 @@ task sourceJar(type: Jar) {
     archiveClassifier.set("sources")
 }
 
+def versionMajor = 0
+def versionMinor = 0
+def versionPatch = 3
+
+ext {
+    pj = [
+            versions : [
+                    name: "${versionMajor}.${versionMinor}.${versionPatch}",
+                    code: versionMajor * 10000 + versionMinor * 100 + versionPatch
+            ],
+            artifactId   : "Furufuru",
+            groupId      : "dev.iaiabot",
+            siteUrl      : "https://github.com/iaia/Furufuru",
+            githubUrl    : "https://github.com/iaia/Furufuru",
+            scmConnection: "scm:git:https://github.com/iaia/Furufuru.git"
+    ]
+}
+
 bintray {
     def keys = new Properties()
     file("../keys.properties").withInputStream {
@@ -65,7 +83,7 @@ bintray {
         issueTrackerUrl = pj.githubUrl + "/issues"
         publicDownloadNumbers = true
         version {
-            name = project.version
+            name = pj.versions.name
         }
     }
 }
@@ -98,9 +116,7 @@ publishing {
                     appendDependency(dependencies, it.group, it.name, it.version, "runtime")
                 }
             }
-
         }
-
     }
 }
 
