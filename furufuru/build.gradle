@@ -4,9 +4,8 @@ plugins {
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("maven-publish")
+    id("com.jfrog.bintray")
 }
-
-ext.version = "1.4"
 
 android {
     compileSdkVersion 29
@@ -15,8 +14,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "$version"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -38,21 +35,94 @@ android {
     }
 }
 
+android.libraryVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "${pj.artifactId}-${pj.versions.name}.aar"
+    }
+}
+
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     archiveClassifier.set("sources")
 }
 
-publishing {
-    publications {
-        gpr(MavenPublication) {
-            groupId "dev.iaiabot"
-            artifactId "furufuru"
-            version "$version"
-            artifact sourceJar
-            artifact "${rootDir}/furufuru/build/outputs/aar/furufuru-release.aar"
+bintray {
+    def keys = new Properties()
+    file("../keys.properties").withInputStream {
+        stream -> keys.load(stream)
+    }
+    user = keys.bintray_user
+    key = keys.bintray_key
+    publications = ["bintray"]
+
+    pkg {
+        repo = "maven"
+        name = pj.groupId + "." + pj.artifactId
+        licenses = ["MIT"]
+        websiteUrl = pj.siteUrl
+        issueTrackerUrl = pj.githubUrl + "/blob/master/LICENSE"
+        vcsUrl = pj.githubUrl + ".git"
+        issueTrackerUrl = pj.githubUrl + "/issues"
+        publicDownloadNumbers = true
+        version {
+            name = project.version
         }
     }
+}
+
+bintrayUpload.dependsOn assemble
+
+publishing {
+    publications {
+        bintray(MavenPublication) {
+            artifact "${rootDir}/furufuru/build/outputs/aar/${pj.artifactId}-${pj.versions.name}.aar"
+            groupId = pj.groupId
+            artifactId = "Furufuru"
+            version = pj.versions.name
+
+            artifact sourceJar
+
+            pom.withXml {
+                def node = asNode()
+
+                def licenses = node.appendNode("licenses")
+                appendLicense(licenses, "The MIT License", "https://opensource.org/licenses/MIT", "repo")
+
+                appendScm(node, pj.scmConnection, pj.githubUrl)
+
+                def dependencies = node.appendNode("dependencies")
+                configurations.api.dependencies.each {
+                    appendDependency(dependencies, it.group, it.name, it.version, "compile")
+                }
+                configurations.implementation.dependencies.each {
+                    appendDependency(dependencies, it.group, it.name, it.version, "runtime")
+                }
+            }
+
+        }
+
+    }
+}
+
+static def appendLicense(parentNode, name, url, distribution) {
+    def node = parentNode.appendNode("license")
+    node.appendNode("name", name)
+    node.appendNode("url", url)
+    node.appendNode("distribution", distribution)
+}
+
+static def appendScm(parentNode, connection, url) {
+    def node = parentNode.appendNode("scm")
+    node.appendNode("connection", connection)
+    node.appendNode("url", url)
+}
+
+static def appendDependency(parentNode, groupId, artifactId, version, scope) {
+    def node = parentNode.appendNode("dependency")
+    node.appendNode("groupId", groupId)
+    node.appendNode("artifactId", artifactId)
+    node.appendNode("version", version)
+    node.appendNode("scope", scope)
 }
 
 dependencies {

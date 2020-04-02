@@ -5,8 +5,24 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
     }
+    def versionMajor = 0
+    def versionMinor = 0
+    def versionPatch = 1
+    ext {
+        pj = [
+                versions : [
+                        name: "${versionMajor}.${versionMinor}.${versionPatch}",
+                        code: versionMajor * 10000 + versionMinor * 100 + versionPatch
+                ],
+                artifactId   : "Furufuru",
+                groupId      : "dev.iaiabot",
+                siteUrl      : "https://github.com/iaia/Furufuru",
+                githubUrl    : "https://github.com/iaia/Furufuru",
+                scmConnection: "scm:git:https://github.com/iaia/Furufuru.git"
+        ]
+    }
+
     dependencies {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.android.tools.build:gradle:3.6.1'
@@ -17,6 +33,7 @@ buildscript {
 
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
 
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.1'
     }
 }
 
@@ -30,3 +47,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
