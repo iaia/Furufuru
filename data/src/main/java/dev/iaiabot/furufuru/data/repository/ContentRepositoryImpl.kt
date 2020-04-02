@@ -5,7 +5,7 @@ import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.ContentResponse
 import dev.iaiabot.furufuru.data.remote.github.GithubService
 import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.Mapper
+import kotlinx.serialization.Properties
 
 class ContentRepositoryImpl(
     private val owner: String,
@@ -17,7 +17,7 @@ class ContentRepositoryImpl(
         try {
             service.postContent(
                 owner, repo,
-                Mapper.mapNullable(content).mapNotNull {
+                Properties.storeNullable(content).mapNotNull {
                     if (it.value == null) {
                         null
                     } else {
@@ -30,7 +30,7 @@ class ContentRepositoryImpl(
                 return body()
             }
         } catch (e: Exception) {
-            Log.d("koko", e.message)
+            Log.d("Furufuru", e.message)
         }
         return null
     }

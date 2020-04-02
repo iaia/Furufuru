@@ -1,10 +1,11 @@
 package dev.iaiabot.furufuru.data.repository
 
 import android.util.Log
+import dev.iaiabot.furufuru.data.TAG
 import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.remote.github.GithubService
 import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.Mapper
+import kotlinx.serialization.Properties
 
 class IssueRepositoryImpl(
     private val owner: String,
@@ -16,7 +17,7 @@ class IssueRepositoryImpl(
         try {
             service.postIssue(
                 owner, repo,
-                Mapper.mapNullable(issue).mapNotNull {
+                Properties.storeNullable(issue).mapNotNull {
                     if (it.value == null) {
                         null
                     } else {
@@ -25,7 +26,7 @@ class IssueRepositoryImpl(
                 }.toMap()
             )
         } catch (e: Exception) {
-            Log.d("koko", e.message)
+            Log.d(TAG, e.message)
         }
     }
 }
