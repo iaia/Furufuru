@@ -1,16 +1,14 @@
 apply plugin: "maven-publish"
 apply plugin: "com.jfrog.bintray"
 
-if (project.hasProperty("android")) {
-    task sourceJar(type: Jar) {
-        from android.sourceSets.main.java.srcDirs
-        archiveClassifier.set("sources")
-    }
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set("sources")
+}
 
-    android.libraryVariants.all { variant ->
-        variant.outputs.all {
-            outputFileName = "${pj.artifactId}-${pj.versions.name}.aar"
-        }
+android.libraryVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "${pj.artifactId}-${pj.versions.name}.aar"
     }
 }
 
@@ -25,7 +23,7 @@ bintray {
 
     pkg {
         repo = "maven"
-        name = POM_BINTRAY_NAME
+        name = pj.bintrayName
         licenses = ["MIT"]
         websiteUrl = pj.siteUrl
         issueTrackerUrl = pj.githubUrl + "/blob/master/LICENSE"
@@ -37,8 +35,6 @@ bintray {
         }
     }
 }
-
-bintrayUpload.dependsOn assemble
 
 publishing {
     publications {
@@ -90,3 +86,5 @@ static def appendDependency(parentNode, groupId, artifactId, version, scope) {
     node.appendNode("version", version)
     node.appendNode("scope", scope)
 }
+
+bintrayUpload.dependsOn assemble

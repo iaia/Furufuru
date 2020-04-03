@@ -1,6 +1,6 @@
 def versionMajor = 0
 def versionMinor = 0
-def versionPatch = 6
+def versionPatch = 11
 
 ext {
     pj = [
@@ -9,6 +9,7 @@ ext {
                     code: versionMajor * 10000 + versionMinor * 100 + versionPatch
             ],
             artifactId   : POM_ARTIFACT_ID,
+            bintrayName  : POM_BINTRAY_NAME,
             groupId      : "dev.iaiabot.furufuru",
             siteUrl      : "https://github.com/iaia/Furufuru",
             githubUrl    : "https://github.com/iaia/Furufuru",
