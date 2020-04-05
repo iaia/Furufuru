@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.data.remote.github
+package dev.iaiabot.furufuru.data.github
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dev.iaiabot.furufuru.data.BuildConfig
@@ -11,7 +11,8 @@ import retrofit2.Retrofit
 
 object GithubApiClient {
     fun build(): GithubService {
-        return buildRetrofit().create(GithubService::class.java)
+        return buildRetrofit()
+            .create(GithubService::class.java)
     }
 
     private fun buildRetrofit(): Retrofit {

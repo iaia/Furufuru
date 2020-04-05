@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.data.remote.github
+package dev.iaiabot.furufuru.data.github
 
 import dev.iaiabot.furufuru.data.entity.ContentResponse
 import retrofit2.Response

@@ -1,32 +1,37 @@
 package dev.iaiabot.furufuru.data.repository
 
 import android.util.Log
-import dev.iaiabot.furufuru.data.TAG
-import dev.iaiabot.furufuru.data.entity.Issue
-import dev.iaiabot.furufuru.data.remote.github.GithubService
+import dev.iaiabot.furufuru.data.entity.Content
+import dev.iaiabot.furufuru.data.entity.ContentResponse
+import dev.iaiabot.furufuru.data.github.GithubService
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.Properties
 
-class IssueRepositoryImpl(
+class ContentRepositoryImpl(
     private val owner: String,
     private val repo: String,
     private val service: GithubService
-) : IssueRepository {
+) : ContentRepository {
     @ImplicitReflectionSerializer
-    override suspend fun post(issue: Issue) {
+    override suspend fun post(content: Content, path: String): ContentResponse? {
         try {
-            service.postIssue(
+            service.postContent(
                 owner, repo,
-                Properties.storeNullable(issue).mapNotNull {
+                Properties.storeNullable(content).mapNotNull {
                     if (it.value == null) {
                         null
                     } else {
                         Pair(it.key, it.value as String)
                     }
                 }.toMap()
-            )
+                ,
+                path
+            ).run {
+                return body()
+            }
         } catch (e: Exception) {
-            Log.d(TAG, e.message)
+            Log.d("Furufuru", e.message)
         }
+        return null
     }
 }

@@ -10,7 +10,7 @@ import dev.iaiabot.furufuru.data.di.apiModule
 import dev.iaiabot.furufuru.data.di.repositoryModule
 import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.databinding.ActivityIssueBinding
-import dev.iaiabot.furufuru.feature.di.viewModelModule
+import dev.iaiabot.furufuru.di.viewModelModule
 import dev.iaiabot.furufuru.feature.service.SensorService
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.ext.android.viewModel
