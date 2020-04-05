@@ -1,8 +1,8 @@
 package dev.iaiabot.furufuru.data.github
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import dev.iaiabot.furufuru.data.BuildConfig
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
+import dev.iaiabot.furufuru.feature.BuildConfig
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
