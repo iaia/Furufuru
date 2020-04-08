@@ -23,37 +23,58 @@ class IssueViewModel(
     val command = MutableLiveData<Command>()
 
     fun post() {
-        viewModelScope.launch(Dispatchers.IO) {
-            var imageUrl = ""
-            var fileUrl = ""
-            if (!fileStr.isNullOrEmpty()) {
-                val content = Content(
-                    "furufuru",
-                    fileStr,
-                    null,
-                    "furufuru-image-branch"
-                )
+        val title = title.value ?: return
+        if (title.isEmpty()) return
+        val body = body.value ?: return
 
-                val now = Date()
-                val nowString = DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)
-                val path = "$nowString.jpg"
-                contentRepository.post(
-                    content,
-                    path
-                )?.let {
-                    fileUrl = it.content.htmlUrl
-                    imageUrl = it.content.downloadUrl
-                }
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            val imageUrls = uploadImage()
+
             val issue = Issue(
-                title.value ?: return@launch,
-                "${body.value}\n\n![furufuru](${imageUrl})\n\n${fileUrl}"
+                title,
+                bodyTemplate(body, imageUrls?.imageUrl, imageUrls?.fileUrl)
             )
             issueRepository.post(issue)
             command.postValue(Command.Finish)
         }
     }
+
+    private fun bodyTemplate(body: String, imageUrl: String?, fileUrl: String?): String {
+        return """
+    ${body}\n\n![furufuru](${imageUrl})\n\n${fileUrl}
+"""
+    }
+
+    private suspend fun uploadImage(): ImageUrls? {
+        if (!fileStr.isNullOrEmpty()) {
+            val content = Content(
+                "furufuru",
+                fileStr,
+                null,
+                "furufuru-image-branch"
+            )
+
+            val now = Date()
+            val nowString = DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)
+            val path = "$nowString.jpg"
+            contentRepository.post(
+                content,
+                path
+            )?.let {
+                return ImageUrls(
+                    it.content.htmlUrl,
+                    it.content.downloadUrl
+                )
+            }
+        }
+        return null
+    }
 }
+
+data class ImageUrls(
+    val fileUrl: String,
+    val imageUrl: String
+)
 
 sealed class Command {
     object Finish : Command()
