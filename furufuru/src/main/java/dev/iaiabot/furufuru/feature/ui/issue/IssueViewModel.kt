@@ -41,7 +41,9 @@ class IssueViewModel(
 
     private fun bodyTemplate(body: String, imageUrl: String?, fileUrl: String?): String {
         return """
-    ${body}\n\n![furufuru](${imageUrl})\n\n${fileUrl}
+$body
+![furufuru]($imageUrl)
+$fileUrl
 """
     }
 
