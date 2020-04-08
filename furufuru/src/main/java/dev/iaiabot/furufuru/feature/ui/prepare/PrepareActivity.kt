@@ -78,7 +78,10 @@ class PrepareActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        unbindService(serviceConnection)
+        try {
+            unbindService(serviceConnection)
+        } catch (e: Exception) {
+        }
         finish()
     }
 
