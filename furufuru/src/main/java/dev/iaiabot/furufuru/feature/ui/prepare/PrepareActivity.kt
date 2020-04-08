@@ -31,8 +31,6 @@ class PrepareActivity : AppCompatActivity() {
         }
     }
 
-    private var bound = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prepare)
@@ -70,7 +68,6 @@ class PrepareActivity : AppCompatActivity() {
             GlobalScope.launch(Dispatchers.Default) {
                 delay(1 * 1000)
 
-                bound = true
                 bindService(intent, serviceConnection, Service.BIND_AUTO_CREATE)
             }
         } else {
@@ -81,9 +78,8 @@ class PrepareActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        if (bound) {
-            unbindService(serviceConnection)
-        }
+        unbindService(serviceConnection)
+        finish()
     }
 
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
