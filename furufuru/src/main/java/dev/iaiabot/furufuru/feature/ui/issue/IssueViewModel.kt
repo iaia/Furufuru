@@ -18,8 +18,8 @@ class IssueViewModel(
     private val contentRepository: ContentRepository,
     val fileStr: String?
 ) : ViewModel() {
-    val title = MutableLiveData("title")
-    val body = MutableLiveData("body")
+    val title = MutableLiveData("")
+    val body = MutableLiveData("")
     val command = MutableLiveData<Command>()
 
     fun post() {

@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="title"
+            android:hint="@string/title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,8 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="@={viewModel.title}"
-                tools:text="title" />
+                android:text="@={viewModel.title}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,8 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="4"
-                android:text="@={viewModel.body}"
-                tools:text="body" />
+                android:text="@={viewModel.body}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
