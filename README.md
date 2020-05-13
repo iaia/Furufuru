@@ -1,14 +1,30 @@
 # Furufuru
 
-keys.properties
+Make an issue on github easily just by shaking.
+
+## install
+
+project/build.gradle
 
 ```
-GITHUB_API_TOKEN=aaa
-GITHUB_REPOS_OWNER=iaia
-GITHUB_REPOSITORY=Furufuru
-FURUFURU_BRANCH=furufuru-image-branch
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url  "https://dl.bintray.com/iaia/maven"
+        }
+    }
+}
 ```
 
+app/build.gradle
+
+```
+debugInstrumentation "dev.iaiabot.furufuru:furufuru:${Versions.furufuru}"
+```
+
+## setup
 
 ```kotlin
 class MyApplication : Application() {
@@ -23,3 +39,7 @@ class MyApplication : Application() {
     }
 }
 ```
+
+## LICENSE
+
+MIT
