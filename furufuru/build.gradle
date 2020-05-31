@@ -94,5 +94,8 @@ dependencies {
 
     // spek requires kotlin-reflect, omit when already in classpath
     testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+
+    testImplementation "android.arch.core:core-testing:1.1.1"
 }
 
