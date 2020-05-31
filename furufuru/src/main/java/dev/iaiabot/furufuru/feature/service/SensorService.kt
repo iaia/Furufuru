@@ -25,7 +25,6 @@ class SensorService : Service() {
         }
     }
 
-
     private val sensorEventListener = object : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         }
@@ -51,6 +50,23 @@ class SensorService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? {
+        startSensorManager()
+
+        return null
+    }
+
+    override fun onRebind(intent: Intent?) {
+        super.onRebind(intent)
+        startSensorManager()
+    }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        sensorManager.unregisterListener(sensorEventListener)
+
+        return super.onUnbind(intent)
+    }
+
+    private fun startSensorManager() {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         sensorManager.registerListener(
@@ -59,13 +75,6 @@ class SensorService : Service() {
             Sensor.TYPE_ACCELEROMETER,
             SensorManager.SENSOR_DELAY_NORMAL
         )
-
-        return null
-    }
-
-    override fun onUnbind(intent: Intent?): Boolean {
-        sensorManager.unregisterListener(sensorEventListener)
-
-        return super.onUnbind(intent)
+        startSensorEvent()
     }
 }
