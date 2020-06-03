@@ -68,6 +68,7 @@ class IssueActivity : AppCompatActivity() {
             }
         }
         binding.viewModel = model
+        binding.lifecycleOwner = this
     }
 
     override fun onStop() {

@@ -1,5 +1,8 @@
 package dev.iaiabot.furufuru.feature.service
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -7,7 +10,10 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import dev.iaiabot.furufuru.feature.Furufuru
 import kotlin.math.sqrt
 
@@ -24,7 +30,6 @@ class SensorService : Service() {
             detected = false
         }
     }
-
 
     private val sensorEventListener = object : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -51,6 +56,27 @@ class SensorService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? {
+        startSensorManager()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startNotification()
+        }
+
+        return null
+    }
+
+    override fun onRebind(intent: Intent?) {
+        super.onRebind(intent)
+        startSensorManager()
+    }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        sensorManager.unregisterListener(sensorEventListener)
+
+        return super.onUnbind(intent)
+    }
+
+    private fun startSensorManager() {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         sensorManager.registerListener(
@@ -59,13 +85,31 @@ class SensorService : Service() {
             Sensor.TYPE_ACCELEROMETER,
             SensorManager.SENSOR_DELAY_NORMAL
         )
-
-        return null
+        startSensorEvent()
     }
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        sensorManager.unregisterListener(sensorEventListener)
 
-        return super.onUnbind(intent)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun startNotification() {
+        val notificationManager =
+            ContextCompat.getSystemService(this, NotificationManager::class.java)!!
+        val notificationChannelName = "rec"
+        if (notificationManager.getNotificationChannel(notificationChannelName) == null) {
+            notificationManager.createNotificationChannel(
+                NotificationChannel(
+                    notificationChannelName,
+                    "Service channel",
+                    NotificationManager.IMPORTANCE_HIGH
+                )
+            )
+        }
+        val notification = Notification.Builder(
+            applicationContext,
+            notificationChannelName
+        ).apply {
+            setContentTitle("Furufuru")
+            setContentText("screenshot")
+        }.build()
+        startForeground(1, notification)
     }
 }

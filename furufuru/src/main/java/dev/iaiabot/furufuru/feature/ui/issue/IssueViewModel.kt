@@ -21,11 +21,14 @@ class IssueViewModel(
     val title = MutableLiveData("")
     val body = MutableLiveData("")
     val command = MutableLiveData<Command>()
+    val nowSending = MutableLiveData(false)
 
     fun post() {
         val title = title.value ?: return
         if (title.isEmpty()) return
         val body = body.value ?: return
+
+        nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
             val imageUrls = uploadImage()
@@ -36,6 +39,8 @@ class IssueViewModel(
             )
             issueRepository.post(issue)
             command.postValue(Command.Finish)
+
+            nowSending.postValue(false)
         }
     }
 
