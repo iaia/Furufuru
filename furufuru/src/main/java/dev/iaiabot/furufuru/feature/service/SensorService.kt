@@ -87,7 +87,7 @@ class SensorService : Service() {
     private fun startNotification() {
         val notificationManager =
             ContextCompat.getSystemService(this, NotificationManager::class.java)!!
-        val notificationChannelName = "rec"
+        val notificationChannelName = "sensor"
         if (notificationManager.getNotificationChannel(notificationChannelName) == null) {
             notificationManager.createNotificationChannel(
                 NotificationChannel(
@@ -101,8 +101,8 @@ class SensorService : Service() {
             applicationContext,
             notificationChannelName
         ).apply {
-            setContentTitle("Furufuru")
-            setContentText("screenshot")
+            setContentTitle("Furufuru Sensor")
+            setContentText("Furufuru sensor service is running")
         }.build()
         startForeground(1, notification)
     }

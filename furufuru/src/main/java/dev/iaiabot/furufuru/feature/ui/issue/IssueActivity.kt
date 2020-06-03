@@ -9,7 +9,6 @@ import androidx.lifecycle.observe
 import dev.iaiabot.furufuru.di.apiModule
 import dev.iaiabot.furufuru.di.repositoryModule
 import dev.iaiabot.furufuru.di.viewModelModule
-import dev.iaiabot.furufuru.feature.Furufuru
 import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.databinding.ActivityIssueBinding
 import org.koin.android.ext.koin.androidLogger
@@ -69,10 +68,5 @@ class IssueActivity : AppCompatActivity() {
         }
         binding.viewModel = model
         binding.lifecycleOwner = this
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Furufuru.getInstance()?.startSensorService()
     }
 }

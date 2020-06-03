@@ -96,11 +96,11 @@ class MediaProjectionService : Service() {
         val fileStr = Base64.encodeToString(jpgarr, Base64.NO_WRAP)
 
         stopRec()
+        stopSelf()
+        stopForeground(true)
         startActivity(IssueActivity.createIntent(this, fileStr).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })
-        stopSelf()
-        stopForeground(true)
     }
 
     private fun getScreenshot(): Bitmap? {
@@ -132,8 +132,8 @@ class MediaProjectionService : Service() {
             applicationContext,
             notificationChannelName
         ).apply {
-            setContentTitle("Furufuru")
-            setContentText("screenshot")
+            setContentTitle("Furufuru Media Projection")
+            setContentText("Taking a screenshot")
         }.build()
         startForeground(1, notification)
     }
