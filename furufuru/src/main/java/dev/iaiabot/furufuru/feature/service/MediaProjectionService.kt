@@ -1,6 +1,5 @@
 package dev.iaiabot.furufuru.feature.service
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -17,6 +16,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Base64
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import java.io.ByteArrayOutputStream
@@ -118,21 +118,21 @@ class MediaProjectionService : Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startNotification() {
         val notificationManager = ContextCompat.getSystemService(this, NotificationManager::class.java)!!
-        val notificationChannelName = "rec"
-        if (notificationManager.getNotificationChannel(notificationChannelName) == null) {
+        val notificationChannelId = "TAKE_SCREENSHOT_SERVICE_CHANNEL_ID"
+        if (notificationManager.getNotificationChannel(notificationChannelId) == null) {
             notificationManager.createNotificationChannel(
                 NotificationChannel(
-                    notificationChannelName,
-                    "Service channel",
-                    NotificationManager.IMPORTANCE_HIGH
+                    notificationChannelId,
+                    "TAKE SCREENSHOT SERVICE CHANNEL",
+                    NotificationManager.IMPORTANCE_LOW
                 )
             )
         }
-        val notification = Notification.Builder(
+        val notification = NotificationCompat.Builder(
             applicationContext,
-            notificationChannelName
+            notificationChannelId
         ).apply {
-            setContentTitle("Furufuru Media Projection")
+            setContentTitle("Taking a screenshot")
             setContentText("Taking a screenshot")
         }.build()
         startForeground(1, notification)

@@ -1,6 +1,5 @@
 package dev.iaiabot.furufuru.feature.service
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -13,6 +12,7 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.iaiabot.furufuru.feature.Furufuru
 import kotlin.math.sqrt
@@ -87,19 +87,19 @@ class SensorService : Service() {
     private fun startNotification() {
         val notificationManager =
             ContextCompat.getSystemService(this, NotificationManager::class.java)!!
-        val notificationChannelName = "sensor"
-        if (notificationManager.getNotificationChannel(notificationChannelName) == null) {
+        val notificationChannelId = "SENSOR_SERVICE_CHANNEL_ID"
+        if (notificationManager.getNotificationChannel(notificationChannelId) == null) {
             notificationManager.createNotificationChannel(
                 NotificationChannel(
-                    notificationChannelName,
-                    "Service channel",
-                    NotificationManager.IMPORTANCE_HIGH
+                    notificationChannelId,
+                    "SENSOR SERVICE CHANNEL",
+                    NotificationManager.IMPORTANCE_LOW
                 )
             )
         }
-        val notification = Notification.Builder(
+        val notification = NotificationCompat.Builder(
             applicationContext,
-            notificationChannelName
+            notificationChannelId
         ).apply {
             setContentTitle("Furufuru Sensor")
             setContentText("Furufuru sensor service is running")
