@@ -12,9 +12,9 @@ import android.os.IBinder
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import dev.iaiabot.furufuru.feature.Furufuru
 import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.service.MediaProjectionService
-import dev.iaiabot.furufuru.feature.service.SensorService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -71,7 +71,7 @@ class PrepareActivity : AppCompatActivity() {
                 bindService(intent, serviceConnection, Service.BIND_AUTO_CREATE)
             }
         } else {
-            SensorService.startSensorEvent()
+            Furufuru.getInstance()?.startSensorService()
             finish()
         }
     }

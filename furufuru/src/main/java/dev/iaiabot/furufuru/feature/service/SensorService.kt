@@ -22,14 +22,7 @@ class SensorService : Service() {
     private var access = 0f
     private var accessCurrent = 0f
     private var accessLast = 0f
-
-    companion object {
-        private var detected = false
-
-        fun startSensorEvent() {
-            detected = false
-        }
-    }
+    private var detected = false
 
     private val sensorEventListener = object : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -51,29 +44,27 @@ class SensorService : Service() {
                 detected = true
                 // Toast.makeText(applicationContext, "Shake event detected", Toast.LENGTH_SHORT).show()
                 Furufuru.openIssue(this@SensorService.applicationContext)
+                stopForeground(true)
+                stopSelf()
             }
         }
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startSensorManager()
+        return START_STICKY
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startNotification()
-        }
-
+    override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
-    override fun onRebind(intent: Intent?) {
-        super.onRebind(intent)
-        startSensorManager()
-    }
 
-    override fun onUnbind(intent: Intent?): Boolean {
+    override fun onDestroy() {
+        super.onDestroy()
+
         sensorManager.unregisterListener(sensorEventListener)
-
-        return super.onUnbind(intent)
+        stopForeground(true)
     }
 
     private fun startSensorManager() {
@@ -85,7 +76,10 @@ class SensorService : Service() {
             Sensor.TYPE_ACCELEROMETER,
             SensorManager.SENSOR_DELAY_NORMAL
         )
-        startSensorEvent()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startNotification()
+        }
     }
 
 
