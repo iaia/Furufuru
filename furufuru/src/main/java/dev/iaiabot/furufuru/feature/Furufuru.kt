@@ -42,7 +42,11 @@ class Furufuru(private val application: Application) {
             }
         }
 
-        fun getInstance(): Furufuru? {
+        fun restartSensorService() {
+            getInstance()?.startSensorService()
+        }
+
+        private fun getInstance(): Furufuru? {
             return instance
         }
     }
