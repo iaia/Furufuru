@@ -28,7 +28,7 @@ class IssueViewModel(
         if (title.isEmpty()) return
         val body = body.value ?: return
 
-        nowSending.value = true
+        nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
             val imageUrls = uploadImage()
@@ -39,6 +39,8 @@ class IssueViewModel(
             )
             issueRepository.post(issue)
             command.postValue(Command.Finish)
+
+            nowSending.postValue(false)
         }
     }
 

@@ -70,9 +70,21 @@
             android:text="post"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:theme="@style/FormButton"
+            android:enabled="@{!viewModel.nowSending}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#a1111111"
+            android:focusableInTouchMode="false"
+            android:visibility="@{viewModel.nowSending ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/pb_sending"
