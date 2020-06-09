@@ -9,12 +9,19 @@ import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY_OWNER
+import dev.iaiabot.furufuru.di.apiModule
+import dev.iaiabot.furufuru.di.repositoryModule
+import dev.iaiabot.furufuru.di.viewModelModule
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import dev.iaiabot.furufuru.feature.ui.prepare.PrepareActivity
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 
 class Furufuru(private val application: Application) {
+
     companion object {
         private const val DEFAULT_FURUFURU_BRANCH = "furufuru-image-branch"
         private var instance: Furufuru? = null
@@ -52,6 +59,20 @@ class Furufuru(private val application: Application) {
     }
 
     private var sensorServiceIntent: Intent? = null
+
+    init {
+        startKoin {
+            androidLogger()
+            androidContext(application)
+            modules(
+                listOf(
+                    viewModelModule,
+                    apiModule,
+                    repositoryModule
+                )
+            )
+        }
+    }
 
     fun build() {
         application.registerActivityLifecycleCallbacks(applicationLifecycleCallbacks)

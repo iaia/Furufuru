@@ -18,7 +18,9 @@ import android.util.Base64
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
+import org.koin.android.ext.android.inject
 import java.io.ByteArrayOutputStream
 
 class MediaProjectionService : Service() {
@@ -56,6 +58,7 @@ class MediaProjectionService : Service() {
     private var density: Int = 0
     private var resultCode: Int = 0
     private lateinit var data: Intent
+    private val screenshotRepository by inject<ScreenshotRepository>()
 
     override fun onBind(intent: Intent): IBinder? {
         width = intent.getIntExtra(ARG_WIDTH, 0)
@@ -94,13 +97,14 @@ class MediaProjectionService : Service() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val jpgarr = baos.toByteArray()
         val fileStr = Base64.encodeToString(jpgarr, Base64.NO_WRAP)
+        screenshotRepository.save(this, fileStr)
 
         stopRec()
-        stopSelf()
-        stopForeground(true)
-        startActivity(IssueActivity.createIntent(this, fileStr).apply {
+        startActivity(IssueActivity.createIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })
+        stopForeground(true)
+        stopSelf()
     }
 
     private fun getScreenshot(): Bitmap? {

@@ -6,57 +6,33 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
-import dev.iaiabot.furufuru.di.apiModule
-import dev.iaiabot.furufuru.di.repositoryModule
-import dev.iaiabot.furufuru.di.viewModelModule
 import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.databinding.ActivityIssueBinding
-import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.context.startKoin
-import org.koin.core.parameter.parametersOf
 
 class IssueActivity : AppCompatActivity() {
-    init {
-        try {
-            startKoin {
-                androidLogger()
-                modules(
-                    listOf(
-                        viewModelModule,
-                        apiModule,
-                        repositoryModule
-                    )
-                )
-            }
-        } catch (e: Exception) {
-        }
-    }
+
 
     companion object {
-        private const val ARG_FILE_STR = "file_str"
-
         fun createIntent(
-            context: Context,
-            fileStr: String?
+            context: Context
         ) = Intent(context, IssueActivity::class.java).apply {
-            putExtra(ARG_FILE_STR, fileStr)
         }
     }
 
-    private val model by viewModel<IssueViewModel> {
-        parametersOf(fileStr)
-    }
+    private val model by viewModel<IssueViewModel>()
     private val binding by lazy {
         DataBindingUtil.setContentView<ActivityIssueBinding>(
             this,
             R.layout.activity_issue
         )
     }
-    private val fileStr by lazy { intent.extras?.getString(ARG_FILE_STR) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding.lifecycleOwner = this
+        lifecycle.addObserver(model)
 
         model.command.observe(this) {
             when (it) {

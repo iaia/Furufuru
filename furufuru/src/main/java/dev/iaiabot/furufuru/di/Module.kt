@@ -1,18 +1,17 @@
 package dev.iaiabot.furufuru.di
 
+import android.app.Application
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY_OWNER
-import dev.iaiabot.furufuru.data.repository.ContentRepository
-import dev.iaiabot.furufuru.data.repository.ContentRepositoryImpl
-import dev.iaiabot.furufuru.data.repository.IssueRepository
-import dev.iaiabot.furufuru.data.repository.IssueRepositoryImpl
+import dev.iaiabot.furufuru.data.repository.*
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { (fileStr: String) ->
-        IssueViewModel(get(), get(), fileStr)
+    viewModel {
+        IssueViewModel(androidContext() as Application, get(), get(), get())
     }
 }
 
@@ -34,5 +33,8 @@ val repositoryModule = module {
             GITHUB_REPOSITORY,
             get()
         )
+    }
+    single<ScreenshotRepository> {
+        ScreenshotRepositoryImpl()
     }
 }

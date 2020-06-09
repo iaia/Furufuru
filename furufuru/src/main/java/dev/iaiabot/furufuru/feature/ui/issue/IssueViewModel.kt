@@ -1,27 +1,35 @@
 package dev.iaiabot.furufuru.feature.ui.issue
 
+import android.app.Application
 import android.text.format.DateFormat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.repository.ContentRepository
 import dev.iaiabot.furufuru.data.repository.IssueRepository
+import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-
 class IssueViewModel(
+    application: Application,
     private val issueRepository: IssueRepository,
     private val contentRepository: ContentRepository,
-    val fileStr: String?
-) : ViewModel() {
+    private val screenshotRepository: ScreenshotRepository
+) : AndroidViewModel(
+    application
+), LifecycleObserver {
     val title = MutableLiveData("")
     val body = MutableLiveData("")
     val command = MutableLiveData<Command>()
     val nowSending = MutableLiveData(false)
+    val fileStr = MutableLiveData<String?>(null)
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun init() {
+        fileStr.postValue(screenshotRepository.get(getApplication()))
+    }
 
     fun post() {
         val title = title.value ?: return
@@ -53,26 +61,28 @@ $fileUrl
     }
 
     private suspend fun uploadImage(): ImageUrls? {
-        if (!fileStr.isNullOrEmpty()) {
-            val content = Content(
-                "furufuru",
-                fileStr,
-                null,
-                "furufuru-image-branch"
-            )
+        val fileStr = fileStr.value ?: return null
+        if (fileStr.isEmpty()) {
+            return null
+        }
+        val content = Content(
+            "furufuru",
+            fileStr,
+            null,
+            "furufuru-image-branch"
+        )
 
-            val now = Date()
-            val nowString = DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)
-            val path = "$nowString.jpg"
-            contentRepository.post(
-                content,
-                path
-            )?.let {
-                return ImageUrls(
-                    it.content.htmlUrl,
-                    it.content.downloadUrl
-                )
-            }
+        val now = Date()
+        val nowString = DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)
+        val path = "$nowString.jpg"
+        contentRepository.post(
+            content,
+            path
+        )?.let {
+            return ImageUrls(
+                it.content.htmlUrl,
+                it.content.downloadUrl
+            )
         }
         return null
     }
