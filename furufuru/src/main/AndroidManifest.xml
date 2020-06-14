@@ -5,17 +5,16 @@
     <application>
         <activity
             android:name=".ui.prepare.PrepareActivity"
-            android:theme="@style/Theme.Transparent"
-            />
-        <activity android:name=".ui.issue.IssueActivity"
-            />
-        <service android:name=".service.SensorService"
-            />
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".ui.issue.IssueActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <service android:name=".service.SensorService" />
         <service
             android:name=".service.MediaProjectionService"
             android:enabled="true"
-            android:foregroundServiceType="mediaProjection"
-            />
+            android:foregroundServiceType="mediaProjection" />
     </application>
 
 </manifest>

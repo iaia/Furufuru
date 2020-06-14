@@ -36,6 +36,9 @@ class IssueViewModel(
         if (title.isEmpty()) return
         val body = body.value ?: return
 
+        if (nowSending.value == true) {
+            return
+        }
         nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {

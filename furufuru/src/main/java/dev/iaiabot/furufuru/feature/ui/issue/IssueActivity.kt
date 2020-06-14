@@ -3,6 +3,8 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -36,7 +38,10 @@ class IssueActivity : AppCompatActivity() {
 
         model.command.observe(this) {
             when (it) {
-                is Command.Finish -> finish()
+                is Command.Finish -> {
+                    Toast.makeText(this, "posted!", android.widget.Toast.LENGTH_SHORT).show()
+                    finish()
+                }
                 is Command.ShowFilePath -> {
                     // Toast.makeText(this, "filePath: ${it.filePath}", android.widget.Toast.LENGTH_LONG).show()
                 }
@@ -44,5 +49,21 @@ class IssueActivity : AppCompatActivity() {
         }
         binding.viewModel = model
         binding.lifecycleOwner = this
+
+        binding.toolbar.also {
+            setSupportActionBar(it)
+            it.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_send -> model.post()
+                }
+                return@setOnMenuItemClickListener true
+            }
+            it.setOnCreateContextMenuListener { menu, v, menuInfo -> }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.issue_menu, menu)
+        return true
     }
 }
