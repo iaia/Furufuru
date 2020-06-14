@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
@@ -53,6 +54,9 @@ class Furufuru(private val application: Application) {
             getInstance()?.startSensorService()
         }
 
+        fun getApplicationName() = getInstance()?.getApplicationName()
+        fun getAppVersionName() = getInstance()?.getApplicationVersion()
+
         private fun getInstance(): Furufuru? {
             return instance
         }
@@ -78,6 +82,22 @@ class Furufuru(private val application: Application) {
         application.registerActivityLifecycleCallbacks(applicationLifecycleCallbacks)
     }
 
+    fun getApplicationName(): String? {
+        val applicationInfo = application.applicationInfo
+        val stringId = applicationInfo.labelRes
+        return if (stringId == 0) applicationInfo.nonLocalizedLabel.toString() else application.getString(
+            stringId
+        )
+    }
+
+    fun getApplicationVersion(): String {
+        val pInfo: PackageInfo =
+            application.packageManager.getPackageInfo(
+                application.packageName, 0
+            )
+        return pInfo.versionName
+    }
+
     private fun startSensorService() {
         Intent(application, SensorService::class.java).also { intent ->
             sensorServiceIntent = intent
@@ -93,15 +113,15 @@ class Furufuru(private val application: Application) {
     }
 
     private val applicationLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
-        override fun onActivityPaused(activity: Activity) {
-            stopSensorService()
-        }
-
         override fun onActivityStarted(activity: Activity) {
             if (activity is PrepareActivity || activity is IssueActivity) {
                 return
             }
             startSensorService()
+        }
+
+        override fun onActivityPaused(activity: Activity) {
+            stopSensorService()
         }
 
         override fun onActivityDestroyed(activity: Activity) {

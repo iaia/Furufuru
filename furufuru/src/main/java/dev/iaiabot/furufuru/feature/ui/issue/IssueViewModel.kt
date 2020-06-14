@@ -43,21 +43,13 @@ class IssueViewModel(
 
             val issue = Issue(
                 title,
-                bodyTemplate(body, imageUrls?.imageUrl, imageUrls?.fileUrl)
+                IssueBodyTemplate.createBody(body, imageUrls?.imageUrl, imageUrls?.fileUrl)
             )
             issueRepository.post(issue)
             command.postValue(Command.Finish)
 
             nowSending.postValue(false)
         }
-    }
-
-    private fun bodyTemplate(body: String, imageUrl: String?, fileUrl: String?): String {
-        return """
-$body
-![furufuru]($imageUrl)
-$fileUrl
-"""
     }
 
     private suspend fun uploadImage(): ImageUrls? {
