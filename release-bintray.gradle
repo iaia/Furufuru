@@ -1,6 +1,6 @@
 def versionMajor = 0
-def versionMinor = 0
-def versionPatch = 22
+def versionMinor = 1
+def versionPatch = 0
 
 ext {
     pj = [
