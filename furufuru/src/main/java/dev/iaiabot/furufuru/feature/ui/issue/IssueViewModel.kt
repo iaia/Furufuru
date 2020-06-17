@@ -3,6 +3,7 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.app.Application
 import android.text.format.DateFormat
 import androidx.lifecycle.*
+import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.repository.ContentRepository
@@ -64,7 +65,7 @@ class IssueViewModel(
             "furufuru",
             fileStr,
             null,
-            "furufuru-image-branch"
+            FURUFURU_BRANCH
         )
 
         val now = Date()
