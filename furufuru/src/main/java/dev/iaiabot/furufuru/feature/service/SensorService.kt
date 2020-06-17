@@ -44,13 +44,15 @@ class SensorService : Service() {
                 detected = true
                 // Toast.makeText(applicationContext, "Shake event detected", Toast.LENGTH_SHORT).show()
                 Furufuru.openIssue(this@SensorService.applicationContext)
-                stopForeground(true)
                 stopSelf()
             }
         }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startNotification()
+        }
         startSensorManager()
         return START_STICKY
     }
@@ -58,7 +60,6 @@ class SensorService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -76,12 +77,7 @@ class SensorService : Service() {
             Sensor.TYPE_ACCELEROMETER,
             SensorManager.SENSOR_DELAY_NORMAL
         )
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startNotification()
-        }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startNotification() {
