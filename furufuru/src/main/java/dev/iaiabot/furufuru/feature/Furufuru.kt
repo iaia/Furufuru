@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.os.Build
 import android.os.Bundle
 import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
@@ -101,7 +102,11 @@ class Furufuru(private val application: Application) {
     private fun startSensorService() {
         Intent(application, SensorService::class.java).also { intent ->
             sensorServiceIntent = intent
-            application.startService(intent)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                application.startForegroundService(intent)
+            } else {
+                application.startService(intent)
+            }
         }
     }
 
