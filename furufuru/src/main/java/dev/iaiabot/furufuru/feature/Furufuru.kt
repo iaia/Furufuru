@@ -129,7 +129,7 @@ class Furufuru(private val application: Application) {
             screenShotter.takeScreenshot(
                 activity,
                 activity.window,
-                activity.window.decorView.findViewById<View>(android.R.id.content)
+                activity.window.decorView.findViewById<View>(android.R.id.content).rootView
             )
         }
 
