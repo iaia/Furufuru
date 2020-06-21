@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.iaiabot.furufuru.feature.Furufuru
-import dev.iaiabot.furufuru.feature.ui.prepare.PrepareActivity
+import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import kotlin.math.sqrt
 
 class SensorService : Service() {
@@ -43,7 +43,7 @@ class SensorService : Service() {
                     return
                 }
                 detected = true
-                openIssue(this@SensorService.applicationContext)
+                openIssue()
                 stopSelf()
             }
         }
@@ -103,11 +103,10 @@ class SensorService : Service() {
         startForeground(1, notification)
     }
 
-    private fun openIssue(context: Context) {
+    private fun openIssue() {
         Furufuru.takeScreenshot()
-        PrepareActivity.createIntent(context).run {
+        startActivity(IssueActivity.createIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(this)
-        }
+        })
     }
 }

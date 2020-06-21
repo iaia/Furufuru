@@ -13,15 +13,16 @@ import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY_OWNER
 import dev.iaiabot.furufuru.di.apiModule
 import dev.iaiabot.furufuru.di.repositoryModule
+import dev.iaiabot.furufuru.di.useCaseModule
 import dev.iaiabot.furufuru.di.viewModelModule
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import dev.iaiabot.furufuru.feature.ui.prepare.PrepareActivity
-import dev.iaiabot.furufuru.feature.usecase.screenshot.Screenshotter
+import dev.iaiabot.furufuru.feature.usecase.screenshot.ScreenShotter
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-
+import org.koin.java.KoinJavaComponent.inject
 
 class Furufuru(private val application: Application) {
 
@@ -71,7 +72,8 @@ class Furufuru(private val application: Application) {
                 listOf(
                     viewModelModule,
                     apiModule,
-                    repositoryModule
+                    repositoryModule,
+                    useCaseModule
                 )
             )
         }
@@ -120,12 +122,13 @@ class Furufuru(private val application: Application) {
     }
 
     private val applicationLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
-        private var activity: Activity? = null
-        private lateinit var screenshotter: Screenshotter
+        private var currentActivity: Activity? = null
+        private val screenShotter by inject(ScreenShotter::class.java)
 
         fun takeScreenshot() {
-            val activity = activity ?: return
-            screenshotter.takeScreenshot(
+            val activity = currentActivity ?: return
+            screenShotter.takeScreenshot(
+                activity,
                 activity.window,
                 activity.window.decorView.findViewById<View>(android.R.id.content)
             )
@@ -135,12 +138,12 @@ class Furufuru(private val application: Application) {
             if (activity is PrepareActivity || activity is IssueActivity) {
                 return
             }
-            this.activity = activity
+            currentActivity = activity
             startSensorService()
         }
 
         override fun onActivityPaused(activity: Activity) {
-            this.activity = null
+            currentActivity = null
             stopSensorService()
         }
 

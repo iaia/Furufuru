@@ -13,14 +13,13 @@ import androidx.annotation.RequiresApi
 import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import java.io.ByteArrayOutputStream
 
-class Screenshotter(
-    private val context: Context,
+class ScreenShotter(
     private val screenshotRepository: ScreenshotRepository
 ) {
-    fun takeScreenshot(window: Window, view: View) {
+    fun takeScreenshot(context: Context, window: Window, view: View) {
         val callback = { bitmap: Bitmap? ->
             if (bitmap != null) {
-                saveScreenshot(bitmap)
+                saveScreenshot(context, bitmap)
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -30,7 +29,7 @@ class Screenshotter(
         }
     }
 
-    private fun saveScreenshot(bitmap: Bitmap) {
+    private fun saveScreenshot(context: Context, bitmap: Bitmap) {
         try {
             val baos = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)

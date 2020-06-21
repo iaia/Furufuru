@@ -5,6 +5,7 @@ import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY_OWNER
 import dev.iaiabot.furufuru.data.repository.*
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
+import dev.iaiabot.furufuru.feature.usecase.screenshot.ScreenShotter
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -37,4 +38,8 @@ val repositoryModule = module {
     single<ScreenshotRepository> {
         ScreenshotRepositoryImpl()
     }
+}
+
+val useCaseModule = module {
+    single { ScreenShotter(get()) }
 }
