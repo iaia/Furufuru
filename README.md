@@ -4,20 +4,6 @@ Make an issue on github easily just by shaking.
 
 ## install
 
-project/build.gradle
-
-```
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven {
-            url  "https://dl.bintray.com/iaia/maven"
-        }
-    }
-}
-```
-
 app/build.gradle
 
 ```
