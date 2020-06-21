@@ -45,10 +45,6 @@ class Furufuru(private val application: Application) {
             }
         }
 
-        internal fun restartSensorService() {
-            getInstance()?.startSensorService()
-        }
-
         internal fun takeScreenshot() {
             getInstance()?.takeScreenshot()
         }
