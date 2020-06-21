@@ -31,11 +31,9 @@ android {
         }
     }
 
-    dataBinding {
-        enabled true
-    }
-    viewBinding {
-        enabled true
+    buildFeatures {
+        dataBinding true
+        viewBinding true
     }
 
     compileOptions {
