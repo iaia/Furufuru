@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.iaiabot.furufuru.feature.Furufuru
+import dev.iaiabot.furufuru.feature.ui.prepare.PrepareActivity
 import kotlin.math.sqrt
 
 class SensorService : Service() {
@@ -42,8 +43,7 @@ class SensorService : Service() {
                     return
                 }
                 detected = true
-                // Toast.makeText(applicationContext, "Shake event detected", Toast.LENGTH_SHORT).show()
-                Furufuru.openIssue(this@SensorService.applicationContext)
+                openIssue(this@SensorService.applicationContext)
                 stopSelf()
             }
         }
@@ -101,5 +101,13 @@ class SensorService : Service() {
             setContentText("Furufuru sensor service is running")
         }.build()
         startForeground(1, notification)
+    }
+
+    private fun openIssue(context: Context) {
+        Furufuru.takeScreenshot()
+        PrepareActivity.createIntent(context).run {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(this)
+        }
     }
 }

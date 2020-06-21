@@ -2,11 +2,11 @@ package dev.iaiabot.furufuru.feature
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
 import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY
@@ -17,6 +17,7 @@ import dev.iaiabot.furufuru.di.viewModelModule
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import dev.iaiabot.furufuru.feature.ui.prepare.PrepareActivity
+import dev.iaiabot.furufuru.feature.usecase.screenshot.Screenshotter
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -44,19 +45,16 @@ class Furufuru(private val application: Application) {
             }
         }
 
-        fun openIssue(context: Context) {
-            PrepareActivity.createIntent(context).run {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(this)
-            }
-        }
-
-        fun restartSensorService() {
+        internal fun restartSensorService() {
             getInstance()?.startSensorService()
         }
 
-        fun getApplicationName() = getInstance()?.getApplicationName()
-        fun getAppVersionName() = getInstance()?.getApplicationVersion()
+        internal fun takeScreenshot() {
+            getInstance()?.takeScreenshot()
+        }
+
+        internal fun getApplicationName() = getInstance()?.getApplicationName()
+        internal fun getAppVersionName() = getInstance()?.getApplicationVersion()
 
         private fun getInstance(): Furufuru? {
             return instance
@@ -99,6 +97,10 @@ class Furufuru(private val application: Application) {
         return pInfo.versionName
     }
 
+    fun takeScreenshot() {
+        applicationLifecycleCallbacks.takeScreenshot()
+    }
+
     private fun startSensorService() {
         Intent(application, SensorService::class.java).also { intent ->
             sensorServiceIntent = intent
@@ -118,14 +120,27 @@ class Furufuru(private val application: Application) {
     }
 
     private val applicationLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
-        override fun onActivityStarted(activity: Activity) {
+        private var activity: Activity? = null
+        private lateinit var screenshotter: Screenshotter
+
+        fun takeScreenshot() {
+            val activity = activity ?: return
+            screenshotter.takeScreenshot(
+                activity.window,
+                activity.window.decorView.findViewById<View>(android.R.id.content)
+            )
+        }
+
+        override fun onActivityResumed(activity: Activity) {
             if (activity is PrepareActivity || activity is IssueActivity) {
                 return
             }
+            this.activity = activity
             startSensorService()
         }
 
         override fun onActivityPaused(activity: Activity) {
+            this.activity = null
             stopSensorService()
         }
 
@@ -135,13 +150,13 @@ class Furufuru(private val application: Application) {
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         }
 
+        override fun onActivityStarted(activity: Activity) {
+        }
+
         override fun onActivityStopped(activity: Activity) {
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        }
-
-        override fun onActivityResumed(activity: Activity) {
         }
     }
 }
