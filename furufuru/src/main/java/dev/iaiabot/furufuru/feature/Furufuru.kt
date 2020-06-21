@@ -17,7 +17,6 @@ import dev.iaiabot.furufuru.di.useCaseModule
 import dev.iaiabot.furufuru.di.viewModelModule
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
-import dev.iaiabot.furufuru.feature.ui.prepare.PrepareActivity
 import dev.iaiabot.furufuru.feature.usecase.screenshot.ScreenShotter
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -135,7 +134,7 @@ class Furufuru(private val application: Application) {
         }
 
         override fun onActivityResumed(activity: Activity) {
-            if (activity is PrepareActivity || activity is IssueActivity) {
+            if (activity is IssueActivity) {
                 return
             }
             currentActivity = activity
