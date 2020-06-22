@@ -100,15 +100,16 @@ class Furufuru(private val application: Application) {
         applicationLifecycleCallbacks.takeScreenshot()
     }
 
+    @Synchronized
     private fun startSensorService(context: Context) {
         try {
-            stopSensorService()
+            stopSensorService(context)
             Intent(context, SensorService::class.java).also { intent ->
                 sensorServiceIntent = intent
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    application.startForegroundService(intent)
+                    context.startForegroundService(intent)
                 } else {
-                    application.startService(intent)
+                    context.startService(intent)
                 }
             }
         } catch (e: Exception) {
@@ -116,9 +117,9 @@ class Furufuru(private val application: Application) {
         }
     }
 
-    private fun stopSensorService() {
+    private fun stopSensorService(context: Context) {
         sensorServiceIntent?.let {
-            application.stopService(it)
+            context.stopService(it)
             sensorServiceIntent = null
         }
     }
@@ -146,7 +147,7 @@ class Furufuru(private val application: Application) {
 
         override fun onActivityPaused(activity: Activity) {
             currentActivity = null
-            stopSensorService()
+            stopSensorService(activity)
         }
 
         override fun onActivityDestroyed(activity: Activity) {
