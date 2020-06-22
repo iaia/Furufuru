@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
@@ -99,14 +100,19 @@ class Furufuru(private val application: Application) {
         applicationLifecycleCallbacks.takeScreenshot()
     }
 
-    private fun startSensorService() {
-        Intent(application, SensorService::class.java).also { intent ->
-            sensorServiceIntent = intent
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                application.startForegroundService(intent)
-            } else {
-                application.startService(intent)
+    private fun startSensorService(context: Context) {
+        try {
+            stopSensorService()
+            Intent(context, SensorService::class.java).also { intent ->
+                sensorServiceIntent = intent
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    application.startForegroundService(intent)
+                } else {
+                    application.startService(intent)
+                }
             }
+        } catch (e: Exception) {
+            Log.d("Furufuru", e.message ?: "empty error message")
         }
     }
 
