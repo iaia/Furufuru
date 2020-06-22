@@ -2,6 +2,7 @@ package dev.iaiabot.furufuru.feature
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Build
@@ -134,7 +135,7 @@ class Furufuru(private val application: Application) {
                 return
             }
             currentActivity = activity
-            startSensorService()
+            startSensorService(activity)
         }
 
         override fun onActivityPaused(activity: Activity) {

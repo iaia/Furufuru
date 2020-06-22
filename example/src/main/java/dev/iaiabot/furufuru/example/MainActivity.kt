@@ -1,7 +1,9 @@
 package dev.iaiabot.furufuru.example
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import dev.iaiabot.furufuru.example.databinding.ActivityMainBinding
 import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
 
@@ -18,6 +20,12 @@ class MainActivity : AppCompatActivity() {
             "image url",
             "file url"
         )
+        binding.btOpenWebview.setOnClickListener {
+            val url = "http://example.com"
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent: CustomTabsIntent = builder.build()
+            customTabsIntent.launchUrl(this, Uri.parse(url))
+        }
 
         setContentView(binding.root)
     }
