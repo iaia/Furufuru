@@ -19,7 +19,7 @@ import dev.iaiabot.furufuru.di.useCaseModule
 import dev.iaiabot.furufuru.di.viewModelModule
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
-import dev.iaiabot.furufuru.feature.usecase.screenshot.ScreenShotter
+import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

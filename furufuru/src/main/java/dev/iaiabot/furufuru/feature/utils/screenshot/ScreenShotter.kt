@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.feature.usecase.screenshot
+package dev.iaiabot.furufuru.feature.utils.screenshot
 
 import android.content.Context
 import android.graphics.Bitmap
