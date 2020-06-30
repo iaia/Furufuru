@@ -2,12 +2,10 @@ package dev.iaiabot.furufuru.feature
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
+import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageInfo
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
@@ -59,7 +57,7 @@ class Furufuru(private val application: Application) {
         }
     }
 
-    private var sensorServiceIntent: Intent? = null
+    private var sensorServiceConnection = SensorService.Connection()
 
     init {
         startKoin {
@@ -100,28 +98,14 @@ class Furufuru(private val application: Application) {
         applicationLifecycleCallbacks.takeScreenshot()
     }
 
-    @Synchronized
-    private fun startSensorService(context: Context) {
-        try {
-            stopSensorService(context)
-            Intent(context, SensorService::class.java).also { intent ->
-                sensorServiceIntent = intent
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(intent)
-                } else {
-                    context.startService(intent)
-                }
-            }
-        } catch (e: Exception) {
-            Log.d("Furufuru", e.message ?: "empty error message")
+    private fun bindSensorService(activity: Activity) {
+        Intent(activity, SensorService::class.java).also { intent ->
+            activity.bindService(intent, sensorServiceConnection, Service.BIND_AUTO_CREATE)
         }
     }
 
-    private fun stopSensorService(context: Context) {
-        sensorServiceIntent?.let {
-            context.stopService(it)
-            sensorServiceIntent = null
-        }
+    private fun unbindSensorService(activity: Activity) {
+        activity.unbindService(sensorServiceConnection)
     }
 
     private val applicationLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
@@ -142,12 +126,15 @@ class Furufuru(private val application: Application) {
                 return
             }
             currentActivity = activity
-            startSensorService(activity)
+            bindSensorService(activity)
         }
 
         override fun onActivityPaused(activity: Activity) {
+            if (activity is IssueActivity) {
+                return
+            }
             currentActivity = null
-            stopSensorService(activity)
+            unbindSensorService(activity)
         }
 
         override fun onActivityDestroyed(activity: Activity) {

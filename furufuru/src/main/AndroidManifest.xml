@@ -5,8 +5,11 @@
     <application>
         <activity
             android:name=".ui.issue.IssueActivity"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <service android:name=".service.SensorService" />
+        <service
+            android:name=".service.SensorService"
+            android:exported="false" />
     </application>
 </manifest>

@@ -3,12 +3,15 @@ package dev.iaiabot.furufuru.feature.service
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
@@ -19,11 +22,16 @@ import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import kotlin.math.sqrt
 
 class SensorService : Service() {
-    private lateinit var sensorManager: SensorManager
+    companion object {
+        const val NOTIFICATION_ID = 1001
+    }
+
+    private var sensorManager: SensorManager? = null
     private var access = 0f
     private var accessCurrent = 0f
     private var accessLast = 0f
     private var detected = false
+    private val binder = LocalBinder()
 
     private val sensorEventListener = object : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -44,34 +52,26 @@ class SensorService : Service() {
                 }
                 detected = true
                 openIssue()
-                stopSelf()
             }
         }
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startNotification()
-        }
-        startSensorManager()
-        return START_NOT_STICKY
-    }
-
     override fun onBind(intent: Intent?): IBinder? {
-        return null
+        return binder
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        sensorManager.unregisterListener(sensorEventListener)
+        sensorManager?.unregisterListener(sensorEventListener)
         stopForeground(true)
     }
 
     private fun startSensorManager() {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
-        sensorManager.registerListener(
+        val sensor: Sensor? =
+            sensorManager?.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) ?: return
+        sensorManager?.registerListener(
             sensorEventListener,
             sensor,
             Sensor.TYPE_ACCELEROMETER,
@@ -100,7 +100,7 @@ class SensorService : Service() {
             setContentTitle("Furufuru Sensor")
             setContentText("Furufuru sensor service is running")
         }.build()
-        startForeground(1, notification)
+        startForeground(NOTIFICATION_ID, notification)
     }
 
     private fun openIssue() {
@@ -108,5 +108,34 @@ class SensorService : Service() {
         startActivity(IssueActivity.createIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })
+    }
+
+    fun attach() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startNotification()
+        }
+        startSensorManager()
+    }
+
+    fun detach() {
+        stopForeground(true)
+    }
+
+    inner class LocalBinder : Binder() {
+        fun getService() = this@SensorService
+    }
+
+    class Connection : ServiceConnection {
+        var service: SensorService? = null
+
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            this.service = (service as? LocalBinder)?.getService()
+            this.service?.attach()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            this.service?.detach()
+            this.service = null
+        }
     }
 }
