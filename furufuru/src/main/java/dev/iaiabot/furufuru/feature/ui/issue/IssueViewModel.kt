@@ -62,7 +62,7 @@ class IssueViewModel(
             return null
         }
         val content = Content(
-            "furufuru",
+            "[ci skip] Upload furufuru image",
             fileStr,
             null,
             FURUFURU_BRANCH
