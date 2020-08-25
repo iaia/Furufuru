@@ -4,29 +4,26 @@ import android.util.Log
 import dev.iaiabot.furufuru.data.TAG
 import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.github.GithubService
-import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.Properties
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.properties.Properties
+import kotlinx.serialization.properties.encodeToMap
 
 class IssueRepositoryImpl(
     private val owner: String,
     private val repo: String,
     private val service: GithubService
 ) : IssueRepository {
-    @ImplicitReflectionSerializer
+    @ExperimentalSerializationApi
     override suspend fun post(issue: Issue) {
         try {
             service.postIssue(
                 owner, repo,
-                Properties.storeNullable(issue).mapNotNull {
-                    if (it.value == null) {
-                        null
-                    } else {
-                        Pair(it.key, it.value as String)
-                    }
+                Properties.encodeToMap(issue).mapNotNull {
+                    Pair(it.key, it.value as String)
                 }.toMap()
             )
         } catch (e: Exception) {
-            Log.d(TAG, e.message)
+            Log.d(TAG, e.message ?: "error message is null")
         }
     }
 }

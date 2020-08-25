@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
 import dev.iaiabot.furufuru.feature.BuildConfig
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.nonstrict
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -17,7 +18,6 @@ object GithubApiClient {
 
     private fun buildRetrofit(): Retrofit {
         val contentType = MediaType.parse("application/json")!!
-        val json = Json.nonstrict
         val client = OkHttpClient.Builder().addInterceptor { chain ->
             val newRequest: Request = chain.request().newBuilder()
                 .addHeader("Authorization", "token $GITHUB_API_TOKEN")
@@ -26,7 +26,7 @@ object GithubApiClient {
         }.build()
         return Retrofit.Builder().run {
             client(client)
-            addConverterFactory(json.asConverterFactory(contentType))
+            addConverterFactory(Json.asConverterFactory(contentType))
             baseUrl(BuildConfig.GITHUB_API_URL)
             build()
         }
