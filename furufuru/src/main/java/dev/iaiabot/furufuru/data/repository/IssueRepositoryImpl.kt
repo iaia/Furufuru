@@ -23,7 +23,7 @@ class IssueRepositoryImpl(
                 }.toMap()
             )
         } catch (e: Exception) {
-            Log.d(TAG, e.message ?: "error message is null")
+            Log.d("Furufuru Issue", e.message ?: "error message is null")
         }
     }
 }

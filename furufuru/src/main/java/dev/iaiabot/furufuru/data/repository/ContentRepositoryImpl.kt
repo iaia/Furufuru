@@ -20,14 +20,13 @@ class ContentRepositoryImpl(
                 owner, repo,
                 Properties.encodeToMap(content).mapNotNull {
                     Pair(it.key, it.value as String)
-                }.toMap()
-                ,
+                }.toMap(),
                 path
             ).run {
                 return body()
             }
         } catch (e: Exception) {
-            Log.d("Furufuru", e.message ?: "error message is null")
+            Log.d("Furufuru Content", e.message ?: "error message is null")
         }
         return null
     }
