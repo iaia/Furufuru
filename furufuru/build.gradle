@@ -52,7 +52,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // koin
-    ext.koin_version = '2.1.4'
+    ext.koin_version = '2.2.0-alpha-1'
     implementation("org.koin:koin-androidx-scope:$koin_version")
     implementation("org.koin:koin-androidx-viewmodel:$koin_version")
     implementation("org.koin:koin-androidx-ext:$koin_version")
