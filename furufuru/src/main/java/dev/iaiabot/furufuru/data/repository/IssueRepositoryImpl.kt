@@ -1,7 +1,6 @@
 package dev.iaiabot.furufuru.data.repository
 
 import android.util.Log
-import dev.iaiabot.furufuru.data.TAG
 import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.github.GithubService
 import kotlinx.serialization.ExperimentalSerializationApi

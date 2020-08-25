@@ -5,7 +5,6 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
 import dev.iaiabot.furufuru.feature.BuildConfig
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
