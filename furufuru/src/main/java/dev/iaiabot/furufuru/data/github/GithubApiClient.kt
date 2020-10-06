@@ -12,7 +12,7 @@ import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Retrofit
 
 object GithubApiClient {
-    val furufuruSettings: FurufuruSettings by inject(FurufuruSettings::class.java)
+    private val furufuruSettings: FurufuruSettings by inject(FurufuruSettings::class.java)
 
     fun build(): GithubService {
         return buildRetrofit()
