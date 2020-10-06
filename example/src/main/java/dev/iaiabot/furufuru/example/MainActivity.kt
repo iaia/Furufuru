@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.tvHello.text = "hello"
         binding.tvIssueTemplate.text = IssueBodyTemplate.createBody(
+            "",
             "user body",
             "image url",
             "file url"

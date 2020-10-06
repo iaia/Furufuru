@@ -43,7 +43,7 @@ $IMAGE_FILE_URL
         var body = TEMPLATE
 
         body = if (userName.isEmpty()) {
-            body.replace(USER_NAME, "[Spartacus](https://www.youtube.com/watch?v=FKCmyiljKo0)")
+            body.replace(USER_NAME, "[Spartacus](https://youtu.be/FKCmyiljKo0?t=65)")
         } else {
             body.replace(USER_NAME, userName)
         }
