@@ -7,6 +7,7 @@ import dev.iaiabot.furufuru.data.entity.ContentResponse
 import dev.iaiabot.furufuru.data.repository.ContentRepository
 import dev.iaiabot.furufuru.data.repository.IssueRepository
 import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
+import dev.iaiabot.furufuru.util.FurufuruSettings
 import io.mockk.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
@@ -18,6 +19,7 @@ object IssueViewModelTest : Spek({
     lateinit var contentRepository: ContentRepository
     lateinit var contentResponse: ContentResponse
     lateinit var screenshotRepository: ScreenshotRepository
+    lateinit var furufuruSettings: FurufuruSettings
 
     beforeEachTest {
         ArchTaskExecutor
@@ -39,6 +41,7 @@ object IssueViewModelTest : Spek({
         issueRepository = mockk()
         contentRepository = mockk()
         screenshotRepository = mockk()
+        furufuruSettings = mockk()
 
         contentResponse = mockk()
         every { contentResponse.content.htmlUrl } returns "example.com/html_1.jpg"
@@ -46,9 +49,14 @@ object IssueViewModelTest : Spek({
 
         coEvery { issueRepository.post(any()) } answers {}
         coEvery { contentRepository.post(any(), any()) } returns contentResponse
+        every { screenshotRepository.get(any()) } returns "/path/to"
+        every { furufuruSettings.furufuruBranch } returns "furufuru-branch"
 
         mockkStatic(DateFormat::class)
         every { DateFormat.format(any(), any<Date>()) } returns "aaa"
+
+        mockkObject(IssueBodyTemplate)
+        every { IssueBodyTemplate.createBody(any(), any(), any()) } returns "aaaa"
     }
 
     afterEachTest {
@@ -57,7 +65,14 @@ object IssueViewModelTest : Spek({
 
     describe("#post") {
         beforeEachTest {
-            viewModel = IssueViewModel(mockk(), issueRepository, contentRepository, screenshotRepository)
+            viewModel = IssueViewModel(
+                mockk(),
+                issueRepository,
+                contentRepository,
+                screenshotRepository,
+                furufuruSettings
+            )
+            viewModel.init()
             viewModel.title.value = "title"
             viewModel.body.value = "body"
         }

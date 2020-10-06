@@ -4,20 +4,21 @@ import android.util.Log
 import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.ContentResponse
 import dev.iaiabot.furufuru.data.github.GithubService
+import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.properties.Properties
 import kotlinx.serialization.properties.encodeToMap
 
 class ContentRepositoryImpl(
-    private val owner: String,
-    private val repo: String,
-    private val service: GithubService
+    private val settings: FurufuruSettings,
+    private val service: GithubService,
 ) : ContentRepository {
     @ExperimentalSerializationApi
     override suspend fun post(content: Content, path: String): ContentResponse? {
         try {
             service.postContent(
-                owner, repo,
+                settings.githubRepositoryOwner,
+                settings.githubRepository,
                 Properties.encodeToMap(content).mapNotNull {
                     Pair(it.key, it.value as String)
                 }.toMap(),

@@ -7,26 +7,21 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.View
-import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
-import dev.iaiabot.furufuru.data.GITHUB_API_TOKEN
-import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY
-import dev.iaiabot.furufuru.data.GITHUB_REPOSITORY_OWNER
-import dev.iaiabot.furufuru.di.apiModule
-import dev.iaiabot.furufuru.di.repositoryModule
-import dev.iaiabot.furufuru.di.useCaseModule
-import dev.iaiabot.furufuru.di.viewModelModule
+import dev.iaiabot.furufuru.di.diModules
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
+import dev.iaiabot.furufuru.util.FurufuruSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.java.KoinJavaComponent.inject
 
-class Furufuru(private val application: Application) {
+class Furufuru(
+    private val application: Application,
+) {
 
     companion object {
-        private const val DEFAULT_FURUFURU_BRANCH = "furufuru-image-branch"
         private var instance: Furufuru? = null
 
         fun builder(
@@ -36,11 +31,13 @@ class Furufuru(private val application: Application) {
             githubRepository: String,
             furufuruBranch: String? = null
         ): Furufuru {
-            GITHUB_API_TOKEN = githubApiToken
-            GITHUB_REPOSITORY_OWNER = githubReposOwner
-            GITHUB_REPOSITORY = githubRepository
-            FURUFURU_BRANCH = furufuruBranch ?: DEFAULT_FURUFURU_BRANCH
             return Furufuru(application).also {
+                it.settings.init(
+                    githubApiToken,
+                    githubReposOwner,
+                    githubRepository,
+                    furufuruBranch,
+                )
                 instance = it
             }
         }
@@ -58,19 +55,13 @@ class Furufuru(private val application: Application) {
     }
 
     private var sensorServiceConnection = SensorService.Connection()
+    private val settings: FurufuruSettings by inject(FurufuruSettings::class.java)
 
     init {
         startKoin {
             androidLogger()
             androidContext(application)
-            modules(
-                listOf(
-                    viewModelModule,
-                    apiModule,
-                    repositoryModule,
-                    useCaseModule
-                )
-            )
+            modules(diModules())
         }
     }
 

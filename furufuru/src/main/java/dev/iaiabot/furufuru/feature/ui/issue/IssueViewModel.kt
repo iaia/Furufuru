@@ -3,12 +3,12 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.app.Application
 import android.text.format.DateFormat
 import androidx.lifecycle.*
-import dev.iaiabot.furufuru.data.FURUFURU_BRANCH
 import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.repository.ContentRepository
 import dev.iaiabot.furufuru.data.repository.IssueRepository
 import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
+import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -17,7 +17,8 @@ class IssueViewModel(
     application: Application,
     private val issueRepository: IssueRepository,
     private val contentRepository: ContentRepository,
-    private val screenshotRepository: ScreenshotRepository
+    private val screenshotRepository: ScreenshotRepository,
+    private val furufuruSettings: FurufuruSettings,
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -65,7 +66,7 @@ class IssueViewModel(
             "[ci skip] Upload furufuru image",
             fileStr,
             null,
-            FURUFURU_BRANCH
+            furufuruSettings.furufuruBranch
         )
 
         val now = Date()
