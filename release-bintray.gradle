@@ -1,5 +1,5 @@
 def versionMajor = 0
-def versionMinor = 4
+def versionMinor = 5
 def versionPatch = 0
 
 ext {
