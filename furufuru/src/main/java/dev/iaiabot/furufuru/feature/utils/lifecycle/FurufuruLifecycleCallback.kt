@@ -19,7 +19,6 @@ class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
     fun takeScreenshot() {
         val activity = currentActivity ?: return
         screenShotter.takeScreenshot(
-            activity,
             activity.window,
             activity.window.decorView.findViewById<View>(android.R.id.content).rootView
         )

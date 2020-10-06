@@ -1,6 +1,5 @@
 package dev.iaiabot.furufuru.feature.utils.screenshot
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Build
@@ -16,10 +15,10 @@ import java.io.ByteArrayOutputStream
 class ScreenShotter(
     private val screenshotRepository: ScreenshotRepository
 ) {
-    fun takeScreenshot(context: Context, window: Window, view: View) {
+    fun takeScreenshot(window: Window, view: View) {
         val callback = { bitmap: Bitmap? ->
             if (bitmap != null) {
-                saveScreenshot(context, bitmap)
+                saveScreenshot(bitmap)
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -29,13 +28,13 @@ class ScreenShotter(
         }
     }
 
-    private fun saveScreenshot(context: Context, bitmap: Bitmap) {
+    private fun saveScreenshot(bitmap: Bitmap) {
         try {
             val baos = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val jpgarr = baos.toByteArray()
             val fileStr = Base64.encodeToString(jpgarr, Base64.NO_WRAP)
-            screenshotRepository.save(context, fileStr)
+            screenshotRepository.save(fileStr)
         } catch (e: Exception) {
         }
     }

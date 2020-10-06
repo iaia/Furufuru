@@ -30,7 +30,7 @@ class IssueViewModel(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
-        fileStr.postValue(screenshotRepository.get(getApplication()))
+        fileStr.postValue(screenshotRepository.get())
     }
 
     fun post() {

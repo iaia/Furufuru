@@ -1,25 +1,23 @@
 package dev.iaiabot.furufuru.data.repository
 
-import android.content.Context
+import android.util.LruCache
 
 class ScreenshotRepositoryImpl : ScreenshotRepository {
     companion object {
         const val SCREENSHOT_KEY = "screenshot"
     }
 
-    override fun save(context: Context, fileStr: String) {
-        val pref = context.getSharedPreferences(
-            "furufuru", Context.MODE_PRIVATE
-        )
-        val editor = pref.edit()
-        editor.putString(SCREENSHOT_KEY, fileStr)
-        editor.apply()
+    private val cache = LruCache<String, String>(1)
+
+    override fun save(fileStr: String) {
+        synchronized(cache) {
+            cache.put(SCREENSHOT_KEY, fileStr)
+        }
     }
 
-    override fun get(context: Context): String? {
-        val pref = context.getSharedPreferences(
-            "furufuru", Context.MODE_PRIVATE
-        )
-        return pref.getString(SCREENSHOT_KEY, null)
+    override fun get(): String? {
+        return synchronized(cache) {
+            cache.get(SCREENSHOT_KEY)
+        }
     }
 }
