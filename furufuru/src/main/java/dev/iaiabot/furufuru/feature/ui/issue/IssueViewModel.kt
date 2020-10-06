@@ -24,6 +24,7 @@ class IssueViewModel(
 ), LifecycleObserver {
     val title = MutableLiveData("")
     val body = MutableLiveData("")
+    val userName = MutableLiveData("")
     val command = MutableLiveData<Command>()
     val nowSending = MutableLiveData(false)
     val fileStr = MutableLiveData<String?>(null)
@@ -31,12 +32,15 @@ class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         fileStr.postValue(screenshotRepository.get())
+        // name取ってきてセットする
+        // name.postValue(xxx.getName())
     }
 
     fun post() {
         val title = title.value ?: return
         if (title.isEmpty()) return
         val body = body.value ?: return
+        val userName = userName.value ?: ""
 
         if (nowSending.value == true) {
             return
@@ -48,7 +52,12 @@ class IssueViewModel(
 
             val issue = Issue(
                 title,
-                IssueBodyTemplate.createBody(body, imageUrls?.imageUrl, imageUrls?.fileUrl)
+                IssueBodyTemplate.createBody(
+                    userName,
+                    body,
+                    imageUrls?.imageUrl,
+                    imageUrls?.fileUrl
+                )
             )
             issueRepository.post(issue)
             command.postValue(Command.Finish)
@@ -92,5 +101,5 @@ data class ImageUrls(
 
 sealed class Command {
     object Finish : Command()
-    class ShowFilePath(val filePath: String?) : Command()
+    object ShowFilePath : Command()
 }

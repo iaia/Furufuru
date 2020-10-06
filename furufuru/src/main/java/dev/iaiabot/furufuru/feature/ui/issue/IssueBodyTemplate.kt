@@ -6,6 +6,7 @@ import dev.iaiabot.furufuru.feature.Furufuru
 
 
 object IssueBodyTemplate {
+    private const val USER_NAME = "USER_NAME"
     private const val USERS_BODY = "USERS_BODY"
     private const val APP_NAME = "APP_NAME"
     private const val APP_VERSION = "APP_VERSION"
@@ -24,6 +25,7 @@ $IMAGE_FILE_URL
 
 |key|value|
 |:--:|:--:|
+|User Name|$USER_NAME|
 |App Name|$APP_NAME|
 |App Version|$APP_VERSION|
 |Device|$DEVICE_VERSION|
@@ -31,9 +33,20 @@ $IMAGE_FILE_URL
 |Furufuru Version|$FURUFURU_VERSION_NAME ($FURUFURU_VERSION_CODE)|
 """
 
-    fun createBody(usersBody: String, imageUrl: String?, fileUrl: String?): String {
+    fun createBody(
+        userName: String,
+        usersBody: String,
+        imageUrl: String?,
+        fileUrl: String?
+    ): String {
+
         var body = TEMPLATE
 
+        body = if (userName.isEmpty()) {
+            body.replace(USER_NAME, "[Spartacus](https://www.youtube.com/watch?v=FKCmyiljKo0)")
+        } else {
+            body.replace(USER_NAME, userName)
+        }
         body = body.replace(USERS_BODY, usersBody)
 
         imageUrl?.let {
