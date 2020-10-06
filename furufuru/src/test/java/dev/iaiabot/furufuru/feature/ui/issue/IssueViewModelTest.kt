@@ -6,6 +6,7 @@ import androidx.arch.core.executor.TaskExecutor
 import dev.iaiabot.furufuru.data.entity.ContentResponse
 import dev.iaiabot.furufuru.data.repository.ContentRepository
 import dev.iaiabot.furufuru.data.repository.IssueRepository
+import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import io.mockk.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
@@ -16,7 +17,7 @@ object IssueViewModelTest : Spek({
     lateinit var issueRepository: IssueRepository
     lateinit var contentRepository: ContentRepository
     lateinit var contentResponse: ContentResponse
-    val fileStr: String? = "path/to"
+    lateinit var screenshotRepository: ScreenshotRepository
 
     beforeEachTest {
         ArchTaskExecutor
@@ -37,6 +38,7 @@ object IssueViewModelTest : Spek({
             })
         issueRepository = mockk()
         contentRepository = mockk()
+        screenshotRepository = mockk()
 
         contentResponse = mockk()
         every { contentResponse.content.htmlUrl } returns "example.com/html_1.jpg"
@@ -55,7 +57,7 @@ object IssueViewModelTest : Spek({
 
     describe("#post") {
         beforeEachTest {
-            viewModel = IssueViewModel(issueRepository, contentRepository, fileStr)
+            viewModel = IssueViewModel(mockk(), issueRepository, contentRepository, screenshotRepository)
             viewModel.title.value = "title"
             viewModel.body.value = "body"
         }
