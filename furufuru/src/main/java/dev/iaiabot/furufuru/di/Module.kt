@@ -19,7 +19,7 @@ fun diModules() = listOf(
 
 val viewModelModule = module {
     viewModel {
-        IssueViewModel(androidContext() as Application, get(), get(), get(), get())
+        IssueViewModel(androidContext() as Application, get(), get(), get(), get(), get())
     }
 }
 
@@ -42,6 +42,10 @@ val repositoryModule = module {
     }
     single<ScreenshotRepository> {
         ScreenshotRepositoryImpl()
+    }
+
+    single<UserRepository> {
+        UserRepositoryImpl()
     }
 }
 

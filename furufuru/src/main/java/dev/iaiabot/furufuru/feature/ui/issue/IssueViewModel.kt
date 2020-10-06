@@ -8,6 +8,7 @@ import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.repository.ContentRepository
 import dev.iaiabot.furufuru.data.repository.IssueRepository
 import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
+import dev.iaiabot.furufuru.data.repository.UserRepository
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class IssueViewModel(
     private val contentRepository: ContentRepository,
     private val screenshotRepository: ScreenshotRepository,
     private val furufuruSettings: FurufuruSettings,
+    private val userRepository: UserRepository
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -32,8 +34,9 @@ class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         fileStr.postValue(screenshotRepository.get())
-        // name取ってきてセットする
-        // name.postValue(xxx.getName())
+        viewModelScope.launch(Dispatchers.IO) {
+            userName.postValue(userRepository.getUserName(getApplication()))
+        }
     }
 
     fun post() {
@@ -41,6 +44,10 @@ class IssueViewModel(
         if (title.isEmpty()) return
         val body = body.value ?: return
         val userName = userName.value ?: ""
+
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.saveUserName(getApplication(), userName)
+        }
 
         if (nowSending.value == true) {
             return
