@@ -1,11 +1,11 @@
 package dev.iaiabot.furufuru.feature.service
 
-import android.app.*
+import android.app.NotificationManager
+import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.drawable.Icon
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -14,11 +14,8 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import dev.iaiabot.furufuru.data.SENSOR_NOTIFICATION_CHANNEL_ID
 import dev.iaiabot.furufuru.feature.Furufuru
-import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.notification.NotificationChannel
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import kotlin.math.sqrt
@@ -88,40 +85,15 @@ class SensorService : Service() {
         NotificationChannel.createNotificationChannel(notificationManager)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val context = applicationContext
-            val target = IssueActivity.createIntent(context)
-            // TODO: flags, option を調査
-            val bubbleIntent = PendingIntent.getActivity(context, 0, target, 0)
-            val bubbleData = Notification.BubbleMetadata.Builder()
-                .setIcon(Icon.createWithResource(context, R.drawable.ic_send))
-                .setDesiredHeight(600)
-                .setIntent(bubbleIntent)
-                .setAutoExpandBubble(true)
-                // .setSuppressNotification(true)
-                .build()
-            val chatBot = Person.Builder()
-                .setBot(true)
-                .setName("FurufuruBot")
-                .setImportant(true)
-                .build()
-            val n = Notification.Builder(context, SENSOR_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_send)
-                //.setContentIntent(contentIntent)
-                .setBubbleMetadata(bubbleData)
-                .setCategory("CATEGORY_ALL")
-                .addPerson(chatBot)
-                .build()
-            startForeground(NOTIFICATION_ID, n)
+            startForeground(
+                0,
+                NotificationChannel.createBubbleNotification(applicationContext)
+            )
         } else {
-            val notification = NotificationCompat.Builder(
-                applicationContext,
-                NotificationChannel.Channels.SENSOR_SERVICE.channelId
-            ).apply {
-                setContentTitle("Furufuru Sensor")
-                setContentText("Furufuru sensor service is running")
-            }.build()
-
-            startForeground(NOTIFICATION_ID, notification)
+            startForeground(
+                1,
+                NotificationChannel.createSensorServiceNotification(applicationContext)
+            )
         }
     }
 

@@ -7,10 +7,12 @@
         <activity
             android:name=".ui.issue.IssueActivity"
             android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".ui.bubble.BubbleActivity"
             android:allowEmbedded="true"
             android:documentLaunchMode="always"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             tools:targetApi="n" />
 
         <service
