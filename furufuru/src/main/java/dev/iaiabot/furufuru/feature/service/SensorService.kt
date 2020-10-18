@@ -85,16 +85,22 @@ class SensorService : Service() {
         NotificationChannel.createNotificationChannel(notificationManager)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            /*
+            FIXME: startForegroundで1個の通知だけで済ませたいが出来ない?
             startForeground(
                 0,
                 NotificationChannel.createBubbleNotification(applicationContext)
             )
-        } else {
-            startForeground(
-                1,
-                NotificationChannel.createSensorServiceNotification(applicationContext)
+             */
+            notificationManager.notify(
+                0,
+                NotificationChannel.createBubbleNotification(applicationContext)
             )
         }
+        startForeground(
+            1,
+            NotificationChannel.createSensorServiceNotification(applicationContext)
+        )
     }
 
     private fun openIssue() {

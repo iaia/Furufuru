@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import dev.iaiabot.furufuru.feature.R
-import dev.iaiabot.furufuru.feature.ui.bubble.BubbleActivity
+import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 
 object NotificationChannel {
     enum class Channels(val channelId: String) {
@@ -38,7 +38,7 @@ object NotificationChannel {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     fun createBubbleNotification(context: Context): Notification {
-        val target = BubbleActivity.createIntent(context)
+        val target = IssueActivity.createIntent(context)
         // TODO: flags, option を調査
         val bubbleIntent = PendingIntent.getActivity(context, 0, target, 0)
         val bubbleData = Notification.BubbleMetadata.Builder()
@@ -46,7 +46,7 @@ object NotificationChannel {
             .setDesiredHeight(600)
             .setIntent(bubbleIntent)
             .setAutoExpandBubble(true)
-            // .setSuppressNotification(true)
+            .setSuppressNotification(true)
             .build()
         val chatBot = Person.Builder()
             .setBot(true)
