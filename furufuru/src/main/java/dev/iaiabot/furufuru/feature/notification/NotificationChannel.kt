@@ -41,10 +41,9 @@ object NotificationChannel {
         val target = IssueActivity.createIntent(context)
         // TODO: flags, option を調査
         val bubbleIntent = PendingIntent.getActivity(context, 0, target, 0)
-        val bubbleData = Notification.BubbleMetadata.Builder()
-            .setIcon(Icon.createWithResource(context, R.drawable.ic_send))
+        val bubbleData = Notification.BubbleMetadata
+            .Builder(bubbleIntent, Icon.createWithResource(context, R.drawable.ic_send))
             .setDesiredHeight(600)
-            .setIntent(bubbleIntent)
             .setAutoExpandBubble(true)
             .setSuppressNotification(true)
             .build()

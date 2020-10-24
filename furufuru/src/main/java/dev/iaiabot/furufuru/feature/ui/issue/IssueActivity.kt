@@ -13,8 +13,6 @@ import dev.iaiabot.furufuru.feature.databinding.ActivityIssueBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IssueActivity : AppCompatActivity() {
-
-
     companion object {
         fun createIntent(
             context: Context

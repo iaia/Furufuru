@@ -97,10 +97,13 @@ class SensorService : Service() {
                 NotificationChannel.createBubbleNotification(applicationContext)
             )
         }
+        /*
         startForeground(
             1,
             NotificationChannel.createSensorServiceNotification(applicationContext)
         )
+
+         */
     }
 
     private fun openIssue() {

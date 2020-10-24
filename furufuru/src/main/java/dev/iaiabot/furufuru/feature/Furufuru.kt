@@ -82,5 +82,4 @@ class Furufuru(
     fun takeScreenshot() {
         applicationLifecycleCallbacks.takeScreenshot()
     }
-
 }
