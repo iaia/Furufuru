@@ -1,7 +1,9 @@
 package dev.iaiabot.furufuru.feature.notification
 
-import android.app.*
+import android.app.Notification
 import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -39,25 +41,20 @@ object NotificationChannel {
     @RequiresApi(Build.VERSION_CODES.Q)
     fun createBubbleNotification(context: Context): Notification {
         val target = IssueActivity.createIntent(context)
-        // TODO: flags, option を調査
         val bubbleIntent = PendingIntent.getActivity(context, 0, target, 0)
         val bubbleData = Notification.BubbleMetadata
-            .Builder(bubbleIntent, Icon.createWithResource(context, R.drawable.ic_send))
+            .Builder()
+            //.Builder(bubbleIntent, Icon.createWithResource(context, R.drawable.ic_send))
+            .setIcon(Icon.createWithResource(context, R.drawable.ic_send))
+            .setIntent(bubbleIntent)
             .setDesiredHeight(600)
-            .setAutoExpandBubble(true)
-            .setSuppressNotification(true)
-            .build()
-        val chatBot = Person.Builder()
-            .setBot(true)
-            .setName("FurufuruBot")
-            .setImportant(true)
+            .setAutoExpandBubble(false)
+            .setSuppressNotification(false)
             .build()
         return Notification.Builder(context, Channels.BUBBLE.channelId)
             .setSmallIcon(R.drawable.ic_send)
-            //.setContentIntent(contentIntent)
             .setBubbleMetadata(bubbleData)
             .setCategory("CATEGORY_ALL")
-            .addPerson(chatBot)
             .build()
     }
 
