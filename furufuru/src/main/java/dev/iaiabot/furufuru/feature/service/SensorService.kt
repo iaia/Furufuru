@@ -19,7 +19,7 @@ import dev.iaiabot.furufuru.feature.notification.NotificationChannel
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import kotlin.math.sqrt
 
-class SensorService : Service() {
+internal class SensorService : Service() {
     companion object {
         const val NOTIFICATION_ID = 1001
     }

@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import java.io.ByteArrayOutputStream
 
-class ScreenShotter(
+internal class ScreenShotter(
     private val screenshotRepository: ScreenshotRepository
 ) {
     fun takeScreenshot(window: Window, view: View) {

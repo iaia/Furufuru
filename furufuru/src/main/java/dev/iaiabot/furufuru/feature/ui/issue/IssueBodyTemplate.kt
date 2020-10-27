@@ -3,7 +3,6 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.os.Build
 import dev.iaiabot.furufuru.feature.Furufuru
 
-
 object IssueBodyTemplate {
     private const val USER_NAME = "USER_NAME"
     private const val USERS_BODY = "USERS_BODY"

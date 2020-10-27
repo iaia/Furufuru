@@ -1,3 +1,3 @@
 package dev.iaiabot.furufuru.data
 
-const val TAG = "Furufuru"
+internal const val TAG = "Furufuru"

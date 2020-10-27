@@ -15,7 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class IssueViewModel(
+internal class IssueViewModel(
     application: Application,
     private val issueRepository: IssueRepository,
     private val contentRepository: ContentRepository,
@@ -35,12 +35,9 @@ class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            var screenshot = screenshotRepository.get()
-            if (screenshot == null) {
-                delay(1000)
-                screenshot = screenshotRepository.get()
-                fileStr.postValue(screenshot)
-            }
+            delay(2000)
+            val screenshot = screenshotRepository.get()
+            fileStr.postValue(screenshot)
         }
         viewModelScope.launch(Dispatchers.IO) {
             userName.postValue(userRepository.getUserName(getApplication()))

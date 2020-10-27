@@ -35,12 +35,9 @@ class Furufuru(
             }
         }
 
-        internal fun takeScreenshot() {
-            getInstance()?.takeScreenshot()
-        }
+        internal fun getAppVersionName() = getInstance()?.getApplicationVersion()
 
         internal fun getApplicationName() = getInstance()?.getApplicationName()
-        internal fun getAppVersionName() = getInstance()?.getApplicationVersion()
 
         private fun getInstance(): Furufuru? {
             return instance
@@ -63,7 +60,7 @@ class Furufuru(
         application.registerActivityLifecycleCallbacks(applicationLifecycleCallbacks)
     }
 
-    fun getApplicationName(): String? {
+    private fun getApplicationName(): String? {
         val applicationInfo = application.applicationInfo
         val stringId = applicationInfo.labelRes
         return if (stringId == 0) applicationInfo.nonLocalizedLabel.toString() else application.getString(
@@ -71,15 +68,11 @@ class Furufuru(
         )
     }
 
-    fun getApplicationVersion(): String {
+    private fun getApplicationVersion(): String {
         val pInfo: PackageInfo =
             application.packageManager.getPackageInfo(
                 application.packageName, 0
             )
         return pInfo.versionName
-    }
-
-    fun takeScreenshot() {
-        applicationLifecycleCallbacks.takeScreenshot()
     }
 }

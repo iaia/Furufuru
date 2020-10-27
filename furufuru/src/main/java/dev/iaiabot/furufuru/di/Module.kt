@@ -17,17 +17,17 @@ fun diModules() = listOf(
     utilModule,
 )
 
-val viewModelModule = module {
+private val viewModelModule = module {
     viewModel {
         IssueViewModel(androidContext() as Application, get(), get(), get(), get(), get())
     }
 }
 
-val apiModule = module {
+private val apiModule = module {
     single<dev.iaiabot.furufuru.data.github.GithubService> { dev.iaiabot.furufuru.data.github.GithubApiClient.build() }
 }
 
-val repositoryModule = module {
+private val repositoryModule = module {
     single<IssueRepository> {
         IssueRepositoryImpl(
             get(),
@@ -49,10 +49,10 @@ val repositoryModule = module {
     }
 }
 
-val useCaseModule = module {
+private val useCaseModule = module {
     single { ScreenShotter(get()) }
 }
 
-val utilModule = module {
+private val utilModule = module {
     single { FurufuruSettings() }
 }

@@ -8,7 +8,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.properties.Properties
 import kotlinx.serialization.properties.encodeToMap
 
-class IssueRepositoryImpl(
+internal class IssueRepositoryImpl(
     private val settings: FurufuruSettings,
     private val service: GithubService,
 ) : IssueRepository {

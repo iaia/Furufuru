@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
-import dev.iaiabot.furufuru.feature.Furufuru
 import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.databinding.ActivityIssueBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,8 +30,6 @@ class IssueActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // takescreenshotが終わったらviewmodel.initしたい
-        Furufuru.takeScreenshot()
 
         binding.lifecycleOwner = this
         lifecycle.addObserver(model)

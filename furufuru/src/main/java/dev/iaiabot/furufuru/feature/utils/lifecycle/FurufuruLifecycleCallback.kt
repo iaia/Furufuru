@@ -16,7 +16,7 @@ class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
     private val screenShotter by KoinJavaComponent.inject(ScreenShotter::class.java)
     private var sensorServiceConnection = SensorService.Connection()
 
-    fun takeScreenshot() {
+    private fun takeScreenshot() {
         val activity = currentActivity ?: return
         screenShotter.takeScreenshot(
             activity.window,
@@ -26,6 +26,7 @@ class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityResumed(activity: Activity) {
         if (activity is IssueActivity) {
+            takeScreenshot()
             return
         }
         currentActivity = activity

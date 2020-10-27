@@ -11,7 +11,7 @@ import okhttp3.Request
 import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Retrofit
 
-object GithubApiClient {
+internal object GithubApiClient {
     private val furufuruSettings: FurufuruSettings by inject(FurufuruSettings::class.java)
 
     fun build(): GithubService {

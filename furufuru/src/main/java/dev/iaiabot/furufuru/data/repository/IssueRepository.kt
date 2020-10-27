@@ -2,6 +2,6 @@ package dev.iaiabot.furufuru.data.repository
 
 import dev.iaiabot.furufuru.data.entity.Issue
 
-interface IssueRepository {
+internal interface IssueRepository {
     suspend fun post(issue: Issue)
 }
