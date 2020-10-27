@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 
-internal object NotificationChannel {
+internal object FurufuruNotification {
     enum class Channels(val channelId: String) {
         SENSOR_SERVICE("SENSOR_SERVICE_CHANNEL_ID"),
         BUBBLE("bubble"),
@@ -25,7 +25,7 @@ internal object NotificationChannel {
             if (notificationManager.getNotificationChannel(channelId) == null) {
                 val channel = NotificationChannel(
                     channelId,
-                    "SENSOR SERVICE CHANNEL",
+                    "Furufuru",
                     NotificationManager.IMPORTANCE_LOW
                 )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

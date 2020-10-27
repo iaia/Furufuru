@@ -15,7 +15,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import dev.iaiabot.furufuru.feature.notification.NotificationChannel
+import dev.iaiabot.furufuru.feature.notification.FurufuruNotification
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import kotlin.math.sqrt
 
@@ -81,17 +81,17 @@ internal class SensorService : Service() {
     private fun startNotification() {
         val notificationManager =
             ContextCompat.getSystemService(this, NotificationManager::class.java)!!
-        NotificationChannel.createNotificationChannel(notificationManager)
+        FurufuruNotification.createNotificationChannel(notificationManager)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             notificationManager.notify(
                 0,
-                NotificationChannel.createBubbleNotification(applicationContext)
+                FurufuruNotification.createBubbleNotification(applicationContext)
             )
         }
         startForeground(
             1,
-            NotificationChannel.createSensorServiceNotification(applicationContext)
+            FurufuruNotification.createSensorServiceNotification(applicationContext)
         )
     }
 
