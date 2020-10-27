@@ -84,15 +84,16 @@ internal class SensorService : Service() {
         FurufuruNotification.createNotificationChannel(notificationManager)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            notificationManager.notify(
-                0,
+            startForeground(
+                1,
                 FurufuruNotification.createBubbleNotification(applicationContext)
             )
+        } else {
+            startForeground(
+                1,
+                FurufuruNotification.createSensorServiceNotification(applicationContext)
+            )
         }
-        startForeground(
-            1,
-            FurufuruNotification.createSensorServiceNotification(applicationContext)
-        )
     }
 
     private fun openIssue() {

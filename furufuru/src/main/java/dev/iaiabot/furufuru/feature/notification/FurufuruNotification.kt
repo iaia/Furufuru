@@ -13,26 +13,24 @@ import dev.iaiabot.furufuru.feature.R
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 
 internal object FurufuruNotification {
-    enum class Channels(val channelId: String) {
-        SENSOR_SERVICE("SENSOR_SERVICE_CHANNEL_ID"),
-        BUBBLE("bubble"),
+    enum class Channels(val channelId: String, val channelName: String) {
+        FURUFURU("_FURUFURU_CHANNEL", "Furufuru"),
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createNotificationChannel(notificationManager: NotificationManager) {
-        Channels.values().forEach {
-            val channelId = it.channelId
-            if (notificationManager.getNotificationChannel(channelId) == null) {
-                val channel = NotificationChannel(
-                    channelId,
-                    "Furufuru",
+        Channels.values().forEach { channel ->
+            if (notificationManager.getNotificationChannel(channel.channelId) == null) {
+                val notificationChannel = NotificationChannel(
+                    channel.channelId,
+                    channel.channelName,
                     NotificationManager.IMPORTANCE_LOW
                 )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    channel.setAllowBubbles(true)
+                    notificationChannel.setAllowBubbles(true)
                 }
                 notificationManager.createNotificationChannel(
-                    channel
+                    notificationChannel
                 )
             }
         }
@@ -51,10 +49,10 @@ internal object FurufuruNotification {
             .setAutoExpandBubble(false)
             .setSuppressNotification(false)
             .build()
-        return Notification.Builder(context, Channels.BUBBLE.channelId)
-            .setSmallIcon(R.drawable.ic_send)
-            .setContentTitle("Furufuru Bubbles")
-            .setContentText("Furufuru bubbles")
+        return Notification.Builder(context, Channels.FURUFURU.channelId)
+            .setSmallIcon(R.drawable.ic_send) // furufuruのアイコン作る
+            .setContentTitle("Furufuru is running")
+            .setContentText("Tap to take a screenshot")
             .setBubbleMetadata(bubbleData)
             .setContentIntent(contentIntent)
             .setCategory("CATEGORY_ALL")
@@ -64,7 +62,7 @@ internal object FurufuruNotification {
     fun createSensorServiceNotification(context: Context): Notification {
         return NotificationCompat.Builder(
             context,
-            Channels.SENSOR_SERVICE.channelId
+            Channels.FURUFURU.channelId
         ).apply {
             setContentTitle("Furufuru Sensor")
             setContentText("Furufuru sensor service is running")
