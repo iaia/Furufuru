@@ -12,12 +12,10 @@ import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import org.koin.java.KoinJavaComponent
 
 class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
-    private var currentActivity: Activity? = null
     private val screenShotter by KoinJavaComponent.inject(ScreenShotter::class.java)
     private var sensorServiceConnection = SensorService.Connection()
 
-    private fun takeScreenshot() {
-        val activity = currentActivity ?: return
+    private fun takeScreenshot(activity: Activity) {
         screenShotter.takeScreenshot(
             activity.window,
             activity.window.decorView.findViewById<View>(android.R.id.content).rootView
@@ -26,10 +24,8 @@ class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityResumed(activity: Activity) {
         if (activity is IssueActivity) {
-            takeScreenshot()
             return
         }
-        currentActivity = activity
         bindSensorService(activity)
     }
 
@@ -37,7 +33,7 @@ class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
         if (activity is IssueActivity) {
             return
         }
-        currentActivity = null
+        takeScreenshot(activity)
         unbindSensorService(activity)
     }
 

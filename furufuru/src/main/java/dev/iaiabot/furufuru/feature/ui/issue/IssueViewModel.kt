@@ -11,7 +11,6 @@ import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.data.repository.UserRepository
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -35,7 +34,6 @@ internal class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(2000)
             val screenshot = screenshotRepository.get()
             fileStr.postValue(screenshot)
         }

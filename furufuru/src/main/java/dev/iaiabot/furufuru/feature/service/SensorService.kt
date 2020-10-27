@@ -96,7 +96,6 @@ internal class SensorService : Service() {
     }
 
     private fun openIssue() {
-        // Furufuru.takeScreenshot()
         startActivity(IssueActivity.createIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })
