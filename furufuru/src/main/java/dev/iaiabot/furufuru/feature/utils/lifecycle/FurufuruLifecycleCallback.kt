@@ -44,6 +44,7 @@ class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
         if (activity is IssueActivity) {
             return
         }
+        takeScreenshot(activity)
         unbindSensorService(activity)
         currentActivity = null
     }
