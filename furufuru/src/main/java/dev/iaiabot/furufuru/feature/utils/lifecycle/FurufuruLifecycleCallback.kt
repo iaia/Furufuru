@@ -5,17 +5,26 @@ import android.app.Application
 import android.app.Service
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
-    private val screenShotter by KoinJavaComponent.inject(ScreenShotter::class.java)
     private var sensorServiceConnection = SensorService.Connection()
+    private val screenShotter by inject(ScreenShotter::class.java)
 
-    private fun takeScreenshot(activity: Activity) {
+    private var currentActivity: Activity? = null
+
+    fun takeScreenshot() {
+        takeScreenshot(currentActivity)
+    }
+
+    private fun takeScreenshot(activity: Activity?) {
+        activity ?: return
         screenShotter.takeScreenshot(
             activity.window,
             activity.window.decorView.findViewById<View>(android.R.id.content).rootView
@@ -27,14 +36,15 @@ class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
             return
         }
         bindSensorService(activity)
+        currentActivity = activity
     }
 
     override fun onActivityPaused(activity: Activity) {
         if (activity is IssueActivity) {
             return
         }
-        takeScreenshot(activity)
         unbindSensorService(activity)
+        currentActivity = null
     }
 
     override fun onActivityDestroyed(activity: Activity) {

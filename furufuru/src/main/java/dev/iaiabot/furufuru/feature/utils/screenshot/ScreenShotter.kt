@@ -1,5 +1,6 @@
 package dev.iaiabot.furufuru.feature.utils.screenshot
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Build
@@ -15,6 +16,7 @@ import java.io.ByteArrayOutputStream
 internal class ScreenShotter(
     private val screenshotRepository: ScreenshotRepository
 ) {
+
     fun takeScreenshot(window: Window, view: View) {
         val callback = { bitmap: Bitmap? ->
             if (bitmap != null) {

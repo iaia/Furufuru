@@ -1,9 +1,12 @@
 package dev.iaiabot.furufuru.feature
 
+import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.view.View
 import dev.iaiabot.furufuru.di.diModules
 import dev.iaiabot.furufuru.feature.utils.lifecycle.FurufuruLifecycleCallback
+import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -39,6 +42,10 @@ class Furufuru(
 
         internal fun getApplicationName() = getInstance()?.getApplicationName()
 
+        internal fun takeScreenshot() {
+            getInstance()?.takeScreenshot()
+        }
+
         private fun getInstance(): Furufuru? {
             return instance
         }
@@ -58,6 +65,10 @@ class Furufuru(
 
     fun build() {
         application.registerActivityLifecycleCallbacks(applicationLifecycleCallbacks)
+    }
+
+    fun takeScreenshot() {
+        applicationLifecycleCallbacks.takeScreenshot()
     }
 
     private fun getApplicationName(): String? {

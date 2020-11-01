@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import dev.iaiabot.furufuru.R
 import dev.iaiabot.furufuru.databinding.ActivityIssueBinding
+import dev.iaiabot.furufuru.feature.Furufuru
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IssueActivity : AppCompatActivity() {
@@ -30,6 +31,8 @@ class IssueActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Furufuru.takeScreenshot()
 
         binding.lifecycleOwner = this
         lifecycle.addObserver(model)
