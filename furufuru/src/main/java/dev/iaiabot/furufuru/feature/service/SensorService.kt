@@ -80,20 +80,13 @@ internal class SensorService : Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startNotification() {
         val notificationManager =
-            ContextCompat.getSystemService(this, NotificationManager::class.java)!!
+            ContextCompat.getSystemService(this, NotificationManager::class.java) ?: return
         FurufuruNotification.createNotificationChannel(notificationManager)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            startForeground(
-                1,
-                FurufuruNotification.createBubbleNotification(applicationContext)
-            )
-        } else {
-            startForeground(
-                1,
-                FurufuruNotification.createSensorServiceNotification(applicationContext)
-            )
-        }
+        startForeground(
+            1,
+            FurufuruNotification.createSensorNotification(applicationContext)
+        )
     }
 
     private fun openIssue() {
