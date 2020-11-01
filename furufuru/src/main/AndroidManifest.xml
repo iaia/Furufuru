@@ -6,11 +6,14 @@
     <application>
         <activity
             android:name=".feature.ui.issue.IssueActivity"
+            android:launchMode="singleTask"
             android:exported="false"
             android:allowEmbedded="true"
             android:documentLaunchMode="always"
             android:resizeableActivity="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             tools:targetApi="n" />
 
         <service
