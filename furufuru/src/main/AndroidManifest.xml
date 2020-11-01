@@ -12,12 +12,6 @@
             android:resizeableActivity="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             tools:targetApi="n" />
-        <activity
-            android:name=".ui.bubble.BubbleActivity"
-            android:allowEmbedded="true"
-            android:documentLaunchMode="always"
-            android:resizeableActivity="true"
-            tools:targetApi="n" />
 
         <service
             android:name=".service.SensorService"
