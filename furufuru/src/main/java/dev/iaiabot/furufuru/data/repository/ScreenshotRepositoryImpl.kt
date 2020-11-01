@@ -17,7 +17,9 @@ internal class ScreenshotRepositoryImpl : ScreenshotRepository {
 
     override fun get(): String? {
         return synchronized(cache) {
-            cache.get(SCREENSHOT_KEY)
+            val file = cache.get(SCREENSHOT_KEY)
+            cache.remove(SCREENSHOT_KEY)
+            file
         }
     }
 }

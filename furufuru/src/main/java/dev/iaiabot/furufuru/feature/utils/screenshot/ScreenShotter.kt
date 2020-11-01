@@ -16,12 +16,18 @@ import java.io.ByteArrayOutputStream
 internal class ScreenShotter(
     private val screenshotRepository: ScreenshotRepository
 ) {
+    private var screenShotting = false
 
     fun takeScreenshot(window: Window, view: View) {
+        if (screenShotting) {
+            return
+        }
+        screenShotting = true
         val callback = { bitmap: Bitmap? ->
             if (bitmap != null) {
                 saveScreenshot(bitmap)
             }
+            screenShotting = false
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getBitmapFromView(window, view, callback)

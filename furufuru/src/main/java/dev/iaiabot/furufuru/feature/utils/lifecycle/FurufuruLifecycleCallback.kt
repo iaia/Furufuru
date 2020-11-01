@@ -10,6 +10,7 @@ import android.view.View
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
+import kotlinx.coroutines.internal.SynchronizedObject
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 

@@ -15,6 +15,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import dev.iaiabot.furufuru.feature.Furufuru
 import dev.iaiabot.furufuru.feature.notification.FurufuruNotification
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import kotlin.math.sqrt
@@ -90,6 +91,7 @@ internal class SensorService : Service() {
     }
 
     private fun openIssue() {
+        Furufuru.takeScreenshot()
         startActivity(IssueActivity.createIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })
