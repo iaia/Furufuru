@@ -9,7 +9,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import dev.iaiabot.furufuru.feature.R
+import dev.iaiabot.furufuru.R
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 
 internal object FurufuruNotification {

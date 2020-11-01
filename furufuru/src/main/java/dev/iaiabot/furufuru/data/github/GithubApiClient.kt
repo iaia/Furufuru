@@ -2,7 +2,7 @@ package dev.iaiabot.furufuru.data.github
 
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import dev.iaiabot.furufuru.feature.BuildConfig
+import dev.iaiabot.furufuru.BuildConfig
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
