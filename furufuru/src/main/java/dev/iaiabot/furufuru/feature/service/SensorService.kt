@@ -1,6 +1,5 @@
 package dev.iaiabot.furufuru.feature.service
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.ComponentName
@@ -15,13 +14,12 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import dev.iaiabot.furufuru.feature.Furufuru
+import dev.iaiabot.furufuru.feature.notification.FurufuruNotification
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import kotlin.math.sqrt
 
-class SensorService : Service() {
+internal class SensorService : Service() {
     companion object {
         const val NOTIFICATION_ID = 1001
     }
@@ -82,29 +80,16 @@ class SensorService : Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startNotification() {
         val notificationManager =
-            ContextCompat.getSystemService(this, NotificationManager::class.java)!!
-        val notificationChannelId = "SENSOR_SERVICE_CHANNEL_ID"
-        if (notificationManager.getNotificationChannel(notificationChannelId) == null) {
-            notificationManager.createNotificationChannel(
-                NotificationChannel(
-                    notificationChannelId,
-                    "SENSOR SERVICE CHANNEL",
-                    NotificationManager.IMPORTANCE_LOW
-                )
-            )
-        }
-        val notification = NotificationCompat.Builder(
-            applicationContext,
-            notificationChannelId
-        ).apply {
-            setContentTitle("Furufuru Sensor")
-            setContentText("Furufuru sensor service is running")
-        }.build()
-        startForeground(NOTIFICATION_ID, notification)
+            ContextCompat.getSystemService(this, NotificationManager::class.java) ?: return
+        FurufuruNotification.createNotificationChannel(notificationManager)
+
+        startForeground(
+            1,
+            FurufuruNotification.createSensorNotification(applicationContext)
+        )
     }
 
     private fun openIssue() {
-        Furufuru.takeScreenshot()
         startActivity(IssueActivity.createIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })

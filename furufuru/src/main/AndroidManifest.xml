@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.iaiabot.furufuru.feature">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dev.iaiabot.furufuru">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <application>
         <activity
-            android:name=".ui.issue.IssueActivity"
+            android:name=".feature.ui.issue.IssueActivity"
+            android:launchMode="singleTask"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:allowEmbedded="true"
+            android:documentLaunchMode="always"
+            android:resizeableActivity="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            tools:targetApi="n" />
 
         <service
-            android:name=".service.SensorService"
+            android:name=".feature.service.SensorService"
             android:exported="false" />
     </application>
 </manifest>

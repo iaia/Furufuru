@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter("imageBase64")
-fun ImageView.imageBase64(imageBase64: String?) {
+internal fun ImageView.imageBase64(imageBase64: String?) {
     if (imageBase64.isNullOrEmpty()) {
         return
     }

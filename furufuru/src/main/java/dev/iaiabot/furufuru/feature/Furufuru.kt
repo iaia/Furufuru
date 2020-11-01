@@ -1,9 +1,12 @@
 package dev.iaiabot.furufuru.feature
 
+import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.view.View
 import dev.iaiabot.furufuru.di.diModules
 import dev.iaiabot.furufuru.feature.utils.lifecycle.FurufuruLifecycleCallback
+import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -35,12 +38,13 @@ class Furufuru(
             }
         }
 
+        internal fun getAppVersionName() = getInstance()?.getApplicationVersion()
+
+        internal fun getApplicationName() = getInstance()?.getApplicationName()
+
         internal fun takeScreenshot() {
             getInstance()?.takeScreenshot()
         }
-
-        internal fun getApplicationName() = getInstance()?.getApplicationName()
-        internal fun getAppVersionName() = getInstance()?.getApplicationVersion()
 
         private fun getInstance(): Furufuru? {
             return instance
@@ -63,7 +67,11 @@ class Furufuru(
         application.registerActivityLifecycleCallbacks(applicationLifecycleCallbacks)
     }
 
-    fun getApplicationName(): String? {
+    fun takeScreenshot() {
+        applicationLifecycleCallbacks.takeScreenshot()
+    }
+
+    private fun getApplicationName(): String? {
         val applicationInfo = application.applicationInfo
         val stringId = applicationInfo.labelRes
         return if (stringId == 0) applicationInfo.nonLocalizedLabel.toString() else application.getString(
@@ -71,16 +79,11 @@ class Furufuru(
         )
     }
 
-    fun getApplicationVersion(): String {
+    private fun getApplicationVersion(): String {
         val pInfo: PackageInfo =
             application.packageManager.getPackageInfo(
                 application.packageName, 0
             )
         return pInfo.versionName
     }
-
-    fun takeScreenshot() {
-        applicationLifecycleCallbacks.takeScreenshot()
-    }
-
 }

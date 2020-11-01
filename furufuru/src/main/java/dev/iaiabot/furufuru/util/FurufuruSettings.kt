@@ -1,6 +1,6 @@
 package dev.iaiabot.furufuru.util
 
-class FurufuruSettings {
+internal class FurufuruSettings {
     companion object {
         private const val DEFAULT_FURUFURU_BRANCH = "furufuru-image-branch"
     }

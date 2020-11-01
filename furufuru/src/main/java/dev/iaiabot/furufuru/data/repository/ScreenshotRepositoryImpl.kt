@@ -2,7 +2,7 @@ package dev.iaiabot.furufuru.data.repository
 
 import android.util.LruCache
 
-class ScreenshotRepositoryImpl : ScreenshotRepository {
+internal class ScreenshotRepositoryImpl : ScreenshotRepository {
     companion object {
         const val SCREENSHOT_KEY = "screenshot"
     }

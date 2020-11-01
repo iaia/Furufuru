@@ -2,7 +2,7 @@ package dev.iaiabot.furufuru.data.repository
 
 import android.content.Context
 
-class UserRepositoryImpl : UserRepository {
+internal class UserRepositoryImpl : UserRepository {
     companion object {
         private const val USERNAME = "username"
     }
