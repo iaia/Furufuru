@@ -59,8 +59,8 @@ $IMAGE_FILE_URL
         body = body.replace(DEVICE_VERSION, Build.MANUFACTURER + " " + Build.MODEL)
         body = body.replace(DEVICE_OS, Build.VERSION.RELEASE)
         // TODO
-        //body = body.replace(FURUFURU_VERSION_NAME, BuildConfig.VERSION_NAME)
-        //body = body.replace(FURUFURU_VERSION_CODE, BuildConfig.VERSION_CODE.toString())
+        body = body.replace(FURUFURU_VERSION_NAME, BuildConfig.VERSION_NAME)
+        body = body.replace(FURUFURU_VERSION_CODE, BuildConfig.VERSION_CODE)
 
         Furufuru.getApplicationName()?.let {
             body = body.replace(APP_NAME, it)
