@@ -24,7 +24,7 @@ internal object UserRepositoryImplTest : Spek({
     describe("#getUserName") {
         context("未保存のとき") {
             beforeGroup {
-                every { prefs.getString("username", "") } returns null
+                every { prefs.getString(any(), any()) } returns null
             }
 
             it("空が返る") {
@@ -33,7 +33,7 @@ internal object UserRepositoryImplTest : Spek({
         }
         context("保存済みの時") {
             beforeGroup {
-                every { prefs.getString("username", "") } returns "iaia"
+                every { prefs.getString(any(), any()) } returns "iaia"
             }
 
             it("保存済みのものが返る") {
@@ -47,7 +47,7 @@ internal object UserRepositoryImplTest : Spek({
 
         beforeGroup {
             every { prefs.edit() } returns editor
-            every { editor.putString("username", any()) } returns editor
+            every { editor.putString(any(), any()) } returns editor
             every { editor.apply() } answers {}
         }
 

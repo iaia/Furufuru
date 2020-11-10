@@ -2,12 +2,13 @@ package dev.iaiabot.furufuru.data.repository
 
 import android.util.LruCache
 
-internal class ScreenshotRepositoryImpl : ScreenshotRepository {
+internal class ScreenshotRepositoryImpl(
+    private val cache: LruCache<String, String>
+) : ScreenshotRepository {
     companion object {
-        const val SCREENSHOT_KEY = "screenshot"
+        private const val SCREENSHOT_KEY = "screenshot"
     }
 
-    private val cache = LruCache<String, String>(1)
 
     override fun save(fileStr: String) {
         synchronized(cache) {
