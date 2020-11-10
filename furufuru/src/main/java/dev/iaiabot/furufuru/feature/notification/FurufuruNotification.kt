@@ -44,7 +44,7 @@ internal object FurufuruNotification {
             .setSmallIcon(R.drawable.ic_send) // TODO: furufuruのアイコン作る
             .setContentTitle("Furufuru is running")
             .setContentIntent(contentIntent) // 二重に設定する?
-            .setCategory("CATEGORY_ALL")
+            .setCategory(Notification.CATEGORY_CALL)
             .apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     bubbleMetadata = createBubbleMetaData(context, contentIntent)
