@@ -59,6 +59,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
     testImplementation 'junit:junit:4.13.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
@@ -99,14 +100,16 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // spek
-    ext.spek = "2.0.14-alpha.0.5+28c1329"
+    ext.spek = "2.0.13"
     testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek"
     testImplementation "org.spekframework.spek2:spek-runner-junit5:$spek"
 
     // spek requires kotlin-reflect, omit when already in classpath
     testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-
     testImplementation "android.arch.core:core-testing:1.1.1"
+
+    // truth
+    testImplementation "com.google.truth:truth:1.1"
 }
 
