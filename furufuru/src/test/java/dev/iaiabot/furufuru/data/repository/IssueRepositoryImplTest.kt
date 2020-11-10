@@ -33,7 +33,7 @@ internal object IssueRepositoryImplTest : Spek({
         }
 
         context("例外が発生しない場合") {
-            it("投稿できる") {
+            it("例外が発生しない") {
                 runBlocking {
                     try {
                         repository.post(issue)
