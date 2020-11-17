@@ -13,8 +13,11 @@ internal class ScreenShotUseCaseImpl(
     private val furufuruSettings: FurufuruSettings,
 ) : ScreenShotUseCase {
 
-    override suspend fun uploadScreenShot() {
-        val screenshot = screenshotRepository.get() ?: return
+    override suspend fun uploadScreenShot(): ScreenShotUseCase.ImageUrls? {
+        val screenshot = screenshotRepository.get()
+        if (screenshot.isNullOrEmpty()) {
+            return null
+        }
         // FIXME: branchをここで渡したくない
         val content = Content(
             "[ci skip] Upload furufuru image",
@@ -22,7 +25,16 @@ internal class ScreenShotUseCaseImpl(
             null,
             furufuruSettings.furufuruBranch
         )
-        contentRepository.post(content, generateUploadDestinationPath())
+        val result = contentRepository.post(content, generateUploadDestinationPath())
+
+        return if (result == null) {
+            null
+        } else {
+            ScreenShotUseCase.ImageUrls(
+                result.content.htmlUrl,
+                result.content.downloadUrl
+            )
+        }
     }
 
     private fun generateUploadDestinationPath(): String {
