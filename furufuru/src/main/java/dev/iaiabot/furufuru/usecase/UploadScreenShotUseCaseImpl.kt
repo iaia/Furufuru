@@ -7,7 +7,7 @@ import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import java.util.*
 
-internal class ScreenShotUseCaseImpl(
+internal class UploadScreenShotUseCaseImpl(
     private val screenshotRepository: ScreenshotRepository,
     private val contentRepository: ContentRepository,
     private val furufuruSettings: FurufuruSettings,
