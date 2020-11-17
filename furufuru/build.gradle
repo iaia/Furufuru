@@ -95,12 +95,12 @@ dependencies {
     // implementation("com.squareup.retrofit2:retrofit-mock:$retrofit_version")
 
     // mockk
-    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation "io.mockk:mockk:1.10.2"
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // spek
-    ext.spek = "2.0.13"
+    ext.spek = "2.0.14"
     testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek"
     testImplementation "org.spekframework.spek2:spek-runner-junit5:$spek"
 
