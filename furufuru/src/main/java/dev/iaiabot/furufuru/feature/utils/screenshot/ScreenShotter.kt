@@ -1,6 +1,5 @@
 package dev.iaiabot.furufuru.feature.utils.screenshot
 
-import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Build
@@ -23,16 +22,20 @@ internal class ScreenShotter(
             return
         }
         screenShotting = true
-        val callback = { bitmap: Bitmap? ->
-            if (bitmap != null) {
-                saveScreenshot(bitmap)
+        try {
+            val callback = { bitmap: Bitmap? ->
+                if (bitmap != null) {
+                    saveScreenshot(bitmap)
+                }
+                screenShotting = false
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getBitmapFromView(window, view, callback)
+            } else {
+                getBitmapFromView(view, callback)
+            }
+        } catch (e: Exception) {
             screenShotting = false
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getBitmapFromView(window, view, callback)
-        } else {
-            getBitmapFromView(view, callback)
         }
     }
 
