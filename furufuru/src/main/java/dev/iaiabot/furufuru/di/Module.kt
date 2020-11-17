@@ -43,7 +43,7 @@ private val repositoryModule = module {
         )
     }
     single<ScreenshotRepository> {
-        ScreenshotRepositoryImpl(get())
+        ScreenshotRepositoryImpl(get(named("ScreenShotCache")))
     }
 
     single<UserRepository> {
@@ -52,7 +52,7 @@ private val repositoryModule = module {
 }
 
 private val useCaseModule = module {
-    single { ScreenShotter(get(named("ScreenShotCache"))) }
+    single { ScreenShotter(get()) }
 }
 
 private val utilModule = module {
