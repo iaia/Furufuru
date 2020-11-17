@@ -27,12 +27,15 @@ internal class ScreenShotter(
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Default + Job()
 
+    private var job: Job? = null
+
     fun takeScreenshot(window: Window, view: View) {
         if (screenShotting) {
             return
         }
         screenShotting = true
-        launch(Dispatchers.Main) {
+        job?.cancel()
+        job = launch(Dispatchers.Main) {
             try {
                 val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     getBitmapFromView(window, view)
