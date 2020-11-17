@@ -1,13 +1,7 @@
 package dev.iaiabot.furufuru.usecase
 
 internal interface ScreenShotUseCase {
-    suspend fun uploadScreenShot(): ScreenShotUseCase.ImageUrls? {
-        throw NotImplementedError()
-    }
-
-    suspend fun getScreenShot(): String? {
-        throw NotImplementedError()
-    }
+    suspend fun uploadScreenShot(): ScreenShotUseCase.ImageUrls?
 
     // FIXME: これどっかに持ってく
     data class ImageUrls(

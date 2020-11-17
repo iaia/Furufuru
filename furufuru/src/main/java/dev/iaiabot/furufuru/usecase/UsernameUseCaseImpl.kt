@@ -5,12 +5,12 @@ import dev.iaiabot.furufuru.data.repository.UserRepository
 internal class UsernameUseCaseImpl(
     private val userRepository: UserRepository
 ) : UsernameUseCase {
-    override suspend fun getUsername(): String {
+    override suspend fun load(): String {
         // application渡したくない
         userRepository.getUserName()
     }
 
-    override suspend fun saveUsername(username: String) {
+    override suspend fun save(username: String) {
         // application渡したくない
         userRepository.saveUserName()
     }

@@ -5,7 +5,7 @@ import kotlinx.coroutines.delay
 
 internal class GetScreenShotUseCaseImpl(
     private val screenshotRepository: ScreenshotRepository
-) : ScreenShotUseCase {
+) : GetScreenShotUseCase {
 
     override suspend fun getScreenShot(): String? {
         repeat(3) { repeatNum ->

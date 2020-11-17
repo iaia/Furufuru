@@ -2,22 +2,17 @@ package dev.iaiabot.furufuru.feature.ui.issue
 
 import android.app.Application
 import androidx.lifecycle.*
-import dev.iaiabot.furufuru.data.repository.ContentRepository
-import dev.iaiabot.furufuru.data.repository.IssueRepository
-import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
-import dev.iaiabot.furufuru.data.repository.UserRepository
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
+import dev.iaiabot.furufuru.usecase.IssueUseCase
+import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 internal class IssueViewModel(
     application: Application,
-    private val issueRepository: IssueRepository,
-    private val contentRepository: ContentRepository,
-    private val screenshotRepository: ScreenshotRepository,
-    private val furufuruSettings: FurufuruSettings,
-    private val userRepository: UserRepository
+    private val usernameUseCase: UsernameUseCase,
+    private val getScreenShotUseCase: GetScreenShotUseCase,
+    private val issueUseCase: IssueUseCase,
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -31,18 +26,10 @@ internal class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            repeat(3) { repeatNum ->
-                val screenshot = screenshotRepository.get()
-                if (screenshot == null) {
-                    delay(1000L * repeatNum)
-                    return@repeat
-                }
-                fileStr.postValue(screenshot)
-                return@launch
-            }
+            fileStr.postValue(getScreenShotUseCase.getScreenShot())
         }
         viewModelScope.launch(Dispatchers.IO) {
-            userName.postValue(userRepository.getUserName(getApplication()))
+            userName.postValue(usernameUseCase.load())
         }
     }
 
@@ -53,7 +40,7 @@ internal class IssueViewModel(
         val userName = userName.value ?: ""
 
         viewModelScope.launch(Dispatchers.IO) {
-            userRepository.saveUserName(getApplication(), userName)
+            usernameUseCase.save(userName)
         }
 
         if (nowSending.value == true) {
@@ -62,9 +49,8 @@ internal class IssueViewModel(
         nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
-            // issueusecase.post
+            issueUseCase.post(title, userName, body)
             command.postValue(Command.Finish)
-
             nowSending.postValue(false)
         }
     }
