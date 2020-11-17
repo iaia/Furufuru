@@ -5,7 +5,9 @@ import android.util.LruCache
 import dev.iaiabot.furufuru.data.repository.*
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
+import dev.iaiabot.furufuru.usecase.*
 import dev.iaiabot.furufuru.util.FurufuruSettings
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -21,7 +23,7 @@ fun diModules() = listOf(
 
 private val viewModelModule = module {
     viewModel {
-        IssueViewModel(androidContext() as Application, get(), get(), get(), get(), get())
+        IssueViewModel(androidContext() as Application, get(), get(), get())
     }
 }
 
@@ -47,12 +49,16 @@ private val repositoryModule = module {
     }
 
     single<UserRepository> {
-        UserRepositoryImpl()
+        UserRepositoryImpl(androidApplication())
     }
 }
 
 private val useCaseModule = module {
     single { ScreenShotter(get()) }
+    single<UsernameUseCase> { UsernameUseCaseImpl(get()) }
+    single<IssueUseCase> { IssueUseCaseImpl(get(), get()) }
+    single<ScreenShotUseCase> { UploadScreenShotUseCaseImpl(get(), get(), get()) }
+    single<GetScreenShotUseCase> { GetScreenShotUseCaseImpl(get()) }
 }
 
 private val utilModule = module {
