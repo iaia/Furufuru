@@ -2,7 +2,6 @@ package dev.iaiabot.furufuru.feature.ui.issue
 
 import android.app.Application
 import androidx.lifecycle.*
-import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.repository.ContentRepository
 import dev.iaiabot.furufuru.data.repository.IssueRepository
 import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
@@ -63,18 +62,7 @@ internal class IssueViewModel(
         nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
-            val imageUrls = uploadImage()
-
-            val issue = Issue(
-                title,
-                IssueBodyTemplate.createBody(
-                    userName,
-                    body,
-                    imageUrls?.imageUrl,
-                    imageUrls?.fileUrl
-                )
-            )
-            issueRepository.post(issue)
+            // issueusecase.post
             command.postValue(Command.Finish)
 
             nowSending.postValue(false)
