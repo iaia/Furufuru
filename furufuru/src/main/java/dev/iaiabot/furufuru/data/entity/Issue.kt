@@ -3,7 +3,7 @@ package dev.iaiabot.furufuru.data.entity
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Issue(
+data class Issue(
     val title: String,
     val body: String? = null,
     val assignee: String? = null,

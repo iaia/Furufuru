@@ -3,7 +3,7 @@ package dev.iaiabot.furufuru.data.entity
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Content(
+data class Content(
     val message: String,
     val content: String,
     val sha: String? = null,
