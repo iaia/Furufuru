@@ -1,6 +1,7 @@
 package dev.iaiabot.furufuru.data.github
 
 import dev.iaiabot.furufuru.data.entity.ContentResponse
+import dev.iaiabot.furufuru.data.entity.IssueResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -14,7 +15,7 @@ internal interface GithubService {
         @Path("owner") owner: String,
         @Path("repo") repo: String,
         @Body issue: Map<String, String>
-    ): Response<String>
+    ): Response<IssueResponse>
 
     @PUT("/repos/{owner}/{repo}/contents/{path}")
     suspend fun postContent(
