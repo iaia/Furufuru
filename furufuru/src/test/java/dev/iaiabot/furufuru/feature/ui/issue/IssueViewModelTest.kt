@@ -3,6 +3,7 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.text.format.DateFormat
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
+import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import io.mockk.every
@@ -15,8 +16,8 @@ import java.util.*
 
 object IssueViewModelTest : Spek({
     lateinit var viewModel: IssueViewModel
-    lateinit var issueUseCase: IssueUseCase
-    lateinit var usernameUseCase: UsernameUseCase
+    val issueUseCase = initMockOnGroup<IssueUseCase>()
+    val usernameUseCase = initMockOnGroup<UsernameUseCase>()
 
     beforeEachTest {
         ArchTaskExecutor

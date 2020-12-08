@@ -63,7 +63,7 @@ internal object IssueUseCaseImplTest : Spek({
 
     describe("#post") {
         beforeGroup {
-            every { screenshotRepository.get() } returns "SCREEN_SHOT"
+            every { screenshotRepository.get(any()) } returns "SCREEN_SHOT"
             coEvery { contentRepository.post(any(), any()) } returns mockk() {
                 every { fileUrl } returns "file"
                 every { imageUrl } returns "image"
