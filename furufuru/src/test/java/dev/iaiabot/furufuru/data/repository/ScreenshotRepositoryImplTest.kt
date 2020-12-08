@@ -17,7 +17,7 @@ internal object ScreenshotRepositoryImplTest : Spek({
         repository = ScreenshotRepositoryImpl(cache)
     }
 
-    describe("#getUserName") {
+    describe("#get") {
         context("未保存のとき") {
             beforeGroup {
                 every { cache.get(any()) } returns null
@@ -29,6 +29,7 @@ internal object ScreenshotRepositoryImplTest : Spek({
             }
 
             it("取得したあと削除している") {
+                repository.get(true)
                 verifyOrder {
                     cache.get(any())
                     cache.remove(any())

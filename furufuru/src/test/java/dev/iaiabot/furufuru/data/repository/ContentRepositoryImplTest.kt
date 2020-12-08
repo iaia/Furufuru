@@ -60,8 +60,8 @@ internal object ContentRepositoryImplTest : Spek({
                 runBlocking {
                     val response = repository.post(content, "/path/to") ?: fail()
                     with(response) {
-                        assertThat(fileUrl).endsWith("download_url.jpg")
-                        assertThat(imageUrl).endsWith("html_url.jpg")
+                        assertThat(imageUrl).endsWith("download_url.jpg")
+                        assertThat(fileUrl).endsWith("html_url.jpg")
                     }
                 }
             }
