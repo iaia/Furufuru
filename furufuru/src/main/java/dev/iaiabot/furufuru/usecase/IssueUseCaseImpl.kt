@@ -49,7 +49,7 @@ internal class IssueUseCaseImpl(
     }
 
     private suspend fun uploadScreenShot(): ContentImageUrls? {
-        val screenshot = screenshotRepository.get()
+        val screenshot = screenshotRepository.get(remove = true)
         if (screenshot.isNullOrEmpty()) {
             return null
         }
