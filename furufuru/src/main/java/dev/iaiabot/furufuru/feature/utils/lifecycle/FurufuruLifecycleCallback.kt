@@ -5,16 +5,13 @@ import android.app.Application
 import android.app.Service
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import dev.iaiabot.furufuru.feature.service.SensorService
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
-import kotlinx.coroutines.internal.SynchronizedObject
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
-class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
+internal class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
     private var sensorServiceConnection = SensorService.Connection()
     private val screenShotter by inject(ScreenShotter::class.java)
 

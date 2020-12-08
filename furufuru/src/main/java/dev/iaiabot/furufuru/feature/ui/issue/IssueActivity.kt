@@ -13,7 +13,7 @@ import dev.iaiabot.furufuru.databinding.ActivityIssueBinding
 import dev.iaiabot.furufuru.feature.Furufuru
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class IssueActivity : AppCompatActivity() {
+internal class IssueActivity : AppCompatActivity() {
     companion object {
         fun createIntent(
             context: Context
