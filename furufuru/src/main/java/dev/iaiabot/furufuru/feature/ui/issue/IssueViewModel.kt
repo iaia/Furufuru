@@ -2,7 +2,6 @@ package dev.iaiabot.furufuru.feature.ui.issue
 
 import android.app.Application
 import androidx.lifecycle.*
-import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import kotlinx.coroutines.Dispatchers
@@ -10,9 +9,8 @@ import kotlinx.coroutines.launch
 
 internal class IssueViewModel(
     application: Application,
-    private val usernameUseCase: UsernameUseCase,
-    private val getScreenShotUseCase: GetScreenShotUseCase,
     private val issueUseCase: IssueUseCase,
+    private val usernameUseCase: UsernameUseCase,
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -26,7 +24,7 @@ internal class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            fileStr.postValue(getScreenShotUseCase.getScreenShot())
+            fileStr.postValue(issueUseCase.getScreenShot())
         }
         viewModelScope.launch(Dispatchers.IO) {
             userName.postValue(usernameUseCase.load())

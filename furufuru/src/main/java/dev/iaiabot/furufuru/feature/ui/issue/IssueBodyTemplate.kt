@@ -4,6 +4,7 @@ import android.os.Build
 import dev.iaiabot.furufuru.BuildConfig
 import dev.iaiabot.furufuru.feature.Furufuru
 
+// issue repositoryにもっていきたい
 object IssueBodyTemplate {
     private const val USER_NAME = "USER_NAME"
     private const val USERS_BODY = "USERS_BODY"
