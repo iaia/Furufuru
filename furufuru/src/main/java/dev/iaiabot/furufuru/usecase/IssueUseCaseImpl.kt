@@ -1,7 +1,7 @@
 package dev.iaiabot.furufuru.usecase
 
-import android.text.format.DateFormat
 import dev.iaiabot.furufuru.data.entity.Content
+import dev.iaiabot.furufuru.data.entity.ContentImageUrls
 import dev.iaiabot.furufuru.data.entity.Issue
 import dev.iaiabot.furufuru.data.repository.ContentRepository
 import dev.iaiabot.furufuru.data.repository.IssueRepository
@@ -9,6 +9,7 @@ import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
 import java.util.*
 
 internal class IssueUseCaseImpl(
@@ -34,8 +35,8 @@ internal class IssueUseCaseImpl(
         issueRepository.post(issue)
     }
 
-    override suspend fun getScreenShot(): String? {
-        repeat(3) { repeatNum ->
+    override suspend fun getScreenShot(retryNum: Int): String? {
+        repeat(retryNum) { repeatNum ->
             val screenshot = screenshotRepository.get()
             if (screenshot == null) {
                 delay(1000L * repeatNum)
@@ -47,33 +48,21 @@ internal class IssueUseCaseImpl(
         return null
     }
 
-    override suspend fun uploadScreenShot(): IssueUseCase.ImageUrls? {
+    private suspend fun uploadScreenShot(): ContentImageUrls? {
         val screenshot = screenshotRepository.get()
         if (screenshot.isNullOrEmpty()) {
             return null
         }
-        // FIXME: branchをここで渡したくない
         val content = Content(
-            "[ci skip] Upload furufuru image",
-            screenshot,
-            null,
-            furufuruSettings.furufuruBranch
+            content = screenshot,
+            branch = furufuruSettings.furufuruBranch
         )
-        val result = contentRepository.post(content, generateUploadDestinationPath())
-
-        return if (result == null) {
-            null
-        } else {
-            IssueUseCase.ImageUrls(
-                result.content.htmlUrl,
-                result.content.downloadUrl
-            )
-        }
+        return contentRepository.post(content, generateUploadDestinationPath())
     }
 
     private fun generateUploadDestinationPath(): String {
         val now = Date()
-        val nowString = DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)
+        val nowString = SimpleDateFormat("yyyy-MM-dd_hh:mm:ss", Locale.getDefault()).format(now)
         return "$nowString.jpg"
     }
 }
