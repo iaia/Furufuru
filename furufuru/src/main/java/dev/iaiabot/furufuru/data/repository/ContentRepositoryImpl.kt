@@ -2,7 +2,7 @@ package dev.iaiabot.furufuru.data.repository
 
 import android.util.Log
 import dev.iaiabot.furufuru.data.entity.Content
-import dev.iaiabot.furufuru.data.entity.ContentResponse
+import dev.iaiabot.furufuru.data.entity.ContentImageUrls
 import dev.iaiabot.furufuru.data.github.GithubService
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -13,8 +13,9 @@ internal class ContentRepositoryImpl(
     private val settings: FurufuruSettings,
     private val service: GithubService,
 ) : ContentRepository {
+
     @ExperimentalSerializationApi
-    override suspend fun post(content: Content, path: String): ContentResponse? {
+    override suspend fun post(content: Content, path: String): ContentImageUrls? {
         try {
             service.postContent(
                 settings.githubRepositoryOwner,
@@ -24,7 +25,11 @@ internal class ContentRepositoryImpl(
                 }.toMap(),
                 path
             ).run {
-                return body()
+                val contentResult = body()?.content ?: return null
+                return ContentImageUrls(
+                    contentResult.htmlUrl,
+                    contentResult.downloadUrl
+                )
             }
         } catch (e: Exception) {
             Log.d("Furufuru Content", e.message ?: "error message is null")

@@ -16,10 +16,12 @@ internal class ScreenshotRepositoryImpl(
         }
     }
 
-    override fun get(): String? {
+    override fun get(remove: Boolean): String? {
         return synchronized(cache) {
             val file = cache.get(SCREENSHOT_KEY)
-            cache.remove(SCREENSHOT_KEY)
+            if (remove) {
+                cache.remove(SCREENSHOT_KEY)
+            }
             file
         }
     }

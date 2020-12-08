@@ -1,27 +1,16 @@
 package dev.iaiabot.furufuru.feature.ui.issue
 
 import android.app.Application
-import android.text.format.DateFormat
 import androidx.lifecycle.*
-import dev.iaiabot.furufuru.data.entity.Content
-import dev.iaiabot.furufuru.data.entity.Issue
-import dev.iaiabot.furufuru.data.repository.ContentRepository
-import dev.iaiabot.furufuru.data.repository.IssueRepository
-import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
-import dev.iaiabot.furufuru.data.repository.UserRepository
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.usecase.IssueUseCase
+import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 internal class IssueViewModel(
     application: Application,
-    private val issueRepository: IssueRepository,
-    private val contentRepository: ContentRepository,
-    private val screenshotRepository: ScreenshotRepository,
-    private val furufuruSettings: FurufuruSettings,
-    private val userRepository: UserRepository
+    private val issueUseCase: IssueUseCase,
+    private val usernameUseCase: UsernameUseCase,
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -35,18 +24,10 @@ internal class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            repeat(3) { repeatNum ->
-                val screenshot = screenshotRepository.get()
-                if (screenshot == null) {
-                    delay(1000L * repeatNum)
-                    return@repeat
-                }
-                fileStr.postValue(screenshot)
-                return@launch
-            }
+            fileStr.postValue(issueUseCase.getScreenShot())
         }
         viewModelScope.launch(Dispatchers.IO) {
-            userName.postValue(userRepository.getUserName(getApplication()))
+            userName.postValue(usernameUseCase.load())
         }
     }
 
@@ -57,7 +38,7 @@ internal class IssueViewModel(
         val userName = userName.value ?: ""
 
         viewModelScope.launch(Dispatchers.IO) {
-            userRepository.saveUserName(getApplication(), userName)
+            usernameUseCase.save(userName)
         }
 
         if (nowSending.value == true) {
@@ -66,58 +47,15 @@ internal class IssueViewModel(
         nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
-            val imageUrls = uploadImage()
-
-            val issue = Issue(
-                title,
-                IssueBodyTemplate.createBody(
-                    userName,
-                    body,
-                    imageUrls?.imageUrl,
-                    imageUrls?.fileUrl
-                )
-            )
-            issueRepository.post(issue)
+            issueUseCase.post(title, userName, body)
             command.postValue(Command.Finish)
-
             nowSending.postValue(false)
         }
     }
-
-    private suspend fun uploadImage(): ImageUrls? {
-        val fileStr = fileStr.value ?: return null
-        if (fileStr.isEmpty()) {
-            return null
-        }
-        val content = Content(
-            "[ci skip] Upload furufuru image",
-            fileStr,
-            null,
-            furufuruSettings.furufuruBranch
-        )
-
-        val now = Date()
-        val nowString = DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)
-        val path = "$nowString.jpg"
-        contentRepository.post(
-            content,
-            path
-        )?.let {
-            return ImageUrls(
-                it.content.htmlUrl,
-                it.content.downloadUrl
-            )
-        }
-        return null
-    }
 }
 
-data class ImageUrls(
-    val fileUrl: String,
-    val imageUrl: String
-)
-
-sealed class Command {
+// FIXME: Contract作る
+internal sealed class Command {
     object Finish : Command()
     object ShowFilePath : Command()
 }

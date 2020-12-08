@@ -1,6 +1,7 @@
 package dev.iaiabot.furufuru.data.repository
 
 import dev.iaiabot.furufuru.data.entity.Issue
+import dev.iaiabot.furufuru.data.entity.IssueResponse
 import dev.iaiabot.furufuru.data.github.GithubService
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import io.mockk.coEvery
@@ -29,7 +30,10 @@ internal object IssueRepositoryImplTest : Spek({
     describe("#post") {
         val issue = Issue("title", "body")
         beforeGroup {
-            coEvery { service.postIssue(any(), any(), any()) } returns Response.success(200, "ok")
+            coEvery { service.postIssue(any(), any(), any()) } returns Response.success(
+                200,
+                IssueResponse()
+            )
         }
 
         context("例外が発生しない場合") {

@@ -2,12 +2,14 @@ package dev.iaiabot.furufuru.data.repository
 
 import android.content.Context
 
-internal class UserRepositoryImpl : UserRepository {
+internal class UserRepositoryImpl(
+    private val context: Context
+) : UserRepository {
     companion object {
         private const val USERNAME = "username"
     }
 
-    override fun getUserName(context: Context): String {
+    override fun getUserName(): String {
         val prefs = context.getSharedPreferences(
             "furufuru",
             Context.MODE_PRIVATE
@@ -15,7 +17,7 @@ internal class UserRepositoryImpl : UserRepository {
         return prefs.getString(USERNAME, "") ?: ""
     }
 
-    override fun saveUserName(context: Context, userName: String) {
+    override fun saveUserName(userName: String) {
         val editor = context.getSharedPreferences(
             "furufuru",
             Context.MODE_PRIVATE

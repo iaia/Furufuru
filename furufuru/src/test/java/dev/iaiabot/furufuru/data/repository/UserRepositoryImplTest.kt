@@ -18,7 +18,7 @@ internal object UserRepositoryImplTest : Spek({
         context = mockk()
         prefs = mockk()
         every { context.getSharedPreferences("furufuru", Context.MODE_PRIVATE) } returns prefs
-        repository = UserRepositoryImpl()
+        repository = UserRepositoryImpl(context)
     }
 
     describe("#getUserName") {
@@ -28,7 +28,7 @@ internal object UserRepositoryImplTest : Spek({
             }
 
             it("空が返る") {
-                assertThat(repository.getUserName(context)).isEqualTo("")
+                assertThat(repository.getUserName()).isEqualTo("")
             }
         }
         context("保存済みの時") {
@@ -37,7 +37,7 @@ internal object UserRepositoryImplTest : Spek({
             }
 
             it("保存済みのものが返る") {
-                assertThat(repository.getUserName(context)).isEqualTo("iaia")
+                assertThat(repository.getUserName()).isEqualTo("iaia")
             }
         }
     }
@@ -52,7 +52,7 @@ internal object UserRepositoryImplTest : Spek({
         }
 
         it("保存する") {
-            repository.saveUserName(context, "iaia")
+            repository.saveUserName("iaia")
             verify { editor.putString("username", "iaia") }
             verify { editor.apply() }
         }

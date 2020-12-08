@@ -1,0 +1,15 @@
+package dev.iaiabot.furufuru.usecase
+
+import dev.iaiabot.furufuru.data.repository.UserRepository
+
+internal class UsernameUseCaseImpl(
+    private val userRepository: UserRepository
+) : UsernameUseCase {
+    override suspend fun load(): String {
+        return userRepository.getUserName()
+    }
+
+    override suspend fun save(username: String) {
+        userRepository.saveUserName(username)
+    }
+}
