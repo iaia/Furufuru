@@ -3,8 +3,8 @@ package dev.iaiabot.furufuru.repository
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.data.github.GithubService
 import dev.iaiabot.furufuru.data.github.request.Content
+import dev.iaiabot.furufuru.data.github.response.ContentInfoResponse
 import dev.iaiabot.furufuru.data.github.response.ContentResponse
-import dev.iaiabot.furufuru.data.github.response.ContentResponseEntity
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import io.mockk.coEvery
 import io.mockk.every
@@ -35,7 +35,7 @@ internal object ContentRepositoryImplTest : Spek({
         beforeGroup {
             coEvery { service.postContent(any(), any(), any(), any()) } returns Response.success(
                 200, ContentResponse(
-                    ContentResponseEntity(
+                    ContentInfoResponse(
                         "name",
                         "url",
                         "example.com/html_url.jpg",

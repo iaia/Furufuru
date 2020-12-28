@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class ContentResponseEntity(
+internal data class ContentInfoResponse(
     val name: String,
     val url: String,
     @SerialName("html_url")
