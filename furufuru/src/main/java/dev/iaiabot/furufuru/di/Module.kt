@@ -4,8 +4,10 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.LruCache
-import dev.iaiabot.furufuru.data.local.ScreenshotEntity
-import dev.iaiabot.furufuru.data.local.UserEntity
+import dev.iaiabot.furufuru.data.entity.ScreenShot
+import dev.iaiabot.furufuru.data.entity.User
+import dev.iaiabot.furufuru.data.local.ScreenshotDataSource
+import dev.iaiabot.furufuru.data.local.UserDataSource
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.repository.*
@@ -74,8 +76,8 @@ private val utilModule = module {
 }
 
 private val dataModule = module {
-    single { UserEntity(get()) }
-    single { ScreenshotEntity(get()) }
+    single<User> { UserDataSource(get()) }
+    single<ScreenShot> { ScreenshotDataSource(get()) }
 }
 
 private val androidModule = module {

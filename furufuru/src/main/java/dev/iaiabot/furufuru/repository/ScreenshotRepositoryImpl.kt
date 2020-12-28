@@ -1,20 +1,20 @@
 package dev.iaiabot.furufuru.repository
 
-import dev.iaiabot.furufuru.data.local.ScreenshotEntity
+import dev.iaiabot.furufuru.data.entity.ScreenShot
 
 internal class ScreenshotRepositoryImpl(
-    private val screenshotEntity: ScreenshotEntity
+    private val screenshot: ScreenShot
 ) : ScreenshotRepository {
 
     override fun save(fileStr: String) {
-        screenshotEntity.save(fileStr)
+        screenshot.save(fileStr)
     }
 
     override fun get(remove: Boolean): String? {
-        val screenshot = screenshotEntity.get()
+        val file = screenshot.get()
         if (remove) {
-            screenshotEntity.remove()
+            screenshot.remove()
         }
-        return screenshot
+        return file
     }
 }

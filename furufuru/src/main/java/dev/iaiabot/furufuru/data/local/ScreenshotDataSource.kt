@@ -1,27 +1,28 @@
 package dev.iaiabot.furufuru.data.local
 
 import android.util.LruCache
+import dev.iaiabot.furufuru.data.entity.ScreenShot
 
-internal class ScreenshotEntity(
+internal class ScreenshotDataSource(
     private val cache: LruCache<String, String>
-) {
+) : ScreenShot {
     companion object {
         private const val SCREENSHOT_KEY = "screenshot"
     }
 
-    fun save(fileStr: String) {
+    override fun save(fileStr: String) {
         synchronized(cache) {
             cache.put(SCREENSHOT_KEY, fileStr)
         }
     }
 
-    fun get(): String? {
+    override fun get(): String? {
         return synchronized(cache) {
             cache.get(SCREENSHOT_KEY)
         }
     }
 
-    fun remove() {
+    override fun remove() {
         synchronized(cache) {
             cache.remove(SCREENSHOT_KEY)
         }

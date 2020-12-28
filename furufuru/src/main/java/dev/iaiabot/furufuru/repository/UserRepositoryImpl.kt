@@ -1,17 +1,17 @@
 package dev.iaiabot.furufuru.repository
 
-import dev.iaiabot.furufuru.data.local.UserEntity
+import dev.iaiabot.furufuru.data.entity.User
 
 internal class UserRepositoryImpl(
-    private val userEntity: UserEntity
+    private val user: User
 ) : UserRepository {
 
     override fun getUserName(): String {
 
-        return userEntity.getUserName()
+        return user.getUserName()
     }
 
     override fun saveUserName(userName: String) {
-        userEntity.saveUserName(userName)
+        user.saveUserName(userName)
     }
 }
