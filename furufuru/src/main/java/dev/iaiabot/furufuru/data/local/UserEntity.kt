@@ -2,7 +2,7 @@ package dev.iaiabot.furufuru.data.local
 
 import android.content.SharedPreferences
 
-internal class User(
+internal class UserEntity(
     private val preferences: SharedPreferences
 ) {
     companion object {
