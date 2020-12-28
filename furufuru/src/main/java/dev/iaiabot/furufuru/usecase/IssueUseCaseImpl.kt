@@ -20,7 +20,7 @@ internal class IssueUseCaseImpl(
 ) : IssueUseCase {
 
     override suspend fun post(title: String, userName: String, body: String) {
-        val imageUrls = uploadScreenShot()
+        val imageUrls = uploadScreenShot() ?: throw Exception("failed to upload screenshot")
 
         val issue = Issue(
             title,
@@ -29,7 +29,8 @@ internal class IssueUseCaseImpl(
                 body,
                 imageUrls?.imageUrl,
                 imageUrls?.fileUrl
-            )
+            ),
+            labels = listOf("bug")
         )
 
         issueRepository.post(issue)

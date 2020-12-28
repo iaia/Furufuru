@@ -56,7 +56,7 @@ private val repositoryModule = module {
         )
     }
     single<ScreenshotRepository> {
-        ScreenshotRepositoryImpl(get(named("ScreenShotCache")))
+        ScreenshotRepositoryImpl(get())
     }
 
     single<UserRepository> {
@@ -77,7 +77,7 @@ private val utilModule = module {
 
 private val dataModule = module {
     single<User> { UserDataSource(get()) }
-    single<ScreenShot> { ScreenshotDataSource(get()) }
+    single<ScreenShot> { ScreenshotDataSource(get(named("ScreenShotCache"))) }
 }
 
 private val androidModule = module {

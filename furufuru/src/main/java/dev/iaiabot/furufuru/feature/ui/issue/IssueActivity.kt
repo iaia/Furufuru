@@ -40,11 +40,14 @@ internal class IssueActivity : AppCompatActivity() {
         model.command.observe(this) {
             when (it) {
                 is Command.Finish -> {
-                    Toast.makeText(this, "posted!", android.widget.Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "posted!", Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 is Command.ShowFilePath -> {
                     // Toast.makeText(this, "filePath: ${it.filePath}", android.widget.Toast.LENGTH_LONG).show()
+                }
+                is Command.Error -> {
+                    Toast.makeText(this, "error!", Toast.LENGTH_LONG).show()
                 }
             }
         }

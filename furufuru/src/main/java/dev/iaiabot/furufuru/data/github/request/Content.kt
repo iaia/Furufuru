@@ -9,5 +9,4 @@ internal data class Content(
     val sha: String? = null,
     val branch: String? = null,
     val committer: String? = null,
-    val author: String? = null
 )

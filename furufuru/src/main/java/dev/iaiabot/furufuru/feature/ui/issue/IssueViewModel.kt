@@ -47,9 +47,14 @@ internal class IssueViewModel(
         nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
-            issueUseCase.post(title, userName, body)
-            command.postValue(Command.Finish)
-            nowSending.postValue(false)
+            try {
+                issueUseCase.post(title, userName, body)
+                command.postValue(Command.Finish)
+            } catch (e: Exception) {
+                command.postValue(Command.Error(e.message ?: "error"))
+            } finally {
+                nowSending.postValue(false)
+            }
         }
     }
 }
@@ -58,4 +63,5 @@ internal class IssueViewModel(
 internal sealed class Command {
     object Finish : Command()
     object ShowFilePath : Command()
+    class Error(val errorMessage: String) : Command()
 }
