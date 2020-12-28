@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.data.repository
+package dev.iaiabot.furufuru.repository
 
 import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.ContentImageUrls

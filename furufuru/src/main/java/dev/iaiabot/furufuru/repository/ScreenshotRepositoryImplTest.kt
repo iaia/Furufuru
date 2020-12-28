@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.data.repository
+package dev.iaiabot.furufuru.repository
 
 import android.util.LruCache
 import com.google.common.truth.Truth

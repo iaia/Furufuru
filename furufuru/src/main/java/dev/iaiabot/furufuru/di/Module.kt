@@ -2,9 +2,9 @@ package dev.iaiabot.furufuru.di
 
 import android.app.Application
 import android.util.LruCache
-import dev.iaiabot.furufuru.data.repository.*
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
+import dev.iaiabot.furufuru.repository.*
 import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.IssueUseCaseImpl
 import dev.iaiabot.furufuru.usecase.UsernameUseCase

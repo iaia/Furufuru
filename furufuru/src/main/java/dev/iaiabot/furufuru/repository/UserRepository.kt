@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.data.repository
+package dev.iaiabot.furufuru.repository
 
 internal interface UserRepository {
     fun getUserName(): String

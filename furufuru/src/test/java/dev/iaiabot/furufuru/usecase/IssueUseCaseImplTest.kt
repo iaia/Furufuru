@@ -1,10 +1,10 @@
 package dev.iaiabot.furufuru.usecase
 
 import com.google.common.truth.Truth.assertThat
-import dev.iaiabot.furufuru.data.repository.ContentRepository
-import dev.iaiabot.furufuru.data.repository.IssueRepository
-import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
+import dev.iaiabot.furufuru.repository.ContentRepository
+import dev.iaiabot.furufuru.repository.IssueRepository
+import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import io.mockk.*

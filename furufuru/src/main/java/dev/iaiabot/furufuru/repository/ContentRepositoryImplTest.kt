@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.data.repository
+package dev.iaiabot.furufuru.repository
 
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.data.entity.Content

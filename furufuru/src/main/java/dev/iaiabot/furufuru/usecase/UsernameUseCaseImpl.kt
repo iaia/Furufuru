@@ -1,6 +1,6 @@
 package dev.iaiabot.furufuru.usecase
 
-import dev.iaiabot.furufuru.data.repository.UserRepository
+import dev.iaiabot.furufuru.repository.UserRepository
 
 internal class UsernameUseCaseImpl(
     private val userRepository: UserRepository

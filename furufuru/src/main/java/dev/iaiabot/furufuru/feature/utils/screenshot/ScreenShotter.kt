@@ -9,7 +9,7 @@ import android.view.PixelCopy
 import android.view.View
 import android.view.Window
 import androidx.annotation.RequiresApi
-import dev.iaiabot.furufuru.data.repository.ScreenshotRepository
+import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
