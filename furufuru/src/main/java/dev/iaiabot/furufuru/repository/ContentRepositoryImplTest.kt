@@ -1,10 +1,10 @@
 package dev.iaiabot.furufuru.repository
 
 import com.google.common.truth.Truth.assertThat
-import dev.iaiabot.furufuru.data.entity.Content
-import dev.iaiabot.furufuru.data.entity.ContentResponse
-import dev.iaiabot.furufuru.data.entity.ContentResponseEntity
 import dev.iaiabot.furufuru.data.github.GithubService
+import dev.iaiabot.furufuru.data.github.request.Content
+import dev.iaiabot.furufuru.data.github.response.ContentResponse
+import dev.iaiabot.furufuru.data.github.response.ContentResponseEntity
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import io.mockk.coEvery
 import io.mockk.every

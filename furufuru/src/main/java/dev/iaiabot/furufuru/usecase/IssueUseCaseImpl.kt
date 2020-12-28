@@ -1,8 +1,8 @@
 package dev.iaiabot.furufuru.usecase
 
-import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.ContentImageUrls
-import dev.iaiabot.furufuru.data.entity.Issue
+import dev.iaiabot.furufuru.data.github.request.Content
+import dev.iaiabot.furufuru.data.github.request.Issue
 import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
 import dev.iaiabot.furufuru.repository.ContentRepository
 import dev.iaiabot.furufuru.repository.IssueRepository

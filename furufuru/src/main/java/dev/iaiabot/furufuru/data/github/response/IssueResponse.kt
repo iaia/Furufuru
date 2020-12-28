@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.data.entity
+package dev.iaiabot.furufuru.data.github.response
 
 import kotlinx.serialization.Serializable
 

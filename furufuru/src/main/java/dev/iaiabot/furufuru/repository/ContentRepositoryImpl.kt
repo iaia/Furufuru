@@ -1,9 +1,9 @@
 package dev.iaiabot.furufuru.repository
 
 import android.util.Log
-import dev.iaiabot.furufuru.data.entity.Content
 import dev.iaiabot.furufuru.data.entity.ContentImageUrls
 import dev.iaiabot.furufuru.data.github.GithubService
+import dev.iaiabot.furufuru.data.github.request.Content
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.properties.Properties

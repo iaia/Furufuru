@@ -1,7 +1,7 @@
 package dev.iaiabot.furufuru.data.github
 
-import dev.iaiabot.furufuru.data.entity.ContentResponse
-import dev.iaiabot.furufuru.data.entity.IssueResponse
+import dev.iaiabot.furufuru.data.github.response.ContentResponse
+import dev.iaiabot.furufuru.data.github.response.IssueResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
