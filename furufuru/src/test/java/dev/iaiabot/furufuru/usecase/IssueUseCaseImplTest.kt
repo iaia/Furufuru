@@ -23,7 +23,7 @@ internal object IssueUseCaseImplTest : Spek({
     describe("#getScreenShot()") {
         context("1発で取得出来る場合") {
             beforeGroup {
-                every { screenshotRepository.get() } returns "SCREEN_SHOT"
+                every { screenshotRepository.load() } returns "SCREEN_SHOT"
                 usecase = IssueUseCaseImpl(
                     issueRepository,
                     screenshotRepository,
@@ -42,7 +42,7 @@ internal object IssueUseCaseImplTest : Spek({
 
         context("リトライしても取り出せない場合") {
             beforeGroup {
-                every { screenshotRepository.get() } returns null
+                every { screenshotRepository.load() } returns null
                 usecase = IssueUseCaseImpl(
                     issueRepository,
                     screenshotRepository,
@@ -56,14 +56,14 @@ internal object IssueUseCaseImplTest : Spek({
                     usecase.getScreenShot(retryNum = 1)
                 }
                 assertThat(result).isNull()
-                verify(exactly = 2) { screenshotRepository.get() }
+                verify(exactly = 2) { screenshotRepository.load() }
             }
         }
     }
 
     describe("#post") {
         beforeGroup {
-            every { screenshotRepository.get(any()) } returns "SCREEN_SHOT"
+            every { screenshotRepository.load(any()) } returns "SCREEN_SHOT"
             coEvery { contentRepository.post(any(), any()) } returns mockk() {
                 every { fileUrl } returns "file"
                 every { imageUrl } returns "image"

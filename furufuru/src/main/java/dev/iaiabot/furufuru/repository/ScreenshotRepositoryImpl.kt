@@ -10,8 +10,8 @@ internal class ScreenshotRepositoryImpl(
         screenshot.save(fileStr)
     }
 
-    override fun get(remove: Boolean): String? {
-        val file = screenshot.get()
+    override fun load(remove: Boolean): String? {
+        val file = screenshot.load()
         if (remove) {
             screenshot.remove()
         }

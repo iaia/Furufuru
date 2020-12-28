@@ -37,7 +37,7 @@ internal class IssueUseCaseImpl(
 
     override suspend fun getScreenShot(retryNum: Int): String? {
         repeat(retryNum) { repeatNum ->
-            val screenshot = screenshotRepository.get()
+            val screenshot = screenshotRepository.load()
             if (screenshot == null) {
                 delay(1000L * repeatNum)
                 return@repeat
@@ -49,7 +49,7 @@ internal class IssueUseCaseImpl(
     }
 
     private suspend fun uploadScreenShot(): ContentImageUrls? {
-        val screenshot = screenshotRepository.get(remove = true)
+        val screenshot = screenshotRepository.load(remove = true)
         if (screenshot.isNullOrEmpty()) {
             return null
         }

@@ -1,30 +1,25 @@
 package dev.iaiabot.furufuru.repository
 
-import android.content.Context
-import android.content.SharedPreferences
 import com.google.common.truth.Truth.assertThat
+import dev.iaiabot.furufuru.data.entity.User
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 internal object UserRepositoryImplTest : Spek({
     lateinit var repository: UserRepository
-    lateinit var context: Context
-    lateinit var prefs: SharedPreferences
+    lateinit var user: User
 
     beforeGroup {
-        context = mockk()
-        prefs = mockk()
-        every { context.getSharedPreferences("furufuru", Context.MODE_PRIVATE) } returns prefs
-        repository = UserRepositoryImpl(context)
+        user = mockk()
+        repository = UserRepositoryImpl(user)
     }
 
     describe("#getUserName") {
         context("未保存のとき") {
             beforeGroup {
-                every { prefs.getString(any(), any()) } returns null
+                every { user.getUserName() } returns ""
             }
 
             it("空が返る") {
@@ -33,7 +28,7 @@ internal object UserRepositoryImplTest : Spek({
         }
         context("保存済みの時") {
             beforeGroup {
-                every { prefs.getString(any(), any()) } returns "iaia"
+                every { user.getUserName() } returns "iaia"
             }
 
             it("保存済みのものが返る") {
@@ -43,18 +38,16 @@ internal object UserRepositoryImplTest : Spek({
     }
 
     describe("#saveUserName") {
-        val editor: SharedPreferences.Editor = mockk()
-
         beforeGroup {
-            every { prefs.edit() } returns editor
-            every { editor.putString(any(), any()) } returns editor
-            every { editor.apply() } answers {}
+            every { user.saveUserName(any()) } answers {
+                every { user.getUserName() } returns firstArg()
+            }
         }
 
         it("保存する") {
+            assertThat(user.getUserName()).isEqualTo("")
             repository.saveUserName("iaia")
-            verify { editor.putString("username", "iaia") }
-            verify { editor.apply() }
+            assertThat(user.getUserName()).isEqualTo("iaia")
         }
     }
 })

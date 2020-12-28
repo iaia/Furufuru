@@ -1,7 +1,7 @@
 package dev.iaiabot.furufuru.repository
 
-import android.util.LruCache
 import com.google.common.truth.Truth
+import dev.iaiabot.furufuru.data.entity.ScreenShot
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifyOrder
@@ -10,39 +10,40 @@ import org.spekframework.spek2.style.specification.describe
 
 internal object ScreenshotRepositoryImplTest : Spek({
     lateinit var repository: ScreenshotRepository
-    lateinit var cache: LruCache<String, String>
+    lateinit var screenshot: ScreenShot
 
     beforeGroup {
-        cache = mockk()
-        repository = ScreenshotRepositoryImpl(cache)
+        screenshot = mockk()
+        repository = ScreenshotRepositoryImpl(screenshot)
     }
 
     describe("#get") {
         context("未保存のとき") {
             beforeGroup {
-                every { cache.get(any()) } returns null
-                every { cache.remove(any()) } returns null
+                every { screenshot.load() } returns null
+                every { screenshot.remove() } returns Unit
             }
 
             it("nullが返る") {
-                Truth.assertThat(repository.get()).isEqualTo(null)
+                Truth.assertThat(repository.load()).isEqualTo(null)
             }
 
             it("取得したあと削除している") {
-                repository.get(true)
+                repository.load(true)
                 verifyOrder {
-                    cache.get(any())
-                    cache.remove(any())
+                    screenshot.load()
+                    screenshot.remove()
                 }
             }
         }
         context("保存済みの時") {
             beforeGroup {
-                every { cache.get(any()) } returns "abcd"
+                every { screenshot.load() } returns "abcd"
+                every { screenshot.remove() } returns Unit
             }
 
             it("保存済みのものが返る") {
-                Truth.assertThat(repository.get()).isEqualTo("abcd")
+                Truth.assertThat(repository.load()).isEqualTo("abcd")
             }
         }
     }

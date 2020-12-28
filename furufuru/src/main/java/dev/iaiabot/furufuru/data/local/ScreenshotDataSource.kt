@@ -16,7 +16,7 @@ internal class ScreenshotDataSource(
         }
     }
 
-    override fun get(): String? {
+    override fun load(): String? {
         return synchronized(cache) {
             cache.get(SCREENSHOT_KEY)
         }
