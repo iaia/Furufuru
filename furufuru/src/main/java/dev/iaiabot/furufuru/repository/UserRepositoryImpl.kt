@@ -1,28 +1,17 @@
 package dev.iaiabot.furufuru.repository
 
-import android.content.Context
+import dev.iaiabot.furufuru.data.local.User
 
 internal class UserRepositoryImpl(
-    private val context: Context
+    private val user: User
 ) : UserRepository {
-    companion object {
-        private const val USERNAME = "username"
-    }
 
     override fun getUserName(): String {
-        val prefs = context.getSharedPreferences(
-            "furufuru",
-            Context.MODE_PRIVATE
-        )
-        return prefs.getString(USERNAME, "") ?: ""
+
+        return user.getUserName()
     }
 
     override fun saveUserName(userName: String) {
-        val editor = context.getSharedPreferences(
-            "furufuru",
-            Context.MODE_PRIVATE
-        ).edit()
-        editor.putString(USERNAME, userName)
-        editor.apply()
+        user.saveUserName(userName)
     }
 }

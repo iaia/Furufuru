@@ -1,7 +1,10 @@
 package dev.iaiabot.furufuru.di
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.LruCache
+import dev.iaiabot.furufuru.data.local.User
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.repository.*
@@ -22,6 +25,8 @@ internal fun diModules() = listOf(
     repositoryModule,
     useCaseModule,
     utilModule,
+    dataModule,
+    androidModule,
 )
 
 private val viewModelModule = module {
@@ -52,7 +57,7 @@ private val repositoryModule = module {
     }
 
     single<UserRepository> {
-        UserRepositoryImpl(androidApplication())
+        UserRepositoryImpl(get())
     }
 }
 
@@ -65,4 +70,17 @@ private val useCaseModule = module {
 private val utilModule = module {
     single { FurufuruSettings() }
     single(named("ScreenShotCache")) { LruCache<String, String>(1) }
+}
+
+private val dataModule = module {
+    single { User(get()) }
+}
+
+private val androidModule = module {
+    single<SharedPreferences> {
+        androidApplication().getSharedPreferences(
+            "furufuru",
+            Context.MODE_PRIVATE
+        )
+    }
 }
