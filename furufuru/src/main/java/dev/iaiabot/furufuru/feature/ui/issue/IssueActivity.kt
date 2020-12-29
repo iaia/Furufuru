@@ -80,6 +80,7 @@ internal class IssueActivity : AppCompatActivity() {
             val chips = labels.map {
                 Chip(this).apply {
                     text = it
+                    isCheckable = true
                 }
             }
             chips.forEach {
