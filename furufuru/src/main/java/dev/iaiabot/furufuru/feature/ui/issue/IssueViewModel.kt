@@ -23,6 +23,7 @@ internal class IssueViewModel(
     val nowSending = MutableLiveData(false)
     val fileStr = MutableLiveData<String?>(null)
     val labels = MutableLiveData<List<String>>()
+    private val selectedLabels = mutableListOf<String>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
@@ -32,7 +33,17 @@ internal class IssueViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             userName.postValue(usernameUseCase.load())
         }
-        labels.value = githubSettings.labels
+        viewModelScope.launch(Dispatchers.Default) {
+            labels.postValue(githubSettings.labels)
+        }
+    }
+
+    fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
+        if (isChecked) {
+            selectedLabels.add(label)
+        } else {
+            selectedLabels.remove(label)
+        }
     }
 
     fun post() {

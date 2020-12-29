@@ -77,10 +77,13 @@ internal class IssueActivity : AppCompatActivity() {
 
     private fun addLabelChips() {
         model.labels.observe(this) { labels ->
-            val chips = labels.map {
+            val chips = labels.map { label ->
                 Chip(this).apply {
-                    text = it
+                    text = label
                     isCheckable = true
+                    setOnCheckedChangeListener { _, isChecked ->
+                        model.onCheckedChangeLabel(isChecked, label)
+                    }
                 }
             }
             chips.forEach {
