@@ -1,42 +1,62 @@
 package dev.iaiabot.furufuru.feature
 
-import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.view.View
 import dev.iaiabot.furufuru.di.diModules
 import dev.iaiabot.furufuru.feature.utils.lifecycle.FurufuruLifecycleCallback
-import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.util.FurufuruSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.java.KoinJavaComponent.inject
 
-class Furufuru(
+class Furufuru private constructor(
     private val application: Application,
 ) {
 
-    companion object {
-        private var instance: Furufuru? = null
+    class Builder(
+        private val application: Application
+    ) {
+        private var githubApiToken: String? = null
+        private var githubReposOwner: String? = null
+        private var githubRepository: String? = null
+        private var furufuruBranch: String? = null
+        private var labels: List<String> = emptyList()
 
-        fun builder(
-            application: Application,
+        fun settingGithub(
             githubApiToken: String,
             githubReposOwner: String,
             githubRepository: String,
             furufuruBranch: String? = null
-        ): Furufuru {
-            return Furufuru(application).also {
-                it.settings.init(
-                    githubApiToken,
-                    githubReposOwner,
-                    githubRepository,
-                    furufuruBranch,
-                )
-                instance = it
-            }
+        ): Builder {
+            this.githubApiToken = githubApiToken
+            this.githubReposOwner = githubReposOwner
+            this.githubRepository = githubRepository
+            this.furufuruBranch = furufuruBranch
+            return this
         }
+
+        fun setLabels(vararg labels: String): Builder {
+            this.labels = labels.map { it }
+            return this
+        }
+
+        fun build(): Furufuru {
+            // TODO: すでにあるinstance破棄して新しく作り直したい
+            val instance = getInstance(application) ?: throw Exception()
+            instance.settings.init(
+                githubApiToken = githubApiToken ?: "",
+                githubReposOwner = githubReposOwner ?: "",
+                githubRepository = githubRepository ?: "",
+                furufuruBranch = furufuruBranch,
+            )
+            instance.start()
+            return instance
+        }
+    }
+
+    companion object {
+        private var instance: Furufuru? = null
 
         internal fun getAppVersionName() = getInstance()?.getApplicationVersion()
 
@@ -46,7 +66,12 @@ class Furufuru(
             getInstance()?.takeScreenshot()
         }
 
-        private fun getInstance(): Furufuru? {
+        private fun getInstance(application: Application? = null): Furufuru? {
+            if (instance == null) {
+                application?.let {
+                    instance = Furufuru(application)
+                }
+            }
             return instance
         }
     }
@@ -63,7 +88,7 @@ class Furufuru(
         }
     }
 
-    fun build() {
+    internal fun start() {
         application.registerActivityLifecycleCallbacks(applicationLifecycleCallbacks)
     }
 

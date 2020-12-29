@@ -6,11 +6,14 @@ import dev.iaiabot.furufuru.feature.Furufuru
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        Furufuru.builder(
+        Furufuru.Builder(
             this,
+        ).settingGithub(
             BuildConfig.GITHUB_API_TOKEN,
             "iaia",
             "Furufuru"
+        ).setLabels(
+            "bug", "documentation"
         ).build()
     }
 }
