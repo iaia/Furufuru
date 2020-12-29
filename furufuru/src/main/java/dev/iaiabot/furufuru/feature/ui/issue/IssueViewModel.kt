@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
+import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -11,6 +12,7 @@ internal class IssueViewModel(
     application: Application,
     private val issueUseCase: IssueUseCase,
     private val usernameUseCase: UsernameUseCase,
+    private val githubSettings: GithubSettings
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -20,6 +22,7 @@ internal class IssueViewModel(
     val command = MutableLiveData<Command>()
     val nowSending = MutableLiveData(false)
     val fileStr = MutableLiveData<String?>(null)
+    val labels = MutableLiveData<List<String>>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
@@ -29,6 +32,7 @@ internal class IssueViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             userName.postValue(usernameUseCase.load())
         }
+        labels.value = githubSettings.labels
     }
 
     fun post() {

@@ -13,6 +13,8 @@ internal class GithubSettings {
         private set
     var furufuruBranch: String = DEFAULT_FURUFURU_BRANCH
         private set
+
+    // TODO: Listにしたい
     val labels: MutableList<String> = mutableListOf()
 
     fun init(
