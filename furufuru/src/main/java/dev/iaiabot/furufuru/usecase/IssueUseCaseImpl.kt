@@ -55,15 +55,21 @@ internal class IssueUseCaseImpl(
     }
 
     private suspend fun uploadScreenShot(): ContentImageUrls? {
-        val screenshot = screenshotRepository.load(remove = true)
+        val screenshot = screenshotRepository.load()
         if (screenshot.isNullOrEmpty()) {
-            return null
+            throw Exception("no screenshot")
         }
         val content = Content(
             content = screenshot,
             branch = githubSettings.furufuruBranch
         )
-        return contentRepository.post(content, generateUploadDestinationPath())
+        try {
+            val result = contentRepository.post(content, generateUploadDestinationPath())
+            screenshotRepository.load(remove = true)
+            return result
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     private fun generateUploadDestinationPath(): String {
