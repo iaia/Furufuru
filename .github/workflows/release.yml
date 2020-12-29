@@ -1,0 +1,18 @@
+name: release
+on:
+  workflow_dispatch:
+jobs:
+  bintray_upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: generate keys.properties
+        run: 'echo "$PROPERTY_KEYS" > keys.properties'
+
+      - name: generate gradlew
+        run: gradle wrapper
+
+      - name: build and upload
+        run: ./gradlew bintrayUpload
+
