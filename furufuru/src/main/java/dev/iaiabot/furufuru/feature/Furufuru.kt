@@ -44,12 +44,13 @@ class Furufuru private constructor(
         fun build(): Furufuru {
             // TODO: すでにあるinstance破棄して新しく作り直したい
             val instance = getInstance(application) ?: throw Exception()
-            instance.settings.init(
+            instance.githubSettings.init(
                 githubApiToken = githubApiToken ?: "",
                 githubReposOwner = githubReposOwner ?: "",
                 githubRepository = githubRepository ?: "",
                 furufuruBranch = furufuruBranch,
             )
+            instance.githubSettings.addLabels(labels)
             instance.start()
             return instance
         }
@@ -76,7 +77,7 @@ class Furufuru private constructor(
         }
     }
 
-    private val settings: GithubSettings by inject(GithubSettings::class.java)
+    private val githubSettings: GithubSettings by inject(GithubSettings::class.java)
     private val applicationLifecycleCallbacks: FurufuruLifecycleCallback =
         FurufuruLifecycleCallback()
 

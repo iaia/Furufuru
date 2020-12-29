@@ -13,6 +13,7 @@ internal class GithubSettings {
         private set
     var furufuruBranch: String = DEFAULT_FURUFURU_BRANCH
         private set
+    val labels: MutableList<String> = mutableListOf()
 
     fun init(
         githubApiToken: String,
@@ -25,6 +26,12 @@ internal class GithubSettings {
         this.githubRepository = githubRepository
         furufuruBranch?.let {
             this.furufuruBranch = it
+        }
+    }
+
+    fun addLabels(labels: List<String>) {
+        if (labels.isNotEmpty()) {
+            this.labels.addAll(labels)
         }
     }
 }
