@@ -6,6 +6,7 @@ import androidx.arch.core.executor.TaskExecutor
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
+import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -18,6 +19,7 @@ object IssueViewModelTest : Spek({
     lateinit var viewModel: IssueViewModel
     val issueUseCase = initMockOnGroup<IssueUseCase>()
     val usernameUseCase = initMockOnGroup<UsernameUseCase>()
+    val githubSettings = initMockOnGroup<GithubSettings>()
 
     beforeEachTest {
         ArchTaskExecutor
@@ -54,6 +56,7 @@ object IssueViewModelTest : Spek({
                 mockk(),
                 issueUseCase,
                 usernameUseCase,
+                githubSettings,
             )
             viewModel.init()
             viewModel.title.value = "title"
