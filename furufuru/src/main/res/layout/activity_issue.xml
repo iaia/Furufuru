@@ -16,14 +16,16 @@
         android:layout_height="match_parent"
         tools:context=".ui.issue.IssueActivity">
 
+        <!--
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:theme="@style/AppTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+           -->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_name"
@@ -32,7 +34,7 @@
             android:layout_marginTop="12dp"
             android:hint="your name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -88,7 +90,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_body"></com.google.android.material.chip.ChipGroup>
+            app:layout_constraintTop_toBottomOf="@id/til_body" />
 
         <ImageView
             android:layout_width="0dp"
@@ -98,6 +100,7 @@
             app:layout_constraintTop_toBottomOf="@id/til_body"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@null"
             tools:src="@tools:sample/avatars" />
 
         <View

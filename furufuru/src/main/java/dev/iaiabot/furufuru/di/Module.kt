@@ -34,7 +34,7 @@ internal fun diModules() = listOf(
 
 private val viewModelModule = module {
     viewModel {
-        IssueViewModel(androidContext() as Application, get(), get())
+        IssueViewModel(androidContext() as Application, get(), get(), get())
     }
 }
 

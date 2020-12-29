@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
+import com.google.android.material.chip.Chip
 import dev.iaiabot.furufuru.R
 import dev.iaiabot.furufuru.databinding.ActivityIssueBinding
 import dev.iaiabot.furufuru.feature.Furufuru
@@ -54,6 +55,7 @@ internal class IssueActivity : AppCompatActivity() {
         binding.viewModel = model
         binding.lifecycleOwner = this
 
+        /*
         binding.toolbar.also {
             setSupportActionBar(it)
             it.setOnMenuItemClickListener {
@@ -64,10 +66,25 @@ internal class IssueActivity : AppCompatActivity() {
             }
             it.setOnCreateContextMenuListener { menu, v, menuInfo -> }
         }
+         */
+        addLabelChips()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.issue_menu, menu)
         return true
+    }
+
+    private fun addLabelChips() {
+        model.labels.observe(this) { labels ->
+            val chips = labels.map {
+                Chip(this).apply {
+                    text = it
+                }
+            }
+            chips.forEach {
+                binding.cgLabels.addView(it)
+            }
+        }
     }
 }
