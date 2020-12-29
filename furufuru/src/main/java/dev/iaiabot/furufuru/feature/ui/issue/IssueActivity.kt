@@ -55,18 +55,6 @@ internal class IssueActivity : AppCompatActivity() {
         binding.viewModel = model
         binding.lifecycleOwner = this
 
-        /*
-        binding.toolbar.also {
-            setSupportActionBar(it)
-            it.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.action_send -> model.post()
-                }
-                return@setOnMenuItemClickListener true
-            }
-            it.setOnCreateContextMenuListener { menu, v, menuInfo -> }
-        }
-         */
         addLabelChips()
     }
 
