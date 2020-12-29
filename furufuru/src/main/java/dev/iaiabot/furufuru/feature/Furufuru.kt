@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import dev.iaiabot.furufuru.di.diModules
 import dev.iaiabot.furufuru.feature.utils.lifecycle.FurufuruLifecycleCallback
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.util.GithubSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -76,7 +76,7 @@ class Furufuru private constructor(
         }
     }
 
-    private val settings: FurufuruSettings by inject(FurufuruSettings::class.java)
+    private val settings: GithubSettings by inject(GithubSettings::class.java)
     private val applicationLifecycleCallbacks: FurufuruLifecycleCallback =
         FurufuruLifecycleCallback()
 

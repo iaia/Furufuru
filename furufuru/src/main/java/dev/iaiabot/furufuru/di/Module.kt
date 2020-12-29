@@ -15,7 +15,7 @@ import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.IssueUseCaseImpl
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCaseImpl
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.util.GithubSettings
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -71,7 +71,7 @@ private val useCaseModule = module {
 }
 
 private val utilModule = module {
-    single { FurufuruSettings() }
+    single { GithubSettings() }
     single(named("ScreenShotCache")) { LruCache<String, String>(1) }
 }
 

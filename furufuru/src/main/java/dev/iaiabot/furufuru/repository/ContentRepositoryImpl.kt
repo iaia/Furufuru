@@ -3,11 +3,11 @@ package dev.iaiabot.furufuru.repository
 import dev.iaiabot.furufuru.data.entity.ContentImageUrls
 import dev.iaiabot.furufuru.data.github.GithubService
 import dev.iaiabot.furufuru.data.github.request.Content
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.serialization.ExperimentalSerializationApi
 
 internal class ContentRepositoryImpl(
-    private val settings: FurufuruSettings,
+    private val settings: GithubSettings,
     private val service: GithubService,
 ) : ContentRepository {
 
