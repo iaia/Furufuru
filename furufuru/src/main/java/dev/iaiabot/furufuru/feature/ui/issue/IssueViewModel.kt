@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
+import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -11,6 +12,7 @@ internal class IssueViewModel(
     application: Application,
     private val issueUseCase: IssueUseCase,
     private val usernameUseCase: UsernameUseCase,
+    private val githubSettings: GithubSettings
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -20,6 +22,8 @@ internal class IssueViewModel(
     val command = MutableLiveData<Command>()
     val nowSending = MutableLiveData(false)
     val fileStr = MutableLiveData<String?>(null)
+    val labels = MutableLiveData<List<String>>()
+    private val selectedLabels = mutableListOf<String>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
@@ -28,6 +32,17 @@ internal class IssueViewModel(
         }
         viewModelScope.launch(Dispatchers.IO) {
             userName.postValue(usernameUseCase.load())
+        }
+        viewModelScope.launch(Dispatchers.Default) {
+            labels.postValue(githubSettings.labels)
+        }
+    }
+
+    fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
+        if (isChecked) {
+            selectedLabels.add(label)
+        } else {
+            selectedLabels.remove(label)
         }
     }
 
@@ -47,9 +62,14 @@ internal class IssueViewModel(
         nowSending.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
-            issueUseCase.post(title, userName, body)
-            command.postValue(Command.Finish)
-            nowSending.postValue(false)
+            try {
+                issueUseCase.post(title, userName, body, selectedLabels)
+                command.postValue(Command.Finish)
+            } catch (e: Exception) {
+                command.postValue(Command.Error(e.message ?: "error"))
+            } finally {
+                nowSending.postValue(false)
+            }
         }
     }
 }
@@ -58,4 +78,5 @@ internal class IssueViewModel(
 internal sealed class Command {
     object Finish : Command()
     object ShowFilePath : Command()
+    class Error(val errorMessage: String) : Command()
 }

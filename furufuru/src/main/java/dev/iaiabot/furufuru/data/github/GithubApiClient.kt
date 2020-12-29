@@ -3,7 +3,7 @@ package dev.iaiabot.furufuru.data.github
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dev.iaiabot.furufuru.BuildConfig
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -12,7 +12,7 @@ import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Retrofit
 
 internal object GithubApiClient {
-    private val furufuruSettings: FurufuruSettings by inject(FurufuruSettings::class.java)
+    private val GITHUB_SETTINGS: GithubSettings by inject(GithubSettings::class.java)
 
     fun build(): GithubService {
         return buildRetrofit()
@@ -28,7 +28,7 @@ internal object GithubApiClient {
             Log.d("Furufuru request body", buffer.readUtf8())
 
             val newRequest: Request = chain.request().newBuilder()
-                .addHeader("Authorization", "token ${furufuruSettings.githubApiToken}")
+                .addHeader("Authorization", "token ${GITHUB_SETTINGS.githubApiToken}")
                 .build()
             chain.proceed(newRequest)
         }.build()

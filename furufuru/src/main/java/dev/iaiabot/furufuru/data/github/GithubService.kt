@@ -1,5 +1,7 @@
 package dev.iaiabot.furufuru.data.github
 
+import dev.iaiabot.furufuru.data.github.request.Content
+import dev.iaiabot.furufuru.data.github.request.Issue
 import dev.iaiabot.furufuru.data.github.response.ContentResponse
 import dev.iaiabot.furufuru.data.github.response.IssueResponse
 import retrofit2.Response
@@ -14,14 +16,14 @@ internal interface GithubService {
     suspend fun postIssue(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Body issue: Map<String, String>
+        @Body issue: Issue
     ): Response<IssueResponse>
 
     @PUT("/repos/{owner}/{repo}/contents/{path}")
     suspend fun postContent(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Body content: Map<String, String>,
+        @Body content: Content,
         @Path("path") path: String
     ): Response<ContentResponse>
 }

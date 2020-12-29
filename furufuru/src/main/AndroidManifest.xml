@@ -11,9 +11,10 @@
             android:allowEmbedded="true"
             android:documentLaunchMode="always"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar"
             android:taskAffinity=""
             android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustResize"
             tools:targetApi="n" />
 
         <service

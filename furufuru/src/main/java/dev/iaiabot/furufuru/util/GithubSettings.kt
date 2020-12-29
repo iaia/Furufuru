@@ -1,6 +1,6 @@
 package dev.iaiabot.furufuru.util
 
-internal class FurufuruSettings {
+internal class GithubSettings {
     companion object {
         private const val DEFAULT_FURUFURU_BRANCH = "furufuru-image-branch"
     }
@@ -14,6 +14,9 @@ internal class FurufuruSettings {
     var furufuruBranch: String = DEFAULT_FURUFURU_BRANCH
         private set
 
+    // TODO: Listにしたい
+    val labels: MutableList<String> = mutableListOf()
+
     fun init(
         githubApiToken: String,
         githubReposOwner: String,
@@ -25,6 +28,12 @@ internal class FurufuruSettings {
         this.githubRepository = githubRepository
         furufuruBranch?.let {
             this.furufuruBranch = it
+        }
+    }
+
+    fun addLabels(labels: List<String>) {
+        if (labels.isNotEmpty()) {
+            this.labels.addAll(labels)
         }
     }
 }

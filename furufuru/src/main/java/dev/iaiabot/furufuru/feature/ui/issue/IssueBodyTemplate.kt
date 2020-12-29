@@ -18,10 +18,17 @@ object IssueBodyTemplate {
     private const val IMAGE_FILE_URL = "IMAGE_FILE_URL"
 
     private const val TEMPLATE = """
-$USERS_BODY
-$IMAGE_FILE_URL
+## body
 
-![furufuru]($IMAGE_URL)
+$USERS_BODY
+
+## screenshot
+
+[screenshot]($IMAGE_FILE_URL)
+
+<img src="$IMAGE_URL" alt="look above" width=300px />
+
+## device info
 
 |key|value|
 |:--:|:--:|
