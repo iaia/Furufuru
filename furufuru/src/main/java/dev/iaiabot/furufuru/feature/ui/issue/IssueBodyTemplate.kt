@@ -22,9 +22,9 @@ object IssueBodyTemplate {
 
 $USERS_BODY
 
-## screen shot
+## screenshot
 
-$IMAGE_FILE_URL
+[screenshot]($IMAGE_FILE_URL)
 
 <img src="$IMAGE_URL" alt="look above" width=300px />
 
