@@ -5,7 +5,7 @@ import dev.iaiabot.furufuru.data.github.GithubService
 import dev.iaiabot.furufuru.data.github.request.Content
 import dev.iaiabot.furufuru.data.github.response.ContentInfoResponse
 import dev.iaiabot.furufuru.data.github.response.ContentResponse
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -17,16 +17,16 @@ import retrofit2.Response
 
 internal object ContentRepositoryImplTest : Spek({
     lateinit var repository: ContentRepository
-    lateinit var furufuruSettings: FurufuruSettings
+    lateinit var githubSettings: GithubSettings
     lateinit var service: GithubService
 
     beforeGroup {
-        furufuruSettings = mockk {
+        githubSettings = mockk {
             every { githubRepositoryOwner } returns "iaia"
             every { githubRepository } returns "Furufuru"
         }
         service = mockk()
-        repository = ContentRepositoryImpl(furufuruSettings, service)
+        repository = ContentRepositoryImpl(githubSettings, service)
     }
 
     describe("#post") {

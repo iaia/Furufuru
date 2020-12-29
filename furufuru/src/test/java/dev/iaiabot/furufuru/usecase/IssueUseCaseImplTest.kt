@@ -6,7 +6,7 @@ import dev.iaiabot.furufuru.repository.ContentRepository
 import dev.iaiabot.furufuru.repository.IssueRepository
 import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
-import dev.iaiabot.furufuru.util.FurufuruSettings
+import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
@@ -18,7 +18,7 @@ internal object IssueUseCaseImplTest : Spek({
     val issueRepository = initMockOnGroup<IssueRepository>()
     val screenshotRepository = initMockOnGroup<ScreenshotRepository>()
     val contentRepository = initMockOnGroup<ContentRepository>()
-    val furufuruSettings = initMockOnGroup<FurufuruSettings>()
+    val githubSettings = initMockOnGroup<GithubSettings>()
 
     describe("#getScreenShot()") {
         context("1発で取得出来る場合") {
@@ -28,7 +28,7 @@ internal object IssueUseCaseImplTest : Spek({
                     issueRepository,
                     screenshotRepository,
                     contentRepository,
-                    furufuruSettings
+                    githubSettings
                 )
             }
 
@@ -47,7 +47,7 @@ internal object IssueUseCaseImplTest : Spek({
                     issueRepository,
                     screenshotRepository,
                     contentRepository,
-                    furufuruSettings
+                    githubSettings
                 )
             }
 
@@ -68,7 +68,7 @@ internal object IssueUseCaseImplTest : Spek({
                 every { fileUrl } returns "file"
                 every { imageUrl } returns "image"
             }
-            every { furufuruSettings.furufuruBranch } returns "furufuru-branch"
+            every { githubSettings.furufuruBranch } returns "furufuru-branch"
             mockkObject(IssueBodyTemplate)
             every { IssueBodyTemplate.createBody(any(), any(), any(), any()) } returns "ISSUE_BODY"
             coEvery { issueRepository.post(any()) } returns Unit
