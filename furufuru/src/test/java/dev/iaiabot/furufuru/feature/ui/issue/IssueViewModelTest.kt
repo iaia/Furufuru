@@ -3,6 +3,7 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.text.format.DateFormat
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
+import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
@@ -15,7 +16,7 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.util.*
 
-object IssueViewModelTest : Spek({
+internal object IssueViewModelTest : Spek({
     lateinit var viewModel: IssueViewModel
     val issueUseCase = initMockOnGroup<IssueUseCase>()
     val usernameUseCase = initMockOnGroup<UsernameUseCase>()
@@ -48,6 +49,16 @@ object IssueViewModelTest : Spek({
 
     afterEachTest {
         ArchTaskExecutor.getInstance().setDelegate(null)
+    }
+
+    describe("#init") {
+        it("初期化されている") {
+            viewModel.init()
+
+            assertThat(viewModel.fileStr.value).isEqualTo("aaa")
+            assertThat(viewModel.userName.value).isEqualTo("bbb")
+            assertThat(viewModel.labels.value).isEqualTo("ccc")
+        }
     }
 
     describe("#post") {
