@@ -16,5 +16,3 @@ ext {
             scmConnection: "scm:git:https://github.com/iaia/Furufuru.git"
     ]
 }
-
-apply from: rootProject.file("jcenter/bintray.gradle")

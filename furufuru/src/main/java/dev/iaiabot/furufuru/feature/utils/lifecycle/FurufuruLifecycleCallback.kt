@@ -13,7 +13,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 internal class FurufuruLifecycleCallback : Application.ActivityLifecycleCallbacks {
     private var sensorServiceConnection = SensorService.Connection()
-    private val screenShotter by inject(ScreenShotter::class.java)
+    private val screenShotter: ScreenShotter by inject(ScreenShotter::class.java)
 
     private var currentActivity: Activity? = null
 
