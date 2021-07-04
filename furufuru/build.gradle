@@ -4,13 +4,16 @@ plugins {
     id("kotlin-kapt")
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.0'
     id("de.mannodermaus.android-junit5")
+    id("maven")
+    id("maven-publish")
+    id("signing")
 }
 
-apply from: rootProject.file("release-bintray.gradle")
+apply from: rootProject.file("release-info.gradle")
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 21
@@ -71,15 +74,14 @@ android {
 }
 
 dependencies {
-    // implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // koin
     ext.koin_version = '3.1.1'
@@ -95,7 +97,7 @@ dependencies {
     // permission dispatcher
     ext.permission_dispatcher_version = '4.8.0'
     implementation "com.github.permissions-dispatcher:permissionsdispatcher:${permission_dispatcher_version}"
-    annotationProcessor "com.github.permissions-dispatcher:permissionsdispatcher-processor:${permission_dispatcher_version}"
+    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:${permission_dispatcher_version}"
 
     // ViewModel
     def lifecycle_version = "2.3.1"
@@ -137,3 +139,85 @@ dependencies {
     testImplementation "com.google.truth:truth:1.1"
 }
 
+group = "dev.iaiabot.furufuru"
+archivesBaseName = "furufuru"
+version = ext.pj.versions.name
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "source"
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../javadoc/")
+    failOnError false
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from tasks.javadoc.destinationDir
+}
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                credentials {
+                    username = ossrhUsername
+                    password = ossrhPassword
+                }
+            }
+        }
+
+        publications {
+            release(MavenPublication) {
+                // The coordinates of the library, being set from variables that
+                // we'll set up later
+                groupId 'dev.iaiabot.furufuru'
+                artifactId 'furufuru'
+                version '0.8.0'
+
+                from components.release
+
+                artifact androidSourcesJar
+                artifact javadocJar
+
+                // Mostly self-explanatory metadata
+                pom {
+                    name = 'furufuru'
+                    description = 'Make an issue on github easily just by shaking.'
+                    url = 'https://github.com/iaia/furufuru'
+
+                    licenses {
+                        license {
+                            name = 'MIT'
+                            url = 'https://opensource.org/licenses/MIT'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'iaia'
+                            name = 'iaia'
+                            email = 'iaia72160@gmail.com'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:github.com/getstream/stream-chat-android.git'
+                        developerConnection = 'scm:git:ssh://github.com/getstream/stream-chat-android.git'
+                        url = 'https://github.com/getstream/stream-chat-android/tree/main'
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications
+}
