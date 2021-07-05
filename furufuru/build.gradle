@@ -139,7 +139,7 @@ dependencies {
 
 group = "dev.iaiabot.furufuru"
 archivesBaseName = "furufuru"
-version = '0.8.2'
+version = '0.8.3'
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -178,7 +178,7 @@ afterEvaluate {
                 // we'll set up later
                 groupId 'dev.iaiabot.furufuru'
                 artifactId 'furufuru'
-                version '0.8.2'
+                version '0.8.3'
 
                 from components.release
 
