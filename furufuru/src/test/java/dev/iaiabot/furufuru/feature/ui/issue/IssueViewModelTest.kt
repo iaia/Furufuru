@@ -5,7 +5,6 @@ import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
-import dev.iaiabot.furufuru.usecase.IssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.every

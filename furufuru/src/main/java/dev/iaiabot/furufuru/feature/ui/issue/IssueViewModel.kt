@@ -2,7 +2,7 @@ package dev.iaiabot.furufuru.feature.ui.issue
 
 import android.app.Application
 import androidx.lifecycle.*
-import dev.iaiabot.furufuru.usecase.IssueUseCase
+import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
@@ -11,10 +11,10 @@ import kotlinx.coroutines.launch
 
 internal class IssueViewModel(
     application: Application,
-    private val issueUseCase: IssueUseCase,
     private val usernameUseCase: UsernameUseCase,
     private val githubSettings: GithubSettings,
     private val postIssueUseCase: PostIssueUseCase,
+    getScreenShotUseCase: GetScreenShotUseCase,
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -23,7 +23,7 @@ internal class IssueViewModel(
     val userName = MutableLiveData("")
     val command = MutableLiveData<Command>()
     val nowSending = MutableLiveData(false)
-    val fileStr = issueUseCase.screenShotFlow.asLiveData()
+    val fileStr = getScreenShotUseCase().asLiveData()
     val labels = MutableLiveData<List<String>>()
     private val selectedLabels = mutableListOf<String>()
 

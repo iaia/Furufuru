@@ -11,8 +11,6 @@ import dev.iaiabot.furufuru.data.local.UserDataSource
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.repository.*
-import dev.iaiabot.furufuru.usecase.IssueUseCase
-import dev.iaiabot.furufuru.usecase.IssueUseCaseImpl
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCaseImpl
 import dev.iaiabot.furufuru.util.GithubSettings
