@@ -69,7 +69,6 @@ private val repositoryModule = module {
 }
 
 private val useCaseModule = module {
-    single { ScreenShotter(get()) }
     single<SaveUsernameUseCase> { SaveUsernameUseCaseImpl(get()) }
     single<LoadUserNameUseCase> { LoadUserNameUseCaseImpl(get()) }
     single<PostIssueUseCase> { PostIssueUseCaseImpl(get(), get(), get(), get()) }
@@ -77,6 +76,7 @@ private val useCaseModule = module {
 }
 
 private val utilModule = module {
+    single { ScreenShotter(get()) }
     single { GithubSettings() }
     single(named("ScreenShotCache")) { LruCache<String, String>(1) }
 }
