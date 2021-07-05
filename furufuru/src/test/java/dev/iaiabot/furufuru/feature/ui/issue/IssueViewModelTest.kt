@@ -5,7 +5,7 @@ import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
-import dev.iaiabot.furufuru.usecase.user.UsernameUseCase
+import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.every
 import io.mockk.mockk
@@ -18,7 +18,7 @@ import java.util.*
 internal object IssueViewModelTest : Spek({
     lateinit var viewModel: IssueViewModel
     val issueUseCase = initMockOnGroup<IssueUseCase>()
-    val usernameUseCase = initMockOnGroup<UsernameUseCase>()
+    val usernameUseCase = initMockOnGroup<SaveUsernameUseCase>()
     val githubSettings = initMockOnGroup<GithubSettings>()
 
     beforeEachTest {

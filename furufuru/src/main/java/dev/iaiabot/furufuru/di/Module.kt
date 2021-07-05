@@ -11,8 +11,8 @@ import dev.iaiabot.furufuru.data.local.UserDataSource
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.repository.*
-import dev.iaiabot.furufuru.usecase.user.UsernameUseCase
-import dev.iaiabot.furufuru.usecase.user.UsernameUseCaseImpl
+import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
+import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCaseImpl
 import dev.iaiabot.furufuru.util.GithubSettings
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -64,7 +64,7 @@ private val repositoryModule = module {
 
 private val useCaseModule = module {
     single { ScreenShotter(get()) }
-    single<UsernameUseCase> { UsernameUseCaseImpl(get()) }
+    single<SaveUsernameUseCase> { SaveUsernameUseCaseImpl(get()) }
     single<IssueUseCase> { IssueUseCaseImpl(get(), get(), get(), get()) }
 }
 

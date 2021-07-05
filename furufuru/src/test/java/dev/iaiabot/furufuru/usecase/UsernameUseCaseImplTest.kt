@@ -3,15 +3,15 @@ package dev.iaiabot.furufuru.usecase
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.repository.UserRepository
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
-import dev.iaiabot.furufuru.usecase.user.UsernameUseCase
-import dev.iaiabot.furufuru.usecase.user.UsernameUseCaseImpl
+import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
+import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCaseImpl
 import io.mockk.coEvery
 import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 internal object UsernameUseCaseImplTest : Spek({
-    lateinit var usecase: UsernameUseCase
+    lateinit var usecase: SaveUsernameUseCase
 
     val userRepository = initMockOnGroup<UserRepository>()
 
@@ -19,7 +19,7 @@ internal object UsernameUseCaseImplTest : Spek({
         context("設定済みの場合") {
             beforeGroup {
                 coEvery { userRepository.getUserName() } returns ""
-                usecase = UsernameUseCaseImpl(userRepository)
+                usecase = SaveUsernameUseCaseImpl(userRepository)
             }
 
             it("設定済みの名前が返る") {
@@ -48,7 +48,7 @@ internal object UsernameUseCaseImplTest : Spek({
             coEvery { userRepository.saveUserName(any()) } answers {
                 coEvery { userRepository.getUserName() } returns args.first() as String
             }
-            usecase = UsernameUseCaseImpl(userRepository)
+            usecase = SaveUsernameUseCaseImpl(userRepository)
         }
 
         it("保存できてその値が返る") {
