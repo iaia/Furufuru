@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
+import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 internal class IssueViewModel(
     application: Application,
     private val saveUsernameUseCase: SaveUsernameUseCase,
+    private val loadUserNameUseCase: LoadUserNameUseCase,
     private val githubSettings: GithubSettings,
     private val postIssueUseCase: PostIssueUseCase,
     getScreenShotUseCase: GetScreenShotUseCase,
@@ -30,7 +32,7 @@ internal class IssueViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            userName.postValue(saveUsernameUseCase.load())
+            userName.postValue(loadUserNameUseCase())
         }
         viewModelScope.launch(Dispatchers.Default) {
             labels.postValue(githubSettings.labels)
@@ -52,7 +54,7 @@ internal class IssueViewModel(
         val userName = userName.value ?: ""
 
         viewModelScope.launch(Dispatchers.IO) {
-            saveUsernameUseCase.save(userName)
+            saveUsernameUseCase(userName)
         }
 
         if (nowSending.value == true) {

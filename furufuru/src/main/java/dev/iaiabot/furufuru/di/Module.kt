@@ -11,6 +11,12 @@ import dev.iaiabot.furufuru.data.local.UserDataSource
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.repository.*
+import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
+import dev.iaiabot.furufuru.usecase.GetScreenShotUseCaseImpl
+import dev.iaiabot.furufuru.usecase.PostIssueUseCase
+import dev.iaiabot.furufuru.usecase.PostIssueUseCaseImpl
+import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
+import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCaseImpl
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCaseImpl
 import dev.iaiabot.furufuru.util.GithubSettings
@@ -32,7 +38,7 @@ internal fun diModules() = listOf(
 
 private val viewModelModule = module {
     viewModel {
-        IssueViewModel(androidContext() as Application, get(), get(), get())
+        IssueViewModel(androidContext() as Application, get(), get(), get(), get(), get())
     }
 }
 
@@ -65,7 +71,9 @@ private val repositoryModule = module {
 private val useCaseModule = module {
     single { ScreenShotter(get()) }
     single<SaveUsernameUseCase> { SaveUsernameUseCaseImpl(get()) }
-    single<IssueUseCase> { IssueUseCaseImpl(get(), get(), get(), get()) }
+    single<LoadUserNameUseCase> { LoadUserNameUseCaseImpl(get()) }
+    single<PostIssueUseCase> { PostIssueUseCaseImpl(get(), get(), get(), get()) }
+    single<GetScreenShotUseCase> { GetScreenShotUseCaseImpl(get()) }
 }
 
 private val utilModule = module {
