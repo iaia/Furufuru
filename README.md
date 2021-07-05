@@ -16,11 +16,15 @@ debugInstrumentation "dev.iaiabot.furufuru:furufuru:${Versions.furufuru}"
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        Furufuru.builder(
+
+        Furufuru.Builder(
             this,
+        ).settingGithub(
             BuildConfig.GITHUB_API_TOKEN,
-            "iaia",
-            "Furufuru"
+            "your name",
+            "repository name"
+        ).setLabels(
+            "bug", "documentation"
         ).build()
     }
 }
