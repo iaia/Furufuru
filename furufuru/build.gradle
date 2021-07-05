@@ -9,8 +9,6 @@ plugins {
     id("signing")
 }
 
-apply from: rootProject.file("release-info.gradle")
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
