@@ -208,9 +208,9 @@ afterEvaluate {
                     }
 
                     scm {
-                        connection = 'scm:git:github.com/getstream/stream-chat-android.git'
-                        developerConnection = 'scm:git:ssh://github.com/getstream/stream-chat-android.git'
-                        url = 'https://github.com/getstream/stream-chat-android/tree/main'
+                        connection = 'scm:git:github.com/iaia/Furufuru.git'
+                        developerConnection = 'scm:git:ssh://github.com/iaia/Furufuru.git'
+                        url = 'https://github.com/iaia/Furufuru'
                     }
                 }
             }
