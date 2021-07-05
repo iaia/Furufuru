@@ -3,6 +3,7 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.app.Application
 import androidx.lifecycle.*
 import dev.iaiabot.furufuru.usecase.IssueUseCase
+import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.UsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,8 @@ internal class IssueViewModel(
     application: Application,
     private val issueUseCase: IssueUseCase,
     private val usernameUseCase: UsernameUseCase,
-    private val githubSettings: GithubSettings
+    private val githubSettings: GithubSettings,
+    private val postIssueUseCase: PostIssueUseCase,
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -60,7 +62,7 @@ internal class IssueViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                issueUseCase.post(title, userName, body, selectedLabels)
+                postIssueUseCase(title, userName, body, selectedLabels)
                 command.postValue(Command.Finish)
             } catch (e: Exception) {
                 command.postValue(Command.Error(e.message ?: "error"))
