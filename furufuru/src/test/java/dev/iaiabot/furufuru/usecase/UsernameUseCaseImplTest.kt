@@ -3,6 +3,8 @@ package dev.iaiabot.furufuru.usecase
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.repository.UserRepository
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
+import dev.iaiabot.furufuru.usecase.user.UsernameUseCase
+import dev.iaiabot.furufuru.usecase.user.UsernameUseCaseImpl
 import io.mockk.coEvery
 import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek

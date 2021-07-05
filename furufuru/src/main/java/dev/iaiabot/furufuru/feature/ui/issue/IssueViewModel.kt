@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
-import dev.iaiabot.furufuru.usecase.UsernameUseCase
+import dev.iaiabot.furufuru.usecase.user.UsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

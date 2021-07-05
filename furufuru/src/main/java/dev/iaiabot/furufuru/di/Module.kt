@@ -11,8 +11,8 @@ import dev.iaiabot.furufuru.data.local.UserDataSource
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.repository.*
-import dev.iaiabot.furufuru.usecase.UsernameUseCase
-import dev.iaiabot.furufuru.usecase.UsernameUseCaseImpl
+import dev.iaiabot.furufuru.usecase.user.UsernameUseCase
+import dev.iaiabot.furufuru.usecase.user.UsernameUseCaseImpl
 import dev.iaiabot.furufuru.util.GithubSettings
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext

@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.usecase
+package dev.iaiabot.furufuru.usecase.user
 
 import dev.iaiabot.furufuru.repository.UserRepository
 
