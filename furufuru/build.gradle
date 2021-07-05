@@ -180,7 +180,7 @@ afterEvaluate {
                 // we'll set up later
                 groupId 'dev.iaiabot.furufuru'
                 artifactId 'furufuru'
-                version '0.8.0'
+                version '0.8.2'
 
                 from components.release
 
