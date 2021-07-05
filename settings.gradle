@@ -1,3 +1,4 @@
 rootProject.name='Furufuru'
 include ':jcenter'
 include ':furufuru'
+include ':example'

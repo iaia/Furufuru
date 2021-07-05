@@ -8,18 +8,26 @@ import dev.iaiabot.furufuru.repository.ContentRepository
 import dev.iaiabot.furufuru.repository.IssueRepository
 import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.util.GithubSettings
-import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
 
-internal class IssueUseCaseImpl(
+interface PostIssueUseCase {
+    suspend operator fun invoke(
+        title: String,
+        userName: String,
+        body: String,
+        labels: List<String>
+    )
+}
+
+internal class PostIssueUseCaseImpl(
     private val issueRepository: IssueRepository,
     private val screenshotRepository: ScreenshotRepository,
     private val contentRepository: ContentRepository,
     private val githubSettings: GithubSettings,
-) : IssueUseCase {
+) : PostIssueUseCase {
 
-    override suspend fun post(
+    override suspend fun invoke(
         title: String,
         userName: String,
         body: String,
@@ -32,26 +40,13 @@ internal class IssueUseCaseImpl(
             IssueBodyTemplate.createBody(
                 userName,
                 body,
-                imageUrls?.imageUrl,
-                imageUrls?.fileUrl
+                imageUrls.imageUrl,
+                imageUrls.fileUrl
             ),
             labels = labels
         )
 
         issueRepository.post(issue)
-    }
-
-    override suspend fun getScreenShot(retryNum: Int): String? {
-        repeat(retryNum) { repeatNum ->
-            val screenshot = screenshotRepository.load()
-            if (screenshot == null) {
-                delay(1000L * repeatNum)
-                return@repeat
-            } else {
-                return screenshot
-            }
-        }
-        return null
     }
 
     private suspend fun uploadScreenShot(): ContentImageUrls? {

@@ -52,7 +52,7 @@ internal class ScreenShotter(
         }
     }
 
-    private fun saveScreenshot(bitmap: Bitmap) {
+    private suspend fun saveScreenshot(bitmap: Bitmap) {
         try {
             val baos = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)

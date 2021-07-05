@@ -2,17 +2,21 @@ package dev.iaiabot.furufuru.feature.ui.issue
 
 import android.app.Application
 import androidx.lifecycle.*
-import dev.iaiabot.furufuru.usecase.IssueUseCase
-import dev.iaiabot.furufuru.usecase.UsernameUseCase
+import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
+import dev.iaiabot.furufuru.usecase.PostIssueUseCase
+import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
+import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 internal class IssueViewModel(
     application: Application,
-    private val issueUseCase: IssueUseCase,
-    private val usernameUseCase: UsernameUseCase,
-    private val githubSettings: GithubSettings
+    private val saveUsernameUseCase: SaveUsernameUseCase,
+    private val loadUserNameUseCase: LoadUserNameUseCase,
+    private val githubSettings: GithubSettings,
+    private val postIssueUseCase: PostIssueUseCase,
+    getScreenShotUseCase: GetScreenShotUseCase,
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
@@ -21,17 +25,14 @@ internal class IssueViewModel(
     val userName = MutableLiveData("")
     val command = MutableLiveData<Command>()
     val nowSending = MutableLiveData(false)
-    val fileStr = MutableLiveData<String?>(null)
+    val fileStr = getScreenShotUseCase().asLiveData()
     val labels = MutableLiveData<List<String>>()
     private val selectedLabels = mutableListOf<String>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            fileStr.postValue(issueUseCase.getScreenShot())
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            userName.postValue(usernameUseCase.load())
+            userName.postValue(loadUserNameUseCase())
         }
         viewModelScope.launch(Dispatchers.Default) {
             labels.postValue(githubSettings.labels)
@@ -53,7 +54,7 @@ internal class IssueViewModel(
         val userName = userName.value ?: ""
 
         viewModelScope.launch(Dispatchers.IO) {
-            usernameUseCase.save(userName)
+            saveUsernameUseCase(userName)
         }
 
         if (nowSending.value == true) {
@@ -63,7 +64,7 @@ internal class IssueViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                issueUseCase.post(title, userName, body, selectedLabels)
+                postIssueUseCase(title, userName, body, selectedLabels)
                 command.postValue(Command.Finish)
             } catch (e: Exception) {
                 command.postValue(Command.Error(e.message ?: "error"))
