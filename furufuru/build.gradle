@@ -16,8 +16,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode pj.versions.code
-        versionName pj.versions.name
+        versionCode 1
+        versionName '0.0.1'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -139,7 +139,7 @@ dependencies {
 
 group = "dev.iaiabot.furufuru"
 archivesBaseName = "furufuru"
-version = ext.pj.versions.name
+version = '0.8.2'
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
