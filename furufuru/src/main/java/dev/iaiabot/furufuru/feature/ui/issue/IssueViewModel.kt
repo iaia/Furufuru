@@ -21,15 +21,12 @@ internal class IssueViewModel(
     val userName = MutableLiveData("")
     val command = MutableLiveData<Command>()
     val nowSending = MutableLiveData(false)
-    val fileStr = MutableLiveData<String?>(null)
+    val fileStr = issueUseCase.screenShotFlow.asLiveData()
     val labels = MutableLiveData<List<String>>()
     private val selectedLabels = mutableListOf<String>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
-        viewModelScope.launch(Dispatchers.IO) {
-            fileStr.postValue(issueUseCase.getScreenShot())
-        }
         viewModelScope.launch(Dispatchers.IO) {
             userName.postValue(usernameUseCase.load())
         }

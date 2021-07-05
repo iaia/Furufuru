@@ -1,7 +1,11 @@
 package dev.iaiabot.furufuru.usecase
 
+import kotlinx.coroutines.flow.Flow
+
 
 internal interface IssueUseCase {
+    val screenShotFlow: Flow<String?>
+
     suspend fun post(
         title: String,
         userName: String,

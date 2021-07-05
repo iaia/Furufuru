@@ -5,8 +5,9 @@ import dev.iaiabot.furufuru.data.entity.ScreenShot
 internal class ScreenshotRepositoryImpl(
     private val screenshot: ScreenShot
 ) : ScreenshotRepository {
+    override val screenShotFlow = screenshot.screenShotFlow
 
-    override fun save(fileStr: String) {
+    override suspend fun save(fileStr: String) {
         screenshot.save(fileStr)
     }
 

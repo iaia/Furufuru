@@ -9,6 +9,7 @@ import dev.iaiabot.furufuru.repository.IssueRepository
 import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,6 +19,8 @@ internal class IssueUseCaseImpl(
     private val contentRepository: ContentRepository,
     private val githubSettings: GithubSettings,
 ) : IssueUseCase {
+
+    override val screenShotFlow: Flow<String?> = screenshotRepository.screenShotFlow
 
     override suspend fun post(
         title: String,

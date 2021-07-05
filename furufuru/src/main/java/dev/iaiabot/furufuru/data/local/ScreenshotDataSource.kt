@@ -2,6 +2,7 @@ package dev.iaiabot.furufuru.data.local
 
 import android.util.LruCache
 import dev.iaiabot.furufuru.data.entity.ScreenShot
+import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class ScreenshotDataSource(
     private val cache: LruCache<String, String>
@@ -10,8 +11,11 @@ internal class ScreenshotDataSource(
         private const val SCREENSHOT_KEY = "screenshot"
     }
 
-    override fun save(fileStr: String) {
+    override val screenShotFlow = MutableStateFlow<String?>(null)
+
+    override suspend fun save(fileStr: String) {
         synchronized(cache) {
+            screenShotFlow.tryEmit(fileStr)
             cache.put(SCREENSHOT_KEY, fileStr)
         }
     }
