@@ -4,7 +4,6 @@ plugins {
     id("kotlin-kapt")
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.0'
     id("de.mannodermaus.android-junit5")
-    id("maven")
     id("maven-publish")
     id("signing")
 }
@@ -16,8 +15,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName '0.0.1'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
