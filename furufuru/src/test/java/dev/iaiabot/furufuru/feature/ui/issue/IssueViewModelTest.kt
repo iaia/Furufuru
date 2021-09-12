@@ -5,6 +5,9 @@ import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
+import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
+import dev.iaiabot.furufuru.usecase.PostIssueUseCase
+import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.every
@@ -17,9 +20,11 @@ import java.util.*
 
 internal object IssueViewModelTest : Spek({
     lateinit var viewModel: IssueViewModel
-    val issueUseCase = initMockOnGroup<IssueUseCase>()
-    val usernameUseCase = initMockOnGroup<SaveUsernameUseCase>()
+    val saveUserNameUseCase = initMockOnGroup<SaveUsernameUseCase>()
+    val loadUserNameUseCase = initMockOnGroup<LoadUserNameUseCase>()
     val githubSettings = initMockOnGroup<GithubSettings>()
+    val postIssueUseCase = initMockOnGroup<PostIssueUseCase>()
+    val getScreenShotUseCase = initMockOnGroup<GetScreenShotUseCase>()
 
     beforeEachTest {
         ArchTaskExecutor
@@ -64,9 +69,11 @@ internal object IssueViewModelTest : Spek({
         beforeEachTest {
             viewModel = IssueViewModel(
                 mockk(),
-                issueUseCase,
-                usernameUseCase,
+                saveUserNameUseCase,
+                loadUserNameUseCase,
                 githubSettings,
+                postIssueUseCase,
+                getScreenShotUseCase,
             )
             viewModel.init()
             viewModel.title.value = "title"

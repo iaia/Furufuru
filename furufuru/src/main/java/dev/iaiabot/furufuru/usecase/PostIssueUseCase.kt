@@ -16,7 +16,7 @@ interface PostIssueUseCase {
         title: String,
         userName: String,
         body: String,
-        labels: List<String>
+        labels: List<String> = emptyList()
     )
 }
 
