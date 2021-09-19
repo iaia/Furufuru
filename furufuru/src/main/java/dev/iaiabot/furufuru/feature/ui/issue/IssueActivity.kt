@@ -106,9 +106,9 @@ fun IssueContent() {
         Column(Modifier.fillMaxWidth()) {
             IssueTitle()
             IssueBody()
+            AuthorName()
             ImageCompose()
-            // author name
-            // image
+            IssueLabels()
             // send button
         }
     }
@@ -146,6 +146,7 @@ fun IssueBody() {
         },
         modifier = Modifier.fillMaxWidth(),
         label = { Text("body") },
+        maxLines = 4
     )
 }
 
@@ -160,6 +161,30 @@ fun ImageCompose(
         bitmap = bitmap.asImageBitmap(),
         contentDescription = "",
         modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+@Preview
+fun IssueLabels() {
+    // TODO: 未対応 ref: https://material.io/blog/jetpack-compose-beta
+}
+
+@Composable
+@Preview
+fun AuthorName() {
+    var authorName by remember {
+        mutableStateOf("")
+    }
+
+    TextField(
+        value = authorName,
+        onValueChange = {
+            authorName = it
+        },
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text("author") },
+        singleLine = true,
     )
 }
 
