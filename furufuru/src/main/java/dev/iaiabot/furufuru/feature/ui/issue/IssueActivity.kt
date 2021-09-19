@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import dev.iaiabot.furufuru.R
 import dev.iaiabot.furufuru.feature.Furufuru
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,9 +37,7 @@ internal class IssueActivity : AppCompatActivity() {
 
         Furufuru.takeScreenshot()
         setContent {
-            Surface(color = MaterialTheme.colors.background) {
-                Greeting(name = "Android")
-            }
+            IssueContent()
         }
 
         /*
@@ -89,4 +89,20 @@ internal class IssueActivity : AppCompatActivity() {
     }
 
      */
+}
+
+
+@Composable
+@Preview
+fun IssueContent() {
+    FurufuruTheme {
+        Surface(color = MaterialTheme.colors.background) {
+            IssueTitle()
+            IssueBody()
+            // label
+            // author name
+            // image
+            // send button
+        }
+    }
 }
