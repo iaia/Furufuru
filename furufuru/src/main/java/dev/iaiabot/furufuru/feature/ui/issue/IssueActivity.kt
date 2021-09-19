@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.iaiabot.furufuru.R
 import dev.iaiabot.furufuru.feature.Furufuru
@@ -96,7 +97,7 @@ internal class IssueActivity : AppCompatActivity() {
 @Preview
 fun IssueContent() {
     FurufuruTheme {
-        Surface(color = MaterialTheme.colors.background) {
+        Column(Modifier.fillMaxWidth()) {
             IssueTitle()
             IssueBody()
             // label
