@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import dev.iaiabot.furufuru.R
 import dev.iaiabot.furufuru.feature.Furufuru
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +34,11 @@ internal class IssueActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         Furufuru.takeScreenshot()
+        setContent {
+            Surface(color = MaterialTheme.colors.background) {
+                Greeting(name = "Android")
+            }
+        }
 
         /*
         binding.lifecycleOwner = this
