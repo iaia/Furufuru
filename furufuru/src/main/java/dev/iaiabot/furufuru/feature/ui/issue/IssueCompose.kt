@@ -5,8 +5,9 @@ import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -16,14 +17,20 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview
 fun IssueContent() {
     FurufuruTheme {
-        Column(Modifier.fillMaxWidth()) {
-            IssueTitle()
-            IssueBody()
-            AuthorName()
-            ImageCompose()
-            IssueLabels()
-            // send button
-        }
+        Scaffold(
+            floatingActionButton = {
+                SendButton()
+            },
+            content = {
+                Column(Modifier.fillMaxWidth()) {
+                    IssueTitle()
+                    IssueBody()
+                    AuthorName()
+                    ImageCompose()
+                    IssueLabels()
+                }
+            }
+        )
     }
 }
 
@@ -99,6 +106,15 @@ fun AuthorName() {
         label = { Text("author") },
         singleLine = true,
     )
+}
+
+@Composable
+@Preview
+fun SendButton() {
+    // @drawable/ic_send
+    FloatingActionButton(onClick = {}) {
+        Icon(Icons.Filled.Send, contentDescription = "send")
+    }
 }
 
 // TODO
