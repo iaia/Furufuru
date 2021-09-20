@@ -1,6 +1,5 @@
 package dev.iaiabot.furufuru.di
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.LruCache
@@ -9,6 +8,7 @@ import dev.iaiabot.furufuru.data.entity.User
 import dev.iaiabot.furufuru.data.local.ScreenshotDataSource
 import dev.iaiabot.furufuru.data.local.UserDataSource
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
+import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModelImpl
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
 import dev.iaiabot.furufuru.repository.*
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
@@ -21,7 +21,6 @@ import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCaseImpl
 import dev.iaiabot.furufuru.util.GithubSettings
 import org.koin.android.ext.koin.androidApplication
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -37,8 +36,8 @@ internal fun diModules() = listOf(
 )
 
 private val viewModelModule = module {
-    viewModel {
-        IssueViewModel(androidContext() as Application, get(), get(), get(), get(), get())
+    viewModel<IssueViewModel> {
+        IssueViewModelImpl(get(), get(), get(), get(), get())
     }
 }
 

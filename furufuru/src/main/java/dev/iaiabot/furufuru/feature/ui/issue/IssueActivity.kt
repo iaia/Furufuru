@@ -20,14 +20,6 @@ internal class IssueActivity : AppCompatActivity() {
     }
 
     private val model by viewModel<IssueViewModel>()
-    /*
-    private val binding by lazy {
-        DataBindingUtil.setContentView<ActivityIssueBinding>(
-            this,
-            R.layout.activity_issue
-        )
-    }
-     */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +30,6 @@ internal class IssueActivity : AppCompatActivity() {
         }
 
         /*
-        binding.lifecycleOwner = this
-        lifecycle.addObserver(model)
 
         model.command.observe(this) {
             when (it) {
@@ -55,8 +45,6 @@ internal class IssueActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.viewModel = model
-        binding.lifecycleOwner = this
          */
 
         //addLabelChips()

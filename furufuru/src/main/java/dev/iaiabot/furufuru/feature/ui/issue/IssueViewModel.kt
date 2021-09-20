@@ -1,6 +1,5 @@
 package dev.iaiabot.furufuru.feature.ui.issue
 
-import android.app.Application
 import androidx.lifecycle.*
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
@@ -10,18 +9,19 @@ import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-internal class IssueViewModel(
-    application: Application,
+internal abstract class IssueViewModel : ViewModel() {
+    abstract val title: LiveData<String>
+    abstract fun onTitleChange(title: String)
+}
+
+internal class IssueViewModelImpl(
     private val saveUsernameUseCase: SaveUsernameUseCase,
     private val loadUserNameUseCase: LoadUserNameUseCase,
     private val githubSettings: GithubSettings,
     private val postIssueUseCase: PostIssueUseCase,
     getScreenShotUseCase: GetScreenShotUseCase,
-) : AndroidViewModel(
-    application
-), LifecycleObserver {
-    private val _title = MutableLiveData("")
-    val title: LiveData<String> = _title
+) : IssueViewModel() {
+    override val title = MutableLiveData("")
     val body = MutableLiveData("")
     val userName = liveData {
         emit(loadUserNameUseCase())
@@ -34,8 +34,8 @@ internal class IssueViewModel(
     private val command = MutableLiveData<Command>()
     private val selectedLabels = mutableListOf<String>()
 
-    fun onTitleChange(title: String) {
-        _title.value = title
+    override fun onTitleChange(title: String) {
+        this.title.value = title
     }
 
     fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
