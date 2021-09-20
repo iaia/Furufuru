@@ -4,10 +4,8 @@ import androidx.lifecycle.*
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
-import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 internal abstract class IssueViewModel : ViewModel() {
@@ -27,7 +25,6 @@ internal abstract class IssueViewModel : ViewModel() {
 }
 
 internal class IssueViewModelImpl(
-    private val saveUsernameUseCase: SaveUsernameUseCase,
     private val loadUserNameUseCase: LoadUserNameUseCase,
     private val githubSettings: GithubSettings,
     private val postIssueUseCase: PostIssueUseCase,
@@ -43,7 +40,6 @@ internal class IssueViewModelImpl(
         emit(githubSettings.labels.toList())
     }
     private val selectedLabels = mutableListOf<String>()
-    private var newUserName: String? = null
 
     init {
         viewModelScope.launch {
@@ -61,7 +57,6 @@ internal class IssueViewModelImpl(
 
     override fun onUserNameChange(userName: String) {
         this.userName.value = userName
-        newUserName = userName
     }
 
     override fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
@@ -73,15 +68,6 @@ internal class IssueViewModelImpl(
     }
 
     override fun post() {
-        val title = title.value ?: return
-        if (title.isEmpty()) return
-        val body = body.value ?: return
-        val userName = newUserName ?: userName.value ?: ""
-
-        viewModelScope.launch {
-            saveUsernameUseCase(newUserName)
-        }
-
         if (nowSending.value == true) {
             return
         }
@@ -89,8 +75,7 @@ internal class IssueViewModelImpl(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                delay(20000)
-                // postIssueUseCase(title, userName, body, selectedLabels)
+                postIssueUseCase(title.value, userName.value, body.value, selectedLabels)
                 command.postValue(Command.Finish)
             } catch (e: Exception) {
                 command.postValue(Command.Error(e.message ?: "error"))
