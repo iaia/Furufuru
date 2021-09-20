@@ -19,7 +19,7 @@ fun IssueContent() {
     FurufuruTheme {
         Scaffold(
             floatingActionButton = {
-                SendButton()
+                                   SendButton()
             },
             content = {
                 Column(Modifier.fillMaxWidth()) {
