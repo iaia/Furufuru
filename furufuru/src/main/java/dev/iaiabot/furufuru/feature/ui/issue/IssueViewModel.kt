@@ -14,11 +14,13 @@ internal abstract class IssueViewModel : ViewModel() {
     abstract val body: LiveData<String>
     abstract val userName: LiveData<String>
     abstract val imageStrBase64: LiveData<String?>
+    abstract val labels: LiveData<List<String>>
     abstract val command: LiveData<Command>
 
     abstract fun onTitleChange(title: String)
     abstract fun onBodyChange(body: String)
     abstract fun onUserNameChange(userName: String)
+    abstract fun onCheckedChangeLabel(isChecked: Boolean, label: String)
     abstract fun post()
 }
 
@@ -34,14 +36,14 @@ internal class IssueViewModelImpl(
     override val userName = liveData {
         emit(loadUserNameUseCase())
     }
-    private var newUserName: String? = null
     override val imageStrBase64 = getScreenShotUseCase().asLiveData()
-    val nowSending = MutableLiveData(false)
-    private val labels = liveData {
-        emit(githubSettings.labels)
-    }
     override val command = MutableLiveData<Command>()
+    private var newUserName: String? = null
+    override val labels = liveData {
+        emit(githubSettings.labels.toList())
+    }
     private val selectedLabels = mutableListOf<String>()
+    val nowSending = MutableLiveData(false)
 
     override fun onTitleChange(title: String) {
         this.title.value = title
@@ -55,7 +57,7 @@ internal class IssueViewModelImpl(
         newUserName = userName
     }
 
-    fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
+    override fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
         if (isChecked) {
             selectedLabels.add(label)
         } else {
