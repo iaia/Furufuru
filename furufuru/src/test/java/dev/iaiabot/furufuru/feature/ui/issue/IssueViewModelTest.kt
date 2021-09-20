@@ -8,19 +8,17 @@ import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
-import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import io.mockk.verify
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.util.*
 
 internal object IssueViewModelTest : Spek({
     lateinit var viewModel: IssueViewModel
-    val saveUserNameUseCase = initMockOnGroup<SaveUsernameUseCase>()
     val loadUserNameUseCase = initMockOnGroup<LoadUserNameUseCase>()
     val githubSettings = initMockOnGroup<GithubSettings>()
     val postIssueUseCase = initMockOnGroup<PostIssueUseCase>()
@@ -57,9 +55,14 @@ internal object IssueViewModelTest : Spek({
 
     describe("#init") {
         it("初期化されている") {
-            viewModel.init()
+            viewModel = IssueViewModelImpl(
+                loadUserNameUseCase,
+                githubSettings,
+                postIssueUseCase,
+                getScreenShotUseCase,
+            )
 
-            assertThat(viewModel.fileStr.value).isEqualTo("aaa")
+            assertThat(viewModel.imageStrBase64.value).isEqualTo("aaa")
             assertThat(viewModel.userName.value).isEqualTo("bbb")
             assertThat(viewModel.labels.value).isEqualTo("ccc")
         }
@@ -67,21 +70,18 @@ internal object IssueViewModelTest : Spek({
 
     describe("#post") {
         beforeEachTest {
-            viewModel = IssueViewModel(
-                mockk(),
-                saveUserNameUseCase,
+            viewModel = IssueViewModelImpl(
                 loadUserNameUseCase,
                 githubSettings,
                 postIssueUseCase,
                 getScreenShotUseCase,
             )
-            viewModel.init()
-            viewModel.title.value = "title"
-            viewModel.body.value = "body"
+            viewModel.onTitleChange("title")
+            viewModel.onBodyChange("body")
         }
 
         it("verify") {
-            viewModel.post()
+            verify { viewModel.post() }
         }
     }
 })
