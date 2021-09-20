@@ -7,6 +7,7 @@ import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 internal abstract class IssueViewModel : ViewModel() {
@@ -16,6 +17,7 @@ internal abstract class IssueViewModel : ViewModel() {
     abstract val imageStrBase64: LiveData<String?>
     abstract val labels: LiveData<List<String>>
     abstract val command: LiveData<Command>
+    abstract val nowSending: LiveData<Boolean>
 
     abstract fun onTitleChange(title: String)
     abstract fun onBodyChange(body: String)
@@ -33,17 +35,21 @@ internal class IssueViewModelImpl(
 ) : IssueViewModel() {
     override val title = MutableLiveData("")
     override val body = MutableLiveData("")
-    override val userName = liveData {
-        emit(loadUserNameUseCase())
-    }
+    override val userName = MutableLiveData("")
     override val imageStrBase64 = getScreenShotUseCase().asLiveData()
     override val command = MutableLiveData<Command>()
-    private var newUserName: String? = null
+    override val nowSending = MutableLiveData(false)
     override val labels = liveData {
         emit(githubSettings.labels.toList())
     }
     private val selectedLabels = mutableListOf<String>()
-    val nowSending = MutableLiveData(false)
+    private var newUserName: String? = null
+
+    init {
+        viewModelScope.launch {
+            userName.value = loadUserNameUseCase()
+        }
+    }
 
     override fun onTitleChange(title: String) {
         this.title.value = title
@@ -54,6 +60,7 @@ internal class IssueViewModelImpl(
     }
 
     override fun onUserNameChange(userName: String) {
+        this.userName.value = userName
         newUserName = userName
     }
 
@@ -82,7 +89,8 @@ internal class IssueViewModelImpl(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                postIssueUseCase(title, userName, body, selectedLabels)
+                delay(20000)
+                // postIssueUseCase(title, userName, body, selectedLabels)
                 command.postValue(Command.Finish)
             } catch (e: Exception) {
                 command.postValue(Command.Error(e.message ?: "error"))
@@ -91,11 +99,4 @@ internal class IssueViewModelImpl(
             }
         }
     }
-}
-
-// FIXME: Contract作る
-internal sealed class Command {
-    object Finish : Command()
-    object ShowFilePath : Command()
-    class Error(val errorMessage: String) : Command()
 }

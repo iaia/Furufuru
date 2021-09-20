@@ -3,7 +3,9 @@ package dev.iaiabot.furufuru.feature.ui.issue
 import android.graphics.BitmapFactory
 import android.util.Base64
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,7 +13,9 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -22,11 +26,12 @@ internal fun IssueContent(viewModel: IssueViewModel = androidx.lifecycle.viewmod
     val body: String by viewModel.body.observeAsState("")
     val userName: String by viewModel.userName.observeAsState("")
     val imageStrBase64: String? by viewModel.imageStrBase64.observeAsState("")
+    val isProgress: Boolean by viewModel.nowSending.observeAsState(false)
 
     FurufuruTheme {
         Scaffold(
             floatingActionButton = {
-                SendButton { viewModel.post() }
+                SendButton(isProgress) { viewModel.post() }
             },
             content = {
                 Column(Modifier.fillMaxWidth()) {
@@ -36,6 +41,8 @@ internal fun IssueContent(viewModel: IssueViewModel = androidx.lifecycle.viewmod
                     ImageCompose(imageStrBase64)
                     IssueLabels()
                 }
+
+                Progress(isProgress)
             }
         )
     }
@@ -122,10 +129,29 @@ fun AuthorName(authorName: String, onChangeAuthorName: (String) -> Unit) {
 
 @Composable
 @Preview
-fun SendButton(post: () -> Unit) {
-    // @drawable/ic_send
-    FloatingActionButton(onClick = post) {
-        Icon(Icons.Filled.Send, contentDescription = "send")
+fun SendButton(nowSending: Boolean, post: () -> Unit) {
+    if (!nowSending) {
+        FloatingActionButton(onClick = post) {
+            Icon(Icons.Filled.Send, contentDescription = "send")
+        }
+    }
+}
+
+@Composable
+@Preview
+fun Progress(nowSending: Boolean = true) {
+    if (nowSending) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color(0xa1111111),
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator()
+            }
+        }
     }
 }
 
