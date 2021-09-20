@@ -14,6 +14,7 @@ internal abstract class IssueViewModel : ViewModel() {
     abstract val body: LiveData<String>
     abstract val userName: LiveData<String>
     abstract val imageStrBase64: LiveData<String?>
+    abstract val command: LiveData<Command>
 
     abstract fun onTitleChange(title: String)
     abstract fun onBodyChange(body: String)
@@ -39,7 +40,7 @@ internal class IssueViewModelImpl(
     private val labels = liveData {
         emit(githubSettings.labels)
     }
-    private val command = MutableLiveData<Command>()
+    override val command = MutableLiveData<Command>()
     private val selectedLabels = mutableListOf<String>()
 
     override fun onTitleChange(title: String) {
@@ -66,10 +67,10 @@ internal class IssueViewModelImpl(
         val title = title.value ?: return
         if (title.isEmpty()) return
         val body = body.value ?: return
-        val userName = newUserName ?: ""
+        val userName = newUserName ?: userName.value ?: ""
 
-        viewModelScope.launch(Dispatchers.IO) {
-            saveUsernameUseCase(userName)
+        viewModelScope.launch {
+            saveUsernameUseCase(newUserName)
         }
 
         if (nowSending.value == true) {

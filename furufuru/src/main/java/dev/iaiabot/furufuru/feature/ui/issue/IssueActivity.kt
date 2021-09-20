@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import dev.iaiabot.furufuru.R
@@ -29,8 +30,6 @@ internal class IssueActivity : AppCompatActivity() {
             IssueContent(model)
         }
 
-        /*
-
         model.command.observe(this) {
             when (it) {
                 is Command.Finish -> {
@@ -45,7 +44,6 @@ internal class IssueActivity : AppCompatActivity() {
                 }
             }
         }
-         */
 
         //addLabelChips()
     }
