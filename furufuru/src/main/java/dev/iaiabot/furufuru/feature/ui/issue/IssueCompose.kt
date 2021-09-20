@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -18,17 +19,21 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview
 internal fun IssueContent(viewModel: IssueViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val title: String by viewModel.title.observeAsState("")
+    val body: String by viewModel.body.observeAsState("")
+    val userName: String by viewModel.userName.observeAsState("")
+    val imageStrBase64: String? by viewModel.imageStrBase64.observeAsState("")
+
     FurufuruTheme {
         Scaffold(
             floatingActionButton = {
-                SendButton()
+                SendButton { viewModel.post() }
             },
             content = {
                 Column(Modifier.fillMaxWidth()) {
                     IssueTitle(title, onChangeTitle = { viewModel.onTitleChange(it) })
-                    IssueBody()
-                    AuthorName()
-                    ImageCompose()
+                    IssueBody(body, onChangeBody = { viewModel.onBodyChange(it) })
+                    AuthorName(userName, onChangeAuthorName = { viewModel.onUserNameChange(it) })
+                    ImageCompose(imageStrBase64)
                     IssueLabels()
                 }
             }
@@ -50,16 +55,10 @@ fun IssueTitle(title: String, onChangeTitle: (String) -> Unit) {
 
 @Composable
 @Preview
-fun IssueBody() {
-    var body by remember {
-        mutableStateOf("")
-    }
-
+fun IssueBody(body: String, onChangeBody: (String) -> Unit) {
     TextField(
         value = body,
-        onValueChange = {
-            body = it
-        },
+        onValueChange = onChangeBody,
         modifier = Modifier.fillMaxWidth(),
         label = { Text("body") },
         maxLines = 4
@@ -69,8 +68,11 @@ fun IssueBody() {
 @Composable
 @Preview
 fun ImageCompose(
-    fileStr: String = Base64ImageExample
+    fileStr: String? = Base64ImageExample
 ) {
+    if (fileStr == null) {
+        return
+    }
     val decodedString: ByteArray = Base64.decode(fileStr.trim(), Base64.DEFAULT)
     val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     Image(
@@ -88,16 +90,10 @@ fun IssueLabels() {
 
 @Composable
 @Preview
-fun AuthorName() {
-    var authorName by remember {
-        mutableStateOf("")
-    }
-
+fun AuthorName(authorName: String, onChangeAuthorName: (String) -> Unit) {
     TextField(
         value = authorName,
-        onValueChange = {
-            authorName = it
-        },
+        onValueChange = onChangeAuthorName,
         modifier = Modifier.fillMaxWidth(),
         label = { Text("author") },
         singleLine = true,
@@ -106,9 +102,9 @@ fun AuthorName() {
 
 @Composable
 @Preview
-fun SendButton() {
+fun SendButton(post: () -> Unit) {
     // @drawable/ic_send
-    FloatingActionButton(onClick = {}) {
+    FloatingActionButton(onClick = post) {
         Icon(Icons.Filled.Send, contentDescription = "send")
     }
 }

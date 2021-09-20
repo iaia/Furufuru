@@ -11,7 +11,14 @@ import kotlinx.coroutines.launch
 
 internal abstract class IssueViewModel : ViewModel() {
     abstract val title: LiveData<String>
+    abstract val body: LiveData<String>
+    abstract val userName: LiveData<String>
+    abstract val imageStrBase64: LiveData<String?>
+
     abstract fun onTitleChange(title: String)
+    abstract fun onBodyChange(body: String)
+    abstract fun onUserNameChange(userName: String)
+    abstract fun post()
 }
 
 internal class IssueViewModelImpl(
@@ -22,13 +29,14 @@ internal class IssueViewModelImpl(
     getScreenShotUseCase: GetScreenShotUseCase,
 ) : IssueViewModel() {
     override val title = MutableLiveData("")
-    val body = MutableLiveData("")
-    val userName = liveData {
+    override val body = MutableLiveData("")
+    override val userName = liveData {
         emit(loadUserNameUseCase())
     }
+    private var newUserName: String? = null
+    override val imageStrBase64 = getScreenShotUseCase().asLiveData()
     val nowSending = MutableLiveData(false)
-    val fileStr = getScreenShotUseCase().asLiveData()
-    val labels = liveData {
+    private val labels = liveData {
         emit(githubSettings.labels)
     }
     private val command = MutableLiveData<Command>()
@@ -36,6 +44,14 @@ internal class IssueViewModelImpl(
 
     override fun onTitleChange(title: String) {
         this.title.value = title
+    }
+
+    override fun onBodyChange(body: String) {
+        this.body.value = body
+    }
+
+    override fun onUserNameChange(userName: String) {
+        newUserName = userName
     }
 
     fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
@@ -46,11 +62,11 @@ internal class IssueViewModelImpl(
         }
     }
 
-    fun post() {
+    override fun post() {
         val title = title.value ?: return
         if (title.isEmpty()) return
         val body = body.value ?: return
-        val userName = userName.value ?: ""
+        val userName = newUserName ?: ""
 
         viewModelScope.launch(Dispatchers.IO) {
             saveUsernameUseCase(userName)
