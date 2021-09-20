@@ -50,7 +50,10 @@ internal fun IssueContent(viewModel: IssueViewModel = androidx.lifecycle.viewmod
 
 @Composable
 @Preview
-fun IssueTitle(title: String, onChangeTitle: (String) -> Unit) {
+fun IssueTitle(
+    title: String = "title",
+    onChangeTitle: (String) -> Unit = {}
+) {
     TextField(
         value = title,
         onValueChange = onChangeTitle,
@@ -62,7 +65,10 @@ fun IssueTitle(title: String, onChangeTitle: (String) -> Unit) {
 
 @Composable
 @Preview
-fun IssueBody(body: String, onChangeBody: (String) -> Unit) {
+fun IssueBody(
+    body: String = "body",
+    onChangeBody: (String) -> Unit = {}
+) {
     TextField(
         value = body,
         onValueChange = onChangeBody,
@@ -117,7 +123,10 @@ fun IssueLabels() {
 
 @Composable
 @Preview
-fun AuthorName(authorName: String, onChangeAuthorName: (String) -> Unit) {
+fun AuthorName(
+    authorName: String = "author",
+    onChangeAuthorName: (String) -> Unit = {},
+) {
     TextField(
         value = authorName,
         onValueChange = onChangeAuthorName,
@@ -129,7 +138,10 @@ fun AuthorName(authorName: String, onChangeAuthorName: (String) -> Unit) {
 
 @Composable
 @Preview
-fun SendButton(nowSending: Boolean, post: () -> Unit) {
+fun SendButton(
+    nowSending: Boolean = false,
+    post: () -> Unit = {}
+) {
     if (!nowSending) {
         FloatingActionButton(onClick = post) {
             Icon(Icons.Filled.Send, contentDescription = "send")
