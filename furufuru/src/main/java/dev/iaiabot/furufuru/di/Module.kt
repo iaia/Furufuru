@@ -37,7 +37,7 @@ internal fun diModules() = listOf(
 
 private val viewModelModule = module {
     viewModel<IssueViewModel> {
-        IssueViewModelImpl(get(), get(), get(), get(), get())
+        IssueViewModelImpl(get(), get(), get(), get())
     }
 }
 
@@ -70,7 +70,7 @@ private val repositoryModule = module {
 private val useCaseModule = module {
     single<SaveUsernameUseCase> { SaveUsernameUseCaseImpl(get()) }
     single<LoadUserNameUseCase> { LoadUserNameUseCaseImpl(get()) }
-    single<PostIssueUseCase> { PostIssueUseCaseImpl(get(), get(), get(), get()) }
+    single<PostIssueUseCase> { PostIssueUseCaseImpl(get(), get(), get(), get(), get()) }
     single<GetScreenShotUseCase> { GetScreenShotUseCaseImpl(get()) }
 }
 
