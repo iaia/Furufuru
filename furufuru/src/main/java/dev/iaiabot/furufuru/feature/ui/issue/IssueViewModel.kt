@@ -20,7 +20,8 @@ internal class IssueViewModel(
 ) : AndroidViewModel(
     application
 ), LifecycleObserver {
-    val title = MutableLiveData("")
+    private val _title = MutableLiveData("")
+    val title: LiveData<String> = _title
     val body = MutableLiveData("")
     val userName = liveData {
         emit(loadUserNameUseCase())
@@ -32,6 +33,10 @@ internal class IssueViewModel(
     }
     private val command = MutableLiveData<Command>()
     private val selectedLabels = mutableListOf<String>()
+
+    fun onTitleChange(title: String) {
+        _title.value = title
+    }
 
     fun onCheckedChangeLabel(isChecked: Boolean, label: String) {
         if (isChecked) {

@@ -34,7 +34,7 @@ internal class IssueActivity : AppCompatActivity() {
 
         Furufuru.takeScreenshot()
         setContent {
-            IssueContent()
+            IssueContent(model)
         }
 
         /*

@@ -9,21 +9,23 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun IssueContent() {
+internal fun IssueContent(viewModel: IssueViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+    val title: String by viewModel.title.observeAsState("")
     FurufuruTheme {
         Scaffold(
             floatingActionButton = {
-                                   SendButton()
+                SendButton()
             },
             content = {
                 Column(Modifier.fillMaxWidth()) {
-                    IssueTitle()
+                    IssueTitle(title, onChangeTitle = { viewModel.onTitleChange(it) })
                     IssueBody()
                     AuthorName()
                     ImageCompose()
@@ -36,16 +38,10 @@ fun IssueContent() {
 
 @Composable
 @Preview
-fun IssueTitle() {
-    var title by remember {
-        mutableStateOf("")
-    }
-
+fun IssueTitle(title: String, onChangeTitle: (String) -> Unit) {
     TextField(
         value = title,
-        onValueChange = {
-            title = it
-        },
+        onValueChange = onChangeTitle,
         modifier = Modifier.fillMaxWidth(),
         label = { Text("title") },
         singleLine = true,
