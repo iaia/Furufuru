@@ -86,6 +86,26 @@ fun ImageCompose(
 @Preview
 fun IssueLabels() {
     // TODO: 未対応 ref: https://material.io/blog/jetpack-compose-beta
+
+    /*
+    private fun addLabelChips() {
+        model.labels.observe(this) { labels ->
+            val chips = labels.map { label ->
+                Chip(this).apply {
+                    text = label
+                    isCheckable = true
+                    setOnCheckedChangeListener { _, isChecked ->
+                        model.onCheckedChangeLabel(isChecked, label)
+                    }
+                }
+            }
+            chips.forEach {
+                binding.cgLabels.addView(it)
+            }
+        }
+    }
+
+     */
 }
 
 @Composable
