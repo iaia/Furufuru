@@ -27,9 +27,17 @@ jobs:
       - name: generate keys.properties
         run: 'echo "$PROPERTY_KEYS" > keys.properties'
 
+      - name: setup gradle properties
+        run: |
+          mkdir ~/.gradle/
+          echo "GRADLE_USER_HOME=~/.gradle" >> $GITHUB_ENV
+          echo "$GRADLE_PROPERTIES" > ~/.gradle/gradle.properties
+
       # Runs a single command using the runners shell
       - name: generate gradlew
-        run: gradle wrapper
+        run: |
+          echo $GRADLE_USER_HOME
+          gradle wrapper
 
       - name: unit test
         run: ./gradlew testDebugUnitTest
