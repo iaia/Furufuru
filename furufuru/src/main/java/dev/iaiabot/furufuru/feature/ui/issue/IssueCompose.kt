@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 @ExperimentalMaterialApi
 @Composable
@@ -31,8 +32,9 @@ internal fun IssueContent(
     val imageStrBase64: String? by viewModel.imageStrBase64.observeAsState("")
     val isProgress: Boolean by viewModel.nowSending.observeAsState(false)
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Expanded)
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
+
     FurufuruTheme {
         BottomSheetScaffold(
             scaffoldState = bottomSheetScaffoldState,
@@ -47,6 +49,7 @@ internal fun IssueContent(
             floatingActionButton = {
                 SendButton(isProgress) { viewModel.post() }
             },
+            sheetPeekHeight = 128.dp,
         ) {
             ImageCompose(imageStrBase64)
         }
