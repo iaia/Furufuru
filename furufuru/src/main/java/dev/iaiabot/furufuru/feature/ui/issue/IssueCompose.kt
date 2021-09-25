@@ -19,32 +19,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
 
+@ExperimentalMaterialApi
 @Composable
 @Preview
-internal fun IssueContent(viewModel: IssueViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+internal fun IssueContent(
+    viewModel: IssueViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     val title: String by viewModel.title.observeAsState("")
     val body: String by viewModel.body.observeAsState("")
     val userName: String by viewModel.userName.observeAsState("")
     val imageStrBase64: String? by viewModel.imageStrBase64.observeAsState("")
     val isProgress: Boolean by viewModel.nowSending.observeAsState(false)
-
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Expanded)
+    )
     FurufuruTheme {
-        Scaffold(
-            floatingActionButton = {
-                SendButton(isProgress) { viewModel.post() }
-            },
-            content = {
+        BottomSheetScaffold(
+            scaffoldState = bottomSheetScaffoldState,
+            sheetContent = {
                 Column(Modifier.fillMaxWidth()) {
                     IssueTitle(title, onChangeTitle = { viewModel.onTitleChange(it) })
                     IssueBody(body, onChangeBody = { viewModel.onBodyChange(it) })
                     AuthorName(userName, onChangeAuthorName = { viewModel.onUserNameChange(it) })
-                    ImageCompose(imageStrBase64)
                     IssueLabels()
                 }
-
                 Progress(isProgress)
-            }
-        )
+            },
+            floatingActionButton = {
+                SendButton(isProgress) { viewModel.post() }
+            },
+        ) {
+            ImageCompose(imageStrBase64)
+        }
     }
 }
 
