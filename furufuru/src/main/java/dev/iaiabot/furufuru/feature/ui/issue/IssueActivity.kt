@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.iaiabot.furufuru.feature.Furufuru
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 internal class IssueActivity : AppCompatActivity() {
     companion object {
         fun createIntent(
@@ -27,6 +26,10 @@ internal class IssueActivity : AppCompatActivity() {
             IssueContent(model)
         }
 
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
         model.command.observe(this) {
             when (it) {
                 is Command.Finish -> {
