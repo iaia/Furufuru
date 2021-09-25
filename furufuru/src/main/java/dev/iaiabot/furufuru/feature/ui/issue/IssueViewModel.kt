@@ -75,7 +75,7 @@ internal class IssueViewModelImpl(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                //postIssueUseCase(title.value, userName.value, body.value, selectedLabels)
+                postIssueUseCase(title.value, userName.value, body.value, selectedLabels)
                 command.postValue(Command.Finish)
             } catch (e: Exception) {
                 command.postValue(Command.Error(e.message ?: "error"))
