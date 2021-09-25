@@ -11,7 +11,7 @@
             android:allowEmbedded="true"
             android:documentLaunchMode="always"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar"
+            android:theme="@style/BaseAppTheme"
             android:taskAffinity=""
             android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustResize"

@@ -43,7 +43,6 @@ internal fun IssueContent(
                     AuthorName(userName, onChangeAuthorName = { viewModel.onUserNameChange(it) })
                     IssueLabels()
                 }
-                Progress(isProgress)
             },
             floatingActionButton = {
                 SendButton(isProgress) { viewModel.post() }
@@ -51,6 +50,7 @@ internal fun IssueContent(
         ) {
             ImageCompose(imageStrBase64)
         }
+        Progress(isProgress)
     }
 }
 
