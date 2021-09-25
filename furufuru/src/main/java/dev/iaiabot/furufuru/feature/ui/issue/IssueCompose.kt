@@ -83,7 +83,8 @@ fun IssueBody(
         onValueChange = onChangeBody,
         modifier = Modifier.fillMaxWidth(),
         label = { Text("body") },
-        maxLines = 4
+        maxLines = 4,
+        singleLine = false,
     )
 }
 
