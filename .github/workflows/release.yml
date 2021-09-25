@@ -1,6 +1,10 @@
 name: release
 on:
   workflow_dispatch:
+env:
+  GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+  PROPERTY_KEYS: ${{ secrets.PROPERTY_KEYS }}
+
 jobs:
   bintray_upload:
     runs-on: ubuntu-latest
@@ -8,11 +12,21 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: generate keys.properties
-        run: 'echo "$PROPERTY_KEYS" > keys.properties'
+        run: echo "$PROPERTY_KEYS" > keys.properties
+
+      - name: setup gradle properties
+        run: |
+          mkdir ~/.gradle/
+          touch ~/.gradle/gradle.properties
+          echo "GRADLE_USER_HOME=~/.gradle" >> $GITHUB_ENV
+          echo "$GRADLE_PROPERTIES" > ~/.gradle/gradle.properties
+
+      - name: echo gradle properties
+        run: 'echo "$GRADLE_PROPERTIES" > ~/.gradle/gradle.properties'
 
       - name: generate gradlew
-        run: gradle wrapper
+        run: gradle --gradle-user-home ~/.gradle wrapper
 
       - name: build and upload
-        run: ./gradlew bintrayUpload
+        run: ./gradlew publishReleasePublicationToMavenRepository
 
