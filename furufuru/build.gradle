@@ -8,8 +8,8 @@ plugins {
     id("signing")
 }
 
-def FURUFURU_VERSION_NAME = 'v0.9.0'
-def FURUFURU_VERSION_CODE = 90
+def FURUFURU_VERSION_NAME = '0.9.1'
+def FURUFURU_VERSION_CODE = 91
 
 android {
     compileSdkVersion 31
