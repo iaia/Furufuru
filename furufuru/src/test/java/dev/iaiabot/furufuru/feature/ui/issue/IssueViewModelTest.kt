@@ -9,22 +9,27 @@ import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
-import io.mockk.every
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
-import io.mockk.verify
+import io.mockk.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.util.*
 
+@ExperimentalCoroutinesApi
 internal object IssueViewModelTest : Spek({
     lateinit var viewModel: IssueViewModel
     val loadUserNameUseCase = initMockOnGroup<LoadUserNameUseCase>()
     val githubSettings = initMockOnGroup<GithubSettings>()
     val postIssueUseCase = initMockOnGroup<PostIssueUseCase>()
     val getScreenShotUseCase = initMockOnGroup<GetScreenShotUseCase>()
+    val testDispatcher = TestCoroutineDispatcher()
 
     beforeEachTest {
+        Dispatchers.setMain(testDispatcher)
         ArchTaskExecutor
             .getInstance()
             .setDelegate(object : TaskExecutor() {
@@ -47,10 +52,16 @@ internal object IssueViewModelTest : Spek({
 
         mockkObject(IssueBodyTemplate)
         every { IssueBodyTemplate.createBody(any(), any(), any(), any()) } returns "aaaa"
+
+        every { getScreenShotUseCase() } returns mockk(relaxed = true)
+        every { loadUserNameUseCase() } returns mockk(relaxed = true)
     }
 
     afterEachTest {
         ArchTaskExecutor.getInstance().setDelegate(null)
+
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     describe("#init") {
