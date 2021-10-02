@@ -9,6 +9,7 @@ import dev.iaiabot.furufuru.repository.IssueRepository
 import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
+import kotlinx.coroutines.flow.single
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -59,7 +60,7 @@ internal class PostIssueUseCaseImpl(
     }
 
     private suspend fun uploadScreenShot(): ContentImageUrls? {
-        val screenshot = screenshotRepository.load()
+        val screenshot = screenshotRepository.screenShotFlow.single()
         if (screenshot.isNullOrEmpty()) {
             throw Exception("no screenshot")
         }
@@ -69,7 +70,7 @@ internal class PostIssueUseCaseImpl(
         )
         try {
             val result = contentRepository.post(content, generateUploadDestinationPath())
-            screenshotRepository.load(remove = true)
+            screenshotRepository.remove()
             return result
         } catch (e: Exception) {
             throw e

@@ -1,11 +1,17 @@
 package dev.iaiabot.furufuru.data.local
 
 import android.content.SharedPreferences
-import dev.iaiabot.furufuru.data.entity.User
 
-internal class UserDataSource(
+internal interface UserDataSource {
+
+    fun getUserName(): String
+    fun saveUserName(newUserName: String)
+}
+
+internal class UserDataSourceImpl(
     private val preferences: SharedPreferences
-) : User {
+) : UserDataSource {
+
     companion object {
         private const val USERNAME = "username"
     }
@@ -14,9 +20,9 @@ internal class UserDataSource(
         return preferences.getString(USERNAME, "") ?: ""
     }
 
-    override fun saveUserName(userName: String) {
+    override fun saveUserName(newUserName: String) {
         val editor = preferences.edit()
-        editor.putString(USERNAME, userName)
+        editor.putString(USERNAME, newUserName)
         editor.apply()
     }
 }

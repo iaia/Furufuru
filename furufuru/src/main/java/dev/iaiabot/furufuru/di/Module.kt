@@ -3,10 +3,10 @@ package dev.iaiabot.furufuru.di
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.LruCache
-import dev.iaiabot.furufuru.data.entity.ScreenShot
-import dev.iaiabot.furufuru.data.entity.User
 import dev.iaiabot.furufuru.data.local.ScreenshotDataSource
+import dev.iaiabot.furufuru.data.local.ScreenshotDataSourceImpl
 import dev.iaiabot.furufuru.data.local.UserDataSource
+import dev.iaiabot.furufuru.data.local.UserDataSourceImpl
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModelImpl
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
@@ -81,8 +81,8 @@ private val utilModule = module {
 }
 
 private val dataModule = module {
-    single<User> { UserDataSource(get()) }
-    single<ScreenShot> { ScreenshotDataSource(get(named("ScreenShotCache"))) }
+    single<UserDataSource> { UserDataSourceImpl(get()) }
+    single<ScreenshotDataSource> { ScreenshotDataSourceImpl(get(named("ScreenShotCache"))) }
 }
 
 private val androidModule = module {
