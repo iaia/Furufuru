@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.example
+package dev.iaiabot.furufuru.example.first
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
@@ -11,7 +11,7 @@ import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
 
 @Composable
 @Preview
-fun ExampleContent(
+fun FirstContent(
     openCustomTabs: () -> Unit = {}
 ) {
     MaterialTheme {

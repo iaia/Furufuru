@@ -1,4 +1,4 @@
-package dev.iaiabot.furufuru.example
+package dev.iaiabot.furufuru.example.second
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.MaterialTheme
