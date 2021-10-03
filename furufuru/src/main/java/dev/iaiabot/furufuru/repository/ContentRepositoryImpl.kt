@@ -22,7 +22,6 @@ internal class ContentRepositoryImpl(
             if (code() != 201) {
                 throw Exception("${errorBody()?.string() ?: ""}; ${message()}")
             }
-            // 201以外ならthrowする
             val contentResult =
                 body()?.content ?: throw Exception("${errorBody().toString()}; ${message()}")
             return ContentImageUrls(

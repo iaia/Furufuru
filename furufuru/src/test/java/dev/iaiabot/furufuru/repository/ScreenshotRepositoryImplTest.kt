@@ -1,49 +1,49 @@
 package dev.iaiabot.furufuru.repository
 
 import com.google.common.truth.Truth
-import dev.iaiabot.furufuru.data.entity.ScreenShot
+import dev.iaiabot.furufuru.data.local.ScreenshotDataSource
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verifyOrder
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 internal object ScreenshotRepositoryImplTest : Spek({
     lateinit var repository: ScreenshotRepository
-    lateinit var screenshot: ScreenShot
+    lateinit var screenshotDataSource: ScreenshotDataSource
 
-    beforeGroup {
-        screenshot = mockk()
-        repository = ScreenshotRepositoryImpl(screenshot)
+    beforeEachTest {
+        repository = ScreenshotRepositoryImpl(screenshotDataSource)
     }
 
     describe("#get") {
         context("未保存のとき") {
             beforeGroup {
-                every { screenshot.load() } returns null
-                every { screenshot.remove() } returns Unit
+                screenshotDataSource = mockk() {
+                    every { screenShotFlow } returns flow { emit(null) }
+                }
             }
 
             it("nullが返る") {
-                Truth.assertThat(repository.load()).isEqualTo(null)
-            }
-
-            it("取得したあと削除している") {
-                repository.load(true)
-                verifyOrder {
-                    screenshot.load()
-                    screenshot.remove()
+                runBlocking {
+                    Truth.assertThat(repository.screenShotFlow.single()).isEqualTo(null)
                 }
             }
         }
+
         context("保存済みの時") {
             beforeGroup {
-                every { screenshot.load() } returns "abcd"
-                every { screenshot.remove() } returns Unit
+                screenshotDataSource = mockk() {
+                    every { screenShotFlow } returns flow { emit("abcd") }
+                }
             }
 
             it("保存済みのものが返る") {
-                Truth.assertThat(repository.load()).isEqualTo("abcd")
+                runBlocking {
+                    Truth.assertThat(repository.screenShotFlow.single()).isEqualTo("abcd")
+                }
             }
         }
     }

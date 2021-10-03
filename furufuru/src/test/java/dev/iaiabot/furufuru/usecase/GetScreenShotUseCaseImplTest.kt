@@ -5,6 +5,7 @@ import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import io.mockk.every
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
@@ -14,9 +15,11 @@ internal object GetScreenShotUseCaseImplTest : Spek({
     val screenshotRepository = initMockOnGroup<ScreenshotRepository>()
 
     describe("#getScreenShot()") {
-        context("1発で取得出来る場合") {
+        context("スクリーンショットがある場合") {
             beforeGroup {
-                every { screenshotRepository.load() } returns "SCREEN_SHOT"
+                every { screenshotRepository.screenShotFlow } returns flow {
+                    emit("SCREEN_SHOT")
+                }
                 usecase = GetScreenShotUseCaseImpl(
                     screenshotRepository,
                 )

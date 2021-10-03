@@ -20,32 +20,33 @@ internal object ContentRepositoryImplTest : Spek({
     lateinit var githubSettings: GithubSettings
     lateinit var service: GithubService
 
-    beforeGroup {
+    beforeEachTest {
         githubSettings = mockk {
             every { githubRepositoryOwner } returns "iaia"
             every { githubRepository } returns "Furufuru"
         }
-        service = mockk()
         repository = ContentRepositoryImpl(githubSettings, service)
     }
 
     describe("#post") {
         val content = Content("furufuru", "file")
 
-        beforeGroup {
-            coEvery { service.postContent(any(), any(), any(), any()) } returns Response.success(
-                200, ContentResponse(
-                    ContentInfoResponse(
-                        "name",
-                        "url",
-                        "example.com/html_url.jpg",
-                        "example.com/download_url.jpg"
-                    )
-                )
-            )
-        }
-
         context("例外が発生しない場合") {
+            beforeGroup {
+                service = mockk() {
+                    coEvery { postContent(any(), any(), any(), any()) } returns Response.success(
+                        201, ContentResponse(
+                            ContentInfoResponse(
+                                "name",
+                                "url",
+                                "example.com/html_url.jpg",
+                                "example.com/download_url.jpg"
+                            )
+                        )
+                    )
+                }
+            }
+
             it("例外が発生しない") {
                 runBlocking {
                     try {
