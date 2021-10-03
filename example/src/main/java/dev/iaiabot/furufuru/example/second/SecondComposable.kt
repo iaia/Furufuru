@@ -1,16 +1,17 @@
 package dev.iaiabot.furufuru.example.second
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
 
 @Composable
-@Preview
 fun SecondContent(
+    navController: NavController,
 ) {
     MaterialTheme {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -25,6 +26,13 @@ fun SecondContent(
                     "file url"
                 )
             )
+            Button(
+                onClick = {
+                    navController.navigate("first")
+                }
+            ) {
+                Text(text = "go to first")
+            }
         }
     }
 }

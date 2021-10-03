@@ -6,12 +6,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
 
 @Composable
-@Preview
 fun FirstContent(
+    navController: NavController,
     openCustomTabs: () -> Unit = {}
 ) {
     MaterialTheme {
@@ -32,6 +32,28 @@ fun FirstContent(
             ) {
                 Text("oepn custom tabs")
             }
+            Button(
+                onClick = {
+                    navController.navigate("second") {
+                        popUpTo("first")
+                        launchSingleTop = true
+                    }
+                }
+            ) {
+                Text(text = "go to second")
+            }
         }
     }
 }
+
+/*
+private fun openCustomTabs() {
+    val url = "http://example.com"
+    startActivity(
+        Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    )
+    val builder = CustomTabsIntent.Builder()
+    val customTabsIntent: CustomTabsIntent = builder.build()
+    customTabsIntent.launchUrl(requireContext(), Uri.parse(url))
+}
+ */
