@@ -23,7 +23,7 @@ internal class IssueActivity : AppCompatActivity() {
 
         Furufuru.takeScreenshot()
         setContent {
-            IssueContent(model)
+            FurufuruScreen(model)
         }
 
         observeViewModel()
