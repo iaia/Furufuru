@@ -2,12 +2,14 @@ package dev.iaiabot.furufuru.feature
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import dev.iaiabot.furufuru.BuildConfig
 import dev.iaiabot.furufuru.di.diModules
 import dev.iaiabot.furufuru.feature.utils.lifecycle.FurufuruLifecycleCallback
 import dev.iaiabot.furufuru.util.GithubSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import org.koin.java.KoinJavaComponent.inject
 
 class Furufuru private constructor(
@@ -83,7 +85,7 @@ class Furufuru private constructor(
 
     init {
         startKoin {
-            androidLogger()
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(application)
             modules(diModules())
         }
