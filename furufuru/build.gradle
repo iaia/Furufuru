@@ -27,7 +27,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
 
-        buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+        buildConfigField("long", "VERSION_CODE", "${FURUFURU_VERSION_CODE}")
         buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
     }
 
