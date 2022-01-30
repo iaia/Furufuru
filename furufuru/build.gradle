@@ -8,8 +8,8 @@ plugins {
     id("signing")
 }
 
-def FURUFURU_VERSION_NAME = '0.9.2'
-def FURUFURU_VERSION_CODE = 92
+def FURUFURU_VERSION_NAME = '0.9.3'
+def FURUFURU_VERSION_CODE = 93
 
 group = "dev.iaiabot.furufuru"
 archivesBaseName = "furufuru"
@@ -28,7 +28,7 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
 
         buildConfigField("long", "VERSION_CODE", "${FURUFURU_VERSION_CODE}")
-        buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+        buildConfigField("String","VERSION_NAME","\"${FURUFURU_VERSION_NAME}\"")
     }
 
     buildTypes {
