@@ -66,7 +66,7 @@ fun Progress(isVisible: Boolean) {
 fun ImageContent(
     fileStr: String?
 ) {
-    if (fileStr == null) {
+    if (fileStr.isNullOrBlank()) {
         return
     }
     val decodedString: ByteArray = Base64.decode(fileStr.trim(), Base64.DEFAULT)

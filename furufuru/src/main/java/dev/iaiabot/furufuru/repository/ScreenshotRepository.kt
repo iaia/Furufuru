@@ -3,10 +3,8 @@ package dev.iaiabot.furufuru.repository
 import kotlinx.coroutines.flow.Flow
 
 internal interface ScreenshotRepository {
-   val screenShotFlow: Flow<String?>
-
    suspend fun save(fileStr: String)
-
-   // fun load(remove: Boolean = false): String?
-   fun remove()
+   suspend fun load(remove: Boolean = false): String?
+   suspend fun remove()
+   suspend fun observe(): Flow<String?>
 }

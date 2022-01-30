@@ -8,7 +8,8 @@ internal interface ScreenshotDataSource {
     val screenShotFlow: Flow<String?>
 
     suspend fun save(fileStr: String)
-    fun remove()
+    suspend fun remove()
+    suspend fun load(): String?
 }
 
 internal class ScreenshotDataSourceImpl(
@@ -27,15 +28,13 @@ internal class ScreenshotDataSourceImpl(
         }
     }
 
-    /*
-    override fun load(): String? {
+    override suspend fun load(): String? {
         return synchronized(cache) {
             cache.get(SCREENSHOT_KEY)
         }
     }
-     */
 
-    override fun remove() {
+    override suspend fun remove() {
         synchronized(cache) {
             cache.remove(SCREENSHOT_KEY)
             screenShotFlow.tryEmit(null)

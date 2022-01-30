@@ -1,27 +1,29 @@
 package dev.iaiabot.furufuru.repository
 
 import dev.iaiabot.furufuru.data.local.ScreenshotDataSource
+import kotlinx.coroutines.flow.Flow
 
 internal class ScreenshotRepositoryImpl(
     private val screenshotDataSource: ScreenshotDataSource,
 ) : ScreenshotRepository {
-    override val screenShotFlow = screenshotDataSource.screenShotFlow
 
     override suspend fun save(fileStr: String) {
         screenshotDataSource.save(fileStr)
     }
 
-    override fun remove() {
+    override suspend fun remove() {
         screenshotDataSource.remove()
     }
 
-    /*
-    override fun load(remove: Boolean): String? {
-        val file = screenshot.load()
+    override suspend fun load(remove: Boolean): String? {
+        val file = screenshotDataSource.load()
         if (remove) {
-            screenshot.remove()
+            screenshotDataSource.remove()
         }
         return file
     }
-     */
+
+    override suspend fun observe(): Flow<String?> {
+        return screenshotDataSource.screenShotFlow
+    }
 }

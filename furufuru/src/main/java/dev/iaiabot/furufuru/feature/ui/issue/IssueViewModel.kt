@@ -6,6 +6,7 @@ import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal abstract class IssueViewModel : ViewModel() {
@@ -33,7 +34,7 @@ internal class IssueViewModelImpl(
     override val title = MutableLiveData("")
     override val body = MutableLiveData("")
     override val userName = MutableLiveData("")
-    override val imageStrBase64 = getScreenShotUseCase().asLiveData()
+    override val imageStrBase64 = MutableLiveData<String?>()
     override val command = MutableLiveData<Command>()
     override val nowSending = MutableLiveData(false)
     override val labels = liveData {
@@ -44,6 +45,12 @@ internal class IssueViewModelImpl(
     init {
         viewModelScope.launch {
             userName.value = loadUserNameUseCase()
+
+        }
+        viewModelScope.launch {
+            getScreenShotUseCase().collect {
+                imageStrBase64.postValue(it)
+            }
         }
     }
 
