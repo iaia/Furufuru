@@ -38,7 +38,7 @@ internal object FurufuruNotification {
 
     fun createSensorNotification(context: Context): Notification {
         val target = IssueActivity.createIntent(context)
-        val contentIntent = PendingIntent.getActivity(context, 0, target, 0)
+        val contentIntent = PendingIntent.getActivity(context, 0, target, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat
             .Builder(context, Channels.FURUFURU.channelId)
             .setSmallIcon(R.drawable.ic_send) // TODO: furufuruのアイコン作る
