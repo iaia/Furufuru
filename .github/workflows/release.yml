@@ -1,9 +1,11 @@
 name: release
 on:
   workflow_dispatch:
+
 env:
   GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
   PROPERTY_KEYS: ${{ secrets.PROPERTY_KEYS }}
+  GRADLE_USER_HOME: ~/.gradle
 
 jobs:
   bintray_upload:
@@ -17,12 +19,9 @@ jobs:
       - name: setup gradle properties
         run: |
           mkdir ~/.gradle/
-          touch ~/.gradle/gradle.properties
-          echo "GRADLE_USER_HOME=~/.gradle" >> $GITHUB_ENV
-          echo "$GRADLE_PROPERTIES" > ~/.gradle/gradle.properties
-
-      - name: echo gradle properties
-        run: 'echo "$GRADLE_PROPERTIES" > ~/.gradle/gradle.properties'
+          echo "${{ env.GRADLE_PROPERTIES }}" > ~/.gradle/gradle.properties
+          mkdir .gradle/
+          echo "${{ env.GRADLE_PROPERTIES }}" >> furufuru/gradle.properties
 
       - name: generate gradlew
         run: gradle --gradle-user-home ~/.gradle wrapper
