@@ -57,8 +57,8 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion '1.6.20'
-        kotlinCompilerExtensionVersion '1.0.4'
+        kotlinCompilerVersion '1.6.10'
+        kotlinCompilerExtensionVersion '1.1.1'
     }
 
     // Add Kotlin source directory to all source sets
