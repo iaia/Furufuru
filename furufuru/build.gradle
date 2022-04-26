@@ -8,8 +8,8 @@ plugins {
     id("signing")
 }
 
-def FURUFURU_VERSION_NAME = '0.9.5'
-def FURUFURU_VERSION_CODE = 95
+def FURUFURU_VERSION_NAME = '0.9.6'
+def FURUFURU_VERSION_CODE = 96
 
 group = "dev.iaiabot.furufuru"
 archivesBaseName = "furufuru"
