@@ -46,9 +46,12 @@ workflows:
       - run_test:
           requires:
             - prepare
-      - release:
+      - hold:
+          type: approval
           requires:
             - run_test
+      - release:
+          requires:
             - hold
           filters:
             branches:
