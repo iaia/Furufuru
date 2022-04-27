@@ -18,10 +18,10 @@ jobs:
             #          root: ~/.gradle
             #          paths:
             #            - ~/.gradle
-            #      - persist_to_workspace:
-            #          root: .
-            #          paths:
-            #            - keys.properties
+      - persist_to_workspace:
+          root: .
+          paths:
+            - keys.properties
 
   run_test:
     executor:
