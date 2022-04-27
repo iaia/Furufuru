@@ -11,8 +11,17 @@ jobs:
       - run:
           name: Write setting file
           command: |
+            mkdir ~/.gradle
             echo $GRADLE_PROPERTIES > ~/.gradle/gradle.properties
             echo $KEYS_PROPERTIES > keys.properties
+            #      - persist_to_workspace:
+            #          root: ~/.gradle
+            #          paths:
+            #            - ~/.gradle
+            #      - persist_to_workspace:
+            #          root: .
+            #          paths:
+            #            - keys.properties
 
   run_test:
     executor:
@@ -42,7 +51,11 @@ workflows:
 
   release_workflow:
     jobs:
-      - prepare
+      - prepare:
+          filters:
+            branches:
+              only:
+                - master
       - run_test:
           requires:
             - prepare
@@ -53,7 +66,4 @@ workflows:
       - release:
           requires:
             - hold
-          filters:
-            branches:
-              only:
-                - master
+
