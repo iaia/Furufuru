@@ -52,7 +52,11 @@ jobs:
 workflows:
   pull_request_workflow:
     jobs:
-      - prepare
+      - prepare:
+          filters:
+            branches:
+              ignore:
+                - master
       - run_test:
           requires:
             - prepare
