@@ -38,11 +38,15 @@ jobs:
       - checkout
       - attach
       - android/restore-gradle-cache:
-          cache-prefix: test_v1
+          cache-prefix: test-gradle-v1
+      - android/restore-build-cache:
+          cache-prefix: test-build-v1
       - android/run-tests:
           test-command: ./gradlew --gradle-user-home ~/.gradle testDebugUnitTest
       - android/save-gradle-cache:
-          cache-prefix: test_v1
+          cache-prefix: test-gradle-v1
+      - android/save-build-cache:
+          cache-prefix: test-build-v1
 
   release:
     executor:
@@ -51,13 +55,17 @@ jobs:
       - checkout
       - attach
       - android/restore-gradle-cache:
-          cache-prefix: release_v1
+          cache-prefix: release-gradle-v1
+      - android/restore-build-cache:
+          cache-prefix: release-build-v1
       - run:
           name: Release to maven repository
           command: |
             ./gradlew publishReleasePublicationToMavenRepository
       - android/save-gradle-cache:
-          cache-prefix: release_v1
+          cache-prefix: release-gradle-v1
+      - android/save-build-cache:
+          cache-prefix: release-build-v1
 
 workflows:
   pull_request_workflow:
