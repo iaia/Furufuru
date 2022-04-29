@@ -92,7 +92,7 @@ workflows:
       - hold:
           type: approval
           requires:
-            - run_test
+            - prepare
       - release:
           requires:
             - hold
