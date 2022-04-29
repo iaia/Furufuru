@@ -6,14 +6,16 @@ import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import dev.iaiabot.furufuru.viewModelTestRule
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
-import java.util.*
 
 @ExperimentalCoroutinesApi
 internal object IssueViewModelTest : Spek({
@@ -31,7 +33,7 @@ internal object IssueViewModelTest : Spek({
             every { this@mockk.invoke() } returns "bbb"
         }
         getScreenShotUseCase = mockk() {
-            every { this@mockk.invoke() } returns flow { emit("aaa") }
+            coEvery { this@mockk.invoke() } returns flow { emit("aaa") }
         }
         githubSettings = mockk() {
             every { labels } returns mutableListOf("ccc")

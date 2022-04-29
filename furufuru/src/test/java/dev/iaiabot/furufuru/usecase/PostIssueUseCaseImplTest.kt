@@ -12,8 +12,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
 import org.spekframework.spek2.Spek
@@ -26,15 +24,11 @@ internal object PostIssueUseCaseImplTest : Spek({
     val contentRepository = initMockOnGroup<ContentRepository>()
     val githubSettings = initMockOnGroup<GithubSettings>()
     val saveUsernameUseCase = initMockOnGroup<SaveUsernameUseCase>()
-    lateinit var screenShotFlowMock: Flow<String?>
 
     describe("#post") {
         beforeGroup {
-            screenShotFlowMock = flow {
-                emit("SCREEN_SHOT")
-            }
-            every { screenshotRepository.screenShotFlow } returns screenShotFlowMock
-            every { screenshotRepository.remove() } returns Unit
+            coEvery { screenshotRepository.load(any()) } returns "SCREEN_SHOT"
+            coEvery { screenshotRepository.remove() } returns Unit
             coEvery { contentRepository.post(any(), any()) } returns mockk() {
                 every { fileUrl } returns "file"
                 every { imageUrl } returns "image"

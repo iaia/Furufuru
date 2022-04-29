@@ -2,10 +2,8 @@ package dev.iaiabot.furufuru.repository
 
 import com.google.common.truth.Truth
 import dev.iaiabot.furufuru.data.local.ScreenshotDataSource
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
@@ -22,13 +20,13 @@ internal object ScreenshotRepositoryImplTest : Spek({
         context("未保存のとき") {
             beforeGroup {
                 screenshotDataSource = mockk() {
-                    every { screenShotFlow } returns flow { emit(null) }
+                    coEvery { load() } returns null
                 }
             }
 
             it("nullが返る") {
                 runBlocking {
-                    Truth.assertThat(repository.screenShotFlow.single()).isEqualTo(null)
+                    Truth.assertThat(repository.load()).isEqualTo(null)
                 }
             }
         }
@@ -36,13 +34,13 @@ internal object ScreenshotRepositoryImplTest : Spek({
         context("保存済みの時") {
             beforeGroup {
                 screenshotDataSource = mockk() {
-                    every { screenShotFlow } returns flow { emit("abcd") }
+                    coEvery { load() } returns "SCREEN_SHOT"
                 }
             }
 
             it("保存済みのものが返る") {
                 runBlocking {
-                    Truth.assertThat(repository.screenShotFlow.single()).isEqualTo("abcd")
+                    Truth.assertThat(repository.load()).isEqualTo("SCREEN_SHOT")
                 }
             }
         }
