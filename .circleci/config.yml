@@ -22,7 +22,7 @@ jobs:
           command: |
             mkdir ~/.gradle
             echo $KEYS_PROPERTIES | base64 -d > keys.properties
-            echo $GRADLE_PROPERTIES | base64 -d >> gradle.properties
+            echo $SIGNING_GRADLE_PROPERTIES | base64 -d >> gradle.properties
             echo $GNUPG_SECRING | base64 -d > furufuru/secring.gpg
       - persist_to_workspace:
           root: .
