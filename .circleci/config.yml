@@ -42,19 +42,23 @@ commands:
     parameters:
       test_env:
         type: string
+    environment:
+      TEST: << parameters.test_env >>
     steps:
+      - run:
+          command: echo $TEST
       - run:
           command: echo << parameters.test_env >>
       - when:
           condition:
-            equal: [ true, << parameters.test_env >> ]
+            equal: [ true, $TEST ]
           steps:
             - run:
                 command: echo hello test
       - when:
           condition:
             not:
-              equal: [ true, << parameters.test_env >> ]
+              equal: [ true, $TEST ]
           steps:
             - run:
                 command: echo dame
