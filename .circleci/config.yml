@@ -35,19 +35,31 @@ commands:
           command: echo "export TEST=true" >> $BASH_ENV
       - run:
           command: echo $TEST
+      - alt_challenge:
+          test_env: $TEST
+
+  alt_challenge:
+    parameters:
+      test_env:
+        type: string
+    steps:
+      - run:
+          command: echo << parameters.test_env >>
       - when:
           condition:
-            equal: [ true, $TEST ]
+            equal: [ true, << parameters.test_env >> ]
           steps:
             - run:
                 command: echo hello test
       - when:
           condition:
             not:
-              equal: [ true, $TEST ]
+              equal: [ true, << parameters.test_env >> ]
           steps:
             - run:
                 command: echo dame
+
+
 
 jobs:
   run_test:
