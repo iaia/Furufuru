@@ -29,25 +29,25 @@ commands:
       - run:
           command: echo $TEST
       - alt_challenge:
-          test_env: "${TEST}"
+          test_env: $TEST
 
   alt_challenge:
     parameters:
       test_env:
-        type: boolean
+        type: string
     steps:
       - run:
           command: echo << parameters.test_env >>
       - when:
           condition:
-            equal: [ true, << parameters.test_env >> ]
+            equal: [ "$TEST", << parameters.test_env >> ]
           steps:
             - run:
                 command: echo hello test
       - when:
           condition:
             not:
-              equal: [ true, << parameters.test_env >> ]
+              equal: [ "$TEST", << parameters.test_env >> ]
           steps:
             - run:
                 command: echo dame
