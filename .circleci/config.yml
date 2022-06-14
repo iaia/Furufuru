@@ -24,13 +24,6 @@ commands:
     steps:
       - run:
           command: echo $TEST
-      - when:
-          condition:
-            or:
-              - equal: [ "true", $TEST ]
-          steps:
-            - run:
-                command: echo hello test
       - run:
           command: echo "export TEST=true" >> $BASH_ENV
       - run:
@@ -41,24 +34,20 @@ commands:
   alt_challenge:
     parameters:
       test_env:
-        type: string
-    environments:
-      TEST: << parameters.test_env >>
+        type: boolean
     steps:
-      - run:
-          command: echo $TEST
       - run:
           command: echo << parameters.test_env >>
       - when:
           condition:
-            equal: [ true, $TEST ]
+            equal: [ true, << parameters.test_env >> ]
           steps:
             - run:
                 command: echo hello test
       - when:
           condition:
             not:
-              equal: [ true, $TEST ]
+              equal: [ true, << parameters.test_env >> ]
           steps:
             - run:
                 command: echo dame
