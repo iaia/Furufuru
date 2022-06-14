@@ -38,14 +38,14 @@ commands:
       - when:
           condition:
             or:
-              - equal: [ "true", $TEST ]
+              - equal: [ true, $TEST ]
           steps:
             - run:
                 command: echo hello test
       - when:
           condition:
             not:
-              equal: [ "true", $TEST ]
+              equal: [ true, $TEST ]
           steps:
             - run:
                 command: echo dame
