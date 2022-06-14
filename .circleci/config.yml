@@ -37,8 +37,7 @@ commands:
           command: echo $TEST
       - when:
           condition:
-            or:
-              - equal: [ true, $TEST ]
+            equal: [ true, $TEST ]
           steps:
             - run:
                 command: echo hello test
