@@ -42,7 +42,7 @@ commands:
     parameters:
       test_env:
         type: string
-    environment:
+    environments:
       TEST: << parameters.test_env >>
     steps:
       - run:
