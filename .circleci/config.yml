@@ -20,6 +20,36 @@ commands:
             echo $SIGNING_GRADLE_PROPERTIES | base64 -d >> gradle.properties
             echo $GNUPG_SECRING | base64 -d > furufuru/secring.gpg
 
+  challenge:
+    steps:
+      - run:
+          command: echo $TEST
+      - when:
+          condition:
+            or:
+              - equal: [ "true", $TEST ]
+          steps:
+            - run:
+                command: echo hello test
+      - run:
+          command: echo "export TEST=true" >> $BASH_ENV
+      - run:
+          command: echo $TEST
+      - when:
+          condition:
+            or:
+              - equal: [ "true", $TEST ]
+          steps:
+            - run:
+                command: echo hello test
+      - when:
+          condition:
+            not:
+              equal: [ "true", $TEST ]
+          steps:
+            - run:
+                command: echo dame
+
 jobs:
   run_test:
     executor:
@@ -27,6 +57,7 @@ jobs:
     steps:
       - checkout
       - attach
+      - challenge
       - setup
       - android/restore-gradle-cache:
           cache-prefix: test-gradle-v1
