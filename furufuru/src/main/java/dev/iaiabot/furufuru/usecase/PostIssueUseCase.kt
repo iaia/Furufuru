@@ -55,11 +55,16 @@ internal class PostIssueUseCaseImpl(
             labels = labels
         )
 
-        issueRepository.post(issue)
+        try {
+            issueRepository.post(issue)
+            screenshotRepository.remove()
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     private suspend fun uploadScreenShot(): ContentImageUrls? {
-        val screenshot = screenshotRepository.load(true)
+        val screenshot = screenshotRepository.load(false)
         if (screenshot.isNullOrEmpty()) {
             throw Exception("no screenshot")
         }
@@ -69,7 +74,6 @@ internal class PostIssueUseCaseImpl(
         )
         try {
             val result = contentRepository.post(content, generateUploadDestinationPath())
-            screenshotRepository.remove()
             return result
         } catch (e: Exception) {
             throw e
