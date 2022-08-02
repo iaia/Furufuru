@@ -42,6 +42,8 @@ fun SendButton(
         FloatingActionButton(onClick = onClick) {
             Icon(Icons.Filled.Send, contentDescription = "send")
         }
+    } else {
+        Box(modifier = Modifier)
     }
 }
 
@@ -67,15 +69,16 @@ fun ImageContent(
     fileStr: String?
 ) {
     if (fileStr.isNullOrBlank()) {
-        return
+        Box(modifier = Modifier)
+    } else {
+        val decodedString: ByteArray = Base64.decode(fileStr.trim(), Base64.DEFAULT)
+        val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+        Image(
+            bitmap = bitmap.asImageBitmap(),
+            contentDescription = "",
+            modifier = Modifier.fillMaxWidth()
+        )
     }
-    val decodedString: ByteArray = Base64.decode(fileStr.trim(), Base64.DEFAULT)
-    val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-    Image(
-        bitmap = bitmap.asImageBitmap(),
-        contentDescription = "",
-        modifier = Modifier.fillMaxWidth()
-    )
 }
 
 @Composable
