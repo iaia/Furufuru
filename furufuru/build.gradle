@@ -142,7 +142,13 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-rxjava2:$compose"
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation(platform("org.junit:junit-bom:5.9.0"))
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
+        because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
+    }
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
 
     testImplementation "android.arch.core:core-testing:1.1.1"
@@ -156,7 +162,6 @@ dependencies {
     ext.spek = "2.0.17"
     testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek"
     testImplementation "org.spekframework.spek2:spek-runner-junit5:$spek"
-    runtimeOnly "org.junit.vintage:junit-vintage-engine:5.9.0"
 
     // spek requires kotlin-reflect, omit when already in classpath
     testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
