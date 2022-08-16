@@ -69,6 +69,7 @@ android {
             filters {
                 engines {
                     include 'spek2'
+                    include 'junit-vintage'
                 }
             }
         }
@@ -155,6 +156,7 @@ dependencies {
     ext.spek = "2.0.17"
     testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek"
     testImplementation "org.spekframework.spek2:spek-runner-junit5:$spek"
+    runtimeOnly "org.junit.vintage:junit-vintage-engine:5.9.0"
 
     // spek requires kotlin-reflect, omit when already in classpath
     testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
