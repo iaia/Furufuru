@@ -68,8 +68,9 @@ android {
         junitPlatform {
             filters {
                 engines {
+                    include "junit-jupiter"
+                    include "junit-vintage"
                     include 'spek2'
-                    include 'junit-vintage'
                 }
             }
         }
