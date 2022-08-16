@@ -70,7 +70,6 @@ android {
                 engines {
                     include "junit-jupiter"
                     include "junit-vintage"
-                    include 'spek2'
                 }
             }
         }
@@ -152,6 +151,9 @@ dependencies {
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
 
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+
+    ext.kotest_version = "5.4.2"
+    testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
 
     testImplementation "android.arch.core:core-testing:1.1.1"
 
