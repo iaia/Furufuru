@@ -10,13 +10,16 @@ import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
+import org.junit.jupiter.api.extension.ExtendWith
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
+@ExtendWith(MockKExtension::class)
 internal object PostIssueUseCaseImplTest : Spek({
     lateinit var usecase: PostIssueUseCase
     val issueRepository = initMockOnGroup<IssueRepository>()
@@ -34,7 +37,6 @@ internal object PostIssueUseCaseImplTest : Spek({
                 every { imageUrl } returns "image"
             }
             every { githubSettings.furufuruBranch } returns "furufuru-branch"
-            mockkObject(IssueBodyTemplate)
             every { IssueBodyTemplate.createBody(any(), any(), any(), any()) } returns "ISSUE_BODY"
             coEvery { issueRepository.post(any()) } returns Unit
             coEvery { saveUsernameUseCase(any()) } returns Unit

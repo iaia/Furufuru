@@ -147,7 +147,7 @@ dependencies {
     testImplementation "android.arch.core:core-testing:1.1.1"
 
     // mockk
-    ext.mockk = "1.12.3"
+    ext.mockk = "1.12.7"
     testImplementation "io.mockk:mockk:${mockk}"
     testImplementation "io.mockk:mockk-agent-jvm:${mockk}"
 
