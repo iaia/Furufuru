@@ -1,6 +1,7 @@
 package dev.iaiabot.furufuru.feature.ui.issue
 
 import com.google.common.truth.Truth.assertThat
+import dev.iaiabot.furufuru.furufuruTestRule
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
 import dev.iaiabot.furufuru.usecase.user.LoadUserNameUseCase
@@ -26,6 +27,7 @@ internal object IssueViewModelTest : Spek({
     lateinit var getScreenShotUseCase: GetScreenShotUseCase
     val testDispatcher = TestCoroutineDispatcher()
 
+    furufuruTestRule()
     viewModelTestRule(testDispatcher)
 
     beforeEachTest {

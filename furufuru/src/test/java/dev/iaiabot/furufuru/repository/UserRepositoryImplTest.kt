@@ -2,6 +2,7 @@ package dev.iaiabot.furufuru.repository
 
 import com.google.common.truth.Truth.assertThat
 import dev.iaiabot.furufuru.data.local.UserDataSource
+import dev.iaiabot.furufuru.furufuruTestRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -11,6 +12,8 @@ import org.spekframework.spek2.style.specification.describe
 internal object UserRepositoryImplTest : Spek({
     lateinit var repository: UserRepository
     lateinit var userDataSource: UserDataSource
+
+    furufuruTestRule()
 
     beforeEachTest {
         repository = UserRepositoryImpl(userDataSource)

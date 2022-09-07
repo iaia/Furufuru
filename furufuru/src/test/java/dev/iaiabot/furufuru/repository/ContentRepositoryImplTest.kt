@@ -5,6 +5,7 @@ import dev.iaiabot.furufuru.data.github.GithubService
 import dev.iaiabot.furufuru.data.github.request.Content
 import dev.iaiabot.furufuru.data.github.response.ContentInfoResponse
 import dev.iaiabot.furufuru.data.github.response.ContentResponse
+import dev.iaiabot.furufuru.furufuruTestRule
 import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.coEvery
 import io.mockk.every
@@ -19,6 +20,8 @@ internal object ContentRepositoryImplTest : Spek({
     lateinit var repository: ContentRepository
     lateinit var githubSettings: GithubSettings
     lateinit var service: GithubService
+
+    furufuruTestRule()
 
     beforeEachTest {
         githubSettings = mockk {

@@ -2,6 +2,7 @@ package dev.iaiabot.furufuru.repository
 
 import com.google.common.truth.Truth
 import dev.iaiabot.furufuru.data.local.ScreenshotDataSource
+import dev.iaiabot.furufuru.furufuruTestRule
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -11,6 +12,8 @@ import org.spekframework.spek2.style.specification.describe
 internal object ScreenshotRepositoryImplTest : Spek({
     lateinit var repository: ScreenshotRepository
     lateinit var screenshotDataSource: ScreenshotDataSource
+
+    furufuruTestRule()
 
     beforeEachTest {
         repository = ScreenshotRepositoryImpl(screenshotDataSource)

@@ -1,6 +1,7 @@
 package dev.iaiabot.furufuru.usecase
 
 import com.google.common.truth.Truth.assertThat
+import dev.iaiabot.furufuru.furufuruTestRule
 import dev.iaiabot.furufuru.repository.ScreenshotRepository
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import io.mockk.coEvery
@@ -12,6 +13,8 @@ import org.spekframework.spek2.style.specification.describe
 internal object GetScreenShotUseCaseImplTest : Spek({
     lateinit var usecase: GetScreenShotUseCase
     val screenshotRepository = initMockOnGroup<ScreenshotRepository>()
+
+    furufuruTestRule()
 
     describe("#getScreenShot()") {
         context("スクリーンショットがある場合") {

@@ -3,6 +3,7 @@ package dev.iaiabot.furufuru.repository
 import dev.iaiabot.furufuru.data.github.GithubService
 import dev.iaiabot.furufuru.data.github.request.Issue
 import dev.iaiabot.furufuru.data.github.response.IssueResponse
+import dev.iaiabot.furufuru.furufuruTestRule
 import dev.iaiabot.furufuru.util.GithubSettings
 import io.mockk.coEvery
 import io.mockk.every
@@ -17,6 +18,8 @@ internal object IssueRepositoryImplTest : Spek({
     lateinit var repository: IssueRepository
     lateinit var githubSettings: GithubSettings
     lateinit var service: GithubService
+
+    furufuruTestRule()
 
     beforeGroup {
         githubSettings = mockk {

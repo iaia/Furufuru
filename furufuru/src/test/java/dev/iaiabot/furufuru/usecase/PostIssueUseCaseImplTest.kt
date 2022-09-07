@@ -2,6 +2,7 @@ package dev.iaiabot.furufuru.usecase
 
 import com.google.common.truth.Truth
 import dev.iaiabot.furufuru.feature.ui.issue.IssueBodyTemplate
+import dev.iaiabot.furufuru.furufuruTestRule
 import dev.iaiabot.furufuru.repository.ContentRepository
 import dev.iaiabot.furufuru.repository.IssueRepository
 import dev.iaiabot.furufuru.repository.ScreenshotRepository
@@ -24,6 +25,8 @@ internal object PostIssueUseCaseImplTest : Spek({
     val contentRepository = initMockOnGroup<ContentRepository>()
     val githubSettings = initMockOnGroup<GithubSettings>()
     val saveUsernameUseCase = initMockOnGroup<SaveUsernameUseCase>()
+
+    furufuruTestRule()
 
     describe("#post") {
         beforeGroup {

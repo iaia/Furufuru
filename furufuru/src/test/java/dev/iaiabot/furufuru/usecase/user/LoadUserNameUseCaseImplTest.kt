@@ -1,6 +1,7 @@
 package dev.iaiabot.furufuru.usecase.user
 
 import com.google.common.truth.Truth
+import dev.iaiabot.furufuru.furufuruTestRule
 import dev.iaiabot.furufuru.repository.UserRepository
 import dev.iaiabot.furufuru.testtool.initMockOnGroup
 import io.mockk.coEvery
@@ -10,6 +11,8 @@ import org.spekframework.spek2.style.specification.describe
 
 internal object LoadUserNameUseCaseImplTest : Spek({
     lateinit var usecase: LoadUserNameUseCase
+
+    furufuruTestRule()
 
     val userRepository = initMockOnGroup<UserRepository>()
 
