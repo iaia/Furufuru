@@ -18,7 +18,9 @@ internal class ContentRepositoryImpl(
             path
         ).run {
             if (code() != 201) {
-                throw Exception("${errorBody()?.string() ?: ""}; ${message()}")
+                val errorBody = errorBody()?.string() ?: ""
+                val errorMessage = message()
+                throw Exception("$errorBody; $errorMessage")
             }
             val contentResult =
                 body()?.content ?: throw Exception("${errorBody().toString()}; ${message()}")

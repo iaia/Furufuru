@@ -1,5 +1,6 @@
 package dev.iaiabot.furufuru.usecase
 
+import android.util.Log
 import dev.iaiabot.furufuru.data.entity.ContentImageUrls
 import dev.iaiabot.furufuru.data.github.request.Content
 import dev.iaiabot.furufuru.data.github.request.Issue
@@ -76,6 +77,7 @@ internal class PostIssueUseCaseImpl(
             val result = contentRepository.post(content, generateUploadDestinationPath())
             return result
         } catch (e: Exception) {
+            Log.d("PostIssue", "${e.message}")
             throw e
         }
     }

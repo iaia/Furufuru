@@ -17,6 +17,12 @@ internal object GithubApiClient {
 
     private val GITHUB_SETTINGS: GithubSettings by inject(GithubSettings::class.java)
 
+    private val json = Json {
+        encodeDefaults = false
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
+
     fun build(): GithubService {
         return buildRetrofit()
             .create(GithubService::class.java)
@@ -39,14 +45,10 @@ internal object GithubApiClient {
                     .build()
                 chain.proceed(newRequest)
             }.build()
+
         return Retrofit.Builder().run {
             client(client)
-            addConverterFactory(
-                Json {
-                    encodeDefaults = false
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                }.asConverterFactory(contentType))
+            addConverterFactory(json.asConverterFactory(contentType))
             baseUrl(BuildConfig.GITHUB_API_URL)
             build()
         }
