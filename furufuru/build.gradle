@@ -176,11 +176,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
-/*
-
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier "source"
+    archiveClassifier.set("source")
 }
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
@@ -256,4 +254,3 @@ afterEvaluate {
 signing {
     sign publishing.publications
 }
- */
