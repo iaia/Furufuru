@@ -5,7 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dev.iaiabot.furufuru.BuildConfig
 import dev.iaiabot.furufuru.util.GithubSettings
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.koin.java.KoinJavaComponent.inject
@@ -29,7 +29,7 @@ internal object GithubApiClient {
     }
 
     private fun buildRetrofit(): Retrofit {
-        val contentType = MediaType.parse("application/json")!!
+        val contentType = "application/json".toMediaTypeOrNull()!!
         val client = OkHttpClient.Builder()
             .connectTimeout(TIMEOUT_MILLI_SEC, TimeUnit.MILLISECONDS)
             .writeTimeout(TIMEOUT_MILLI_SEC, TimeUnit.MILLISECONDS)
@@ -37,7 +37,7 @@ internal object GithubApiClient {
             .addInterceptor { chain ->
                 val request = chain.request()
                 val buffer = okio.Buffer()
-                request.body()?.writeTo(buffer)
+                request.body?.writeTo(buffer)
                 Log.d("Furufuru request body", buffer.readUtf8())
 
                 val newRequest: Request = chain.request().newBuilder()

@@ -94,10 +94,10 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10"
 
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
 
     // koin
-    ext.koin_version = '3.4.3'
+    ext.koin_version = '3.5.0'
     // Koin main features for Android (Scope,ViewModel ...)
     implementation "io.insert-koin:koin-android:$koin_version"
     // Koin Java Compatibility
@@ -118,15 +118,17 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-properties:1.6.0'
     implementation('com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0')
 
+    // retrofitがom.squareup.okhttp3/okhttp@3.14.9に依存しているため
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     // retrofit
     ext.retrofit_version = '2.9.0'
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     // implementation("com.squareup.retrofit2:retrofit-mock:$retrofit_version")
 
-    ext.compose = "1.5.1"
+    ext.compose = "1.5.3"
     implementation "androidx.compose.ui:ui:$compose"
     // Tooling support (Previews, etc.)
-    implementation "androidx.activity:activity-compose:1.7.2"
+    implementation "androidx.activity:activity-compose:1.8.0"
     implementation "androidx.compose.ui:ui-tooling:$compose"
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     implementation "androidx.compose.foundation:foundation:$compose"
@@ -176,21 +178,24 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
-task sourceJar(type: Jar) {
+tasks.register('sourceJar', Jar) {
     from android.sourceSets.main.java.srcDirs
     archiveClassifier.set("source")
 }
-task javadoc(type: Javadoc) {
+tasks.register('javadoc', Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     destinationDir = file("../javadoc/")
     failOnError false
 }
-task javadocJar(type: Jar, dependsOn: javadoc) {
+tasks.register('javadocJar', Jar) {
+    dependsOn javadoc
     archiveClassifier.set('javadoc')
     from tasks.javadoc.destinationDir
 }
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
+    dependsOn generateMetadataFileForReleasePublication
+    dependsOn javadocJar
     archiveClassifier.set('sources')
     from android.sourceSets.main.java.srcDirs
 }
@@ -217,8 +222,8 @@ afterEvaluate {
 
                 from components.release
 
-                artifact androidSourcesJar
-                artifact javadocJar
+                // artifact androidSourcesJar
+                // artifact javadocJar
 
                 // Mostly self-explanatory metadata
                 pom {
