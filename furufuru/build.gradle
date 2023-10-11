@@ -118,12 +118,16 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-properties:1.6.0'
     implementation('com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0')
 
-    // retrofitがom.squareup.okhttp3/okhttp@3.14.9に依存しているため
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     // retrofit
     ext.retrofit_version = '2.9.0'
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     // implementation("com.squareup.retrofit2:retrofit-mock:$retrofit_version")
+
+    // retrofitが以下の問題のあるlibに依存しているため
+    // om.squareup.okhttp3/okhttp@3.14.9
+    // com.squareup.okio/okio@3.2.0
+    implementation("com.squareup.okio:okio:3.6.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
     ext.compose = "1.5.3"
     implementation "androidx.compose.ui:ui:$compose"
