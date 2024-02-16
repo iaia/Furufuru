@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun FurufuruScreen(
     viewModel: IssueViewModel
