@@ -31,16 +31,9 @@ internal fun FurufuruScreen(
             floatingActionButton = {
                 SendButton(isProgress) { viewModel.post() }
             },
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                ImageContent(imageStrBase64)
+            bottomBar = {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(it)
-                        .align(Alignment.BottomCenter)
+                    modifier = Modifier,
                 ) {
                     FurufuruTextField(
                         text = title,
@@ -60,6 +53,10 @@ internal fun FurufuruScreen(
                     )
                     IssueLabels()
                 }
+            }
+        ) {
+            Box(modifier = Modifier.padding(it)) {
+                ImageContent(imageStrBase64)
                 Progress(isProgress)
             }
         }
