@@ -1,11 +1,15 @@
 package dev.iaiabot.furufuru.feature.ui.issue
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,15 +26,23 @@ internal fun FurufuruScreen(
     val userName: String by viewModel.userName.observeAsState("")
     val imageStrBase64: String? by viewModel.imageStrBase64.observeAsState("")
     val isProgress: Boolean by viewModel.nowSending.observeAsState(false)
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
 
     FurufuruTheme {
-        BottomSheetScaffold(
-            scaffoldState = bottomSheetScaffoldState,
-            sheetContent = {
-                Column(Modifier.fillMaxWidth()) {
+        Scaffold(
+            floatingActionButton = {
+                SendButton(isProgress) { viewModel.post() }
+            },
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                ImageContent(imageStrBase64)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(it)
+                        .align(Alignment.BottomCenter)
+                ) {
                     FurufuruTextField(
                         text = title,
                         label = "issue title",
@@ -49,15 +61,9 @@ internal fun FurufuruScreen(
                     )
                     IssueLabels()
                 }
-            },
-            floatingActionButton = {
-                SendButton(isProgress) { viewModel.post() }
-            },
-            sheetPeekHeight = 128.dp,
-        ) {
-            ImageContent(imageStrBase64)
+                Progress(isProgress)
+            }
         }
-        Progress(isProgress)
     }
 }
 
