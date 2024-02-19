@@ -14,6 +14,7 @@ jobs:
   prepare:
     executor:
       name: android/android-machine
+      tag: 2021.10.1
     steps:
       - checkout
       - attach
@@ -34,6 +35,7 @@ jobs:
   run_test:
     executor:
       name: android/android-machine
+      tag: 2021.10.1
     steps:
       - checkout
       - attach
@@ -51,6 +53,7 @@ jobs:
   release:
     executor:
       name: android/android-machine
+      tag: 2021.10.1
     steps:
       - checkout
       - attach
