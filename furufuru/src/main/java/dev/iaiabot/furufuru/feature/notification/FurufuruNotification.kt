@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.Person
 import androidx.core.graphics.drawable.IconCompat
 import dev.iaiabot.furufuru.R
 import dev.iaiabot.furufuru.feature.ui.issue.IssueActivity
@@ -21,12 +22,12 @@ internal object FurufuruNotification {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createNotificationChannel(notificationManager: NotificationManager) {
-        Channels.values().forEach { channel ->
+        Channels.entries.forEach { channel ->
             if (notificationManager.getNotificationChannel(channel.channelId) == null) {
                 val notificationChannel = NotificationChannel(
                     channel.channelId,
                     channel.channelName,
-                    NotificationManager.IMPORTANCE_LOW
+                    NotificationManager.IMPORTANCE_DEFAULT
                 )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     notificationChannel.setAllowBubbles(true)
@@ -46,8 +47,14 @@ internal object FurufuruNotification {
             .setContentTitle("Furufuru is running")
             .setContentIntent(contentIntent) // 二重に設定する?
             .setCategory(Notification.CATEGORY_CALL)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val person = Person.Builder()
+                    .setName("Furufuru")
+                    .setImportant(true)
+                    .build()
+                addPerson(person)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     bubbleMetadata = createBubbleMetaData(context, contentIntent)
                 }
             }
@@ -100,18 +107,18 @@ internal object FurufuruNotification {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresApi(Build.VERSION_CODES.R)
     private fun createBubbleMetaData(
         context: Context,
         contentIntent: PendingIntent
     ): NotificationCompat.BubbleMetadata {
-        return NotificationCompat.BubbleMetadata
-            .Builder()
-            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_send))
-            .setIntent(contentIntent)
+        return NotificationCompat.BubbleMetadata.Builder(
+            contentIntent,
+            IconCompat.createWithResource(context, R.drawable.ic_send)
+        )
             .setDesiredHeight(600)
-            .setAutoExpandBubble(false)
-            .setSuppressNotification(false)
+            .setAutoExpandBubble(true)
+            .setSuppressNotification(true)
             .build()
     }
 }
