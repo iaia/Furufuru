@@ -1,6 +1,9 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id('com.android.application')
+    id('kotlin-android')
+    id('kotlin-kapt')
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+}
 
 android {
     compileSdk 34
@@ -34,10 +37,6 @@ android {
     buildFeatures {
         compose true
         buildConfig = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.9'
     }
 
     compileOptions {

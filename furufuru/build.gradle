@@ -6,6 +6,7 @@ plugins {
     id("de.mannodermaus.android-junit5")
     id("maven-publish")
     id("signing")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 def FURUFURU_VERSION_NAME = '0.11.0'
@@ -52,10 +53,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.9'
     }
 
     // Add Kotlin source directory to all source sets
