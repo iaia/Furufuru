@@ -1,0 +1,19 @@
+product:
+  type: lib
+  platforms: [ android ]
+
+packaging:
+  - type: fatJar
+    content:
+      include: LICENSE
+
+publishing:
+  - type: maven
+    groupId: dev.iaiabot.furufuru
+    artifactId: furufuru
+    repository:
+      url: https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+      credentials:
+        file: ../local.properties
+        username: ossrhUsername
+        password: ossrhPassword
