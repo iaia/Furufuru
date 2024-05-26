@@ -24,15 +24,24 @@ class Furufuru private constructor(
         private var furufuruBranch: String? = null
         private var labels: List<String> = emptyList()
 
-        fun settingGithub(
-            githubApiToken: String,
-            githubReposOwner: String,
-            githubRepository: String,
+        fun setGithubApiToken(githubApiToken: String): Builder {
+            this.githubApiToken = githubApiToken
+            return this
+        }
+
+        fun setGithubReposOwner(githubReposOwner: String): Builder {
+            this.githubReposOwner = githubReposOwner
+            return this
+        }
+
+        fun setGithubRepository(githubRepository: String): Builder {
+            this.githubRepository = githubRepository
+            return this
+        }
+
+        fun setGithubBranch(
             furufuruBranch: String? = null
         ): Builder {
-            this.githubApiToken = githubApiToken
-            this.githubReposOwner = githubReposOwner
-            this.githubRepository = githubRepository
             this.furufuruBranch = furufuruBranch
             return this
         }
