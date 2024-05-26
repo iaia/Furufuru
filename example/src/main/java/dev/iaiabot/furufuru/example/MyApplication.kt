@@ -1,7 +1,7 @@
 package dev.iaiabot.furufuru.example
 
 import android.app.Application
-import dev.iaiabot.furufuru.feature.Furufuru
+import dev.iaiabot.furufuru.Furufuru
 
 class MyApplication : Application() {
     override fun onCreate() {

@@ -1,8 +1,7 @@
-package dev.iaiabot.furufuru.feature
+package dev.iaiabot.furufuru
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import dev.iaiabot.furufuru.BuildConfig
 import dev.iaiabot.furufuru.di.diModules
 import dev.iaiabot.furufuru.feature.utils.lifecycle.FurufuruLifecycleCallback
 import dev.iaiabot.furufuru.util.GithubSettings

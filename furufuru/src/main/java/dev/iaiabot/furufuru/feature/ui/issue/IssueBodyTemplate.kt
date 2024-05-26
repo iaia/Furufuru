@@ -2,7 +2,7 @@ package dev.iaiabot.furufuru.feature.ui.issue
 
 import android.os.Build
 import dev.iaiabot.furufuru.BuildConfig
-import dev.iaiabot.furufuru.feature.Furufuru
+import dev.iaiabot.furufuru.Furufuru
 
 // issue repositoryにもっていきたい
 object IssueBodyTemplate {

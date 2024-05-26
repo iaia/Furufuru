@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import dev.iaiabot.furufuru.feature.Furufuru
+import dev.iaiabot.furufuru.Furufuru
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class IssueActivity : AppCompatActivity() {
