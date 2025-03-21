@@ -54,6 +54,7 @@ internal object FurufuruNotification {
                     .setImportant(true)
                     .build()
                 addPerson(person)
+                setSilent(true)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     bubbleMetadata = createBubbleMetaData(context, contentIntent)
                 }
