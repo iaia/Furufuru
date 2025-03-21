@@ -17,12 +17,12 @@ archivesBaseName = "furufuru"
 version = FURUFURU_VERSION_NAME
 
 android {
-    compileSdk 34
+    compileSdk 36
     namespace 'dev.iaiabot.furufuru'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 36
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'

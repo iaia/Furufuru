@@ -120,6 +120,6 @@ class Furufuru private constructor(
             application.packageManager.getPackageInfo(
                 application.packageName, 0
             )
-        return pInfo.versionName
+        return pInfo.versionName ?: "UNKNOWN VERSION"
     }
 }
