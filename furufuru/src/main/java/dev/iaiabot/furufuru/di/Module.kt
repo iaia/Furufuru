@@ -10,7 +10,14 @@ import dev.iaiabot.furufuru.data.local.UserDataSourceImpl
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModel
 import dev.iaiabot.furufuru.feature.ui.issue.IssueViewModelImpl
 import dev.iaiabot.furufuru.feature.utils.screenshot.ScreenShotter
-import dev.iaiabot.furufuru.repository.*
+import dev.iaiabot.furufuru.repository.ContentRepository
+import dev.iaiabot.furufuru.repository.ContentRepositoryImpl
+import dev.iaiabot.furufuru.repository.IssueRepository
+import dev.iaiabot.furufuru.repository.IssueRepositoryImpl
+import dev.iaiabot.furufuru.repository.ScreenshotRepository
+import dev.iaiabot.furufuru.repository.ScreenshotRepositoryImpl
+import dev.iaiabot.furufuru.repository.UserRepository
+import dev.iaiabot.furufuru.repository.UserRepositoryImpl
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCase
 import dev.iaiabot.furufuru.usecase.GetScreenShotUseCaseImpl
 import dev.iaiabot.furufuru.usecase.PostIssueUseCase
@@ -21,7 +28,7 @@ import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCase
 import dev.iaiabot.furufuru.usecase.user.SaveUsernameUseCaseImpl
 import dev.iaiabot.furufuru.util.GithubSettings
 import org.koin.android.ext.koin.androidApplication
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 

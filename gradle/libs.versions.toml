@@ -5,18 +5,18 @@ browser = "1.8.0"
 composeBom = "2025.03.00"
 coreTesting = "1.1.1"
 espressoCore = "3.6.1"
-gradle = "8.8.2"
+gradle = "8.9.0"
 junit = "4.13.2"
 junitBom = "5.11.4"
-junitJupiter = "5.11.4"
+junitJupiter = "5.12.1"
 junitVersion = "1.2.1"
-kotlin = "2.1.0"
-kotlinReflect = "2.1.0"
-kotlinStdlibJdk7 = "2.0.21"
+kotlin = "2.1.20"
+kotlinReflect = "2.1.20"
+kotlinStdlibJdk7 = "2.1.0"
 kotlinxCoroutinesTest = "1.10.1"
 ktx = "1.15.0"
 composePlugin = "2.1.0"
-mockk = "1.13.16"
+mockk = "1.13.17"
 navigationCompose = "2.8.9"
 okhttp = "4.12.0"
 okio = "3.10.2"
@@ -25,15 +25,15 @@ serializationPlugin = "2.1.0"
 androidxAppCompat = "1.7.0"
 androidxLifecycle = "2.8.7"
 kotlinxCroutine = "1.10.1"
-kotlinStdLibJdk8 = "2.0.21"
+kotlinStdLibJdk8 = "2.1.20"
 androidMaterial = "1.12.0"
-koin = "4.0.2"
+koin-bom = "4.0.2"
 permissionsDispatcher = "4.9.2"
 kotlinSerialization = "1.8.0"
 retrofit2SerializationConverter = "1.0.0"
 spek = "2.0.19"
-truth = "1.4.2"
-kotest = "5.9.0"
+truth = "1.4.4"
+kotest = "5.9.1"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose" }
@@ -74,10 +74,12 @@ kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", versi
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCroutine" }
 kotlin-stdlib-jdk8 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlinStdLibJdk8" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-koin-android-compat = { group = "io.insert-koin", name = "koin-android-compat", version.ref = "koin" }
-koin-androidx-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin" }
-koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-core-viewmodel = { module = "io.insert-koin:koin-core-viewmodel" }
+koin-android-compat = { module = "io.insert-koin:koin-android-compat" }
+koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { module = "androidx.compose.material:material" }
 material-icons-core = { module = "androidx.compose.material:material-icons-core" }
@@ -105,7 +107,6 @@ ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 [plugins]
 android-lib-plugin = { id = "com.android.library" }
 kotlin-android-plugin = { id = "kotlin-android" }
-kotlin-kapt-plugin = { id = "kotlin-kapt" }
 kotlin-serialzation-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serializationPlugin" }
 android-junit5-plugin = { id = "de.mannodermaus.android-junit5" }
 maven-publish-plugin = { id = "maven-publish" }
