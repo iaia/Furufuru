@@ -13,16 +13,15 @@ def FURUFURU_VERSION_NAME = '0.14.0'
 def FURUFURU_VERSION_CODE = 140
 
 group = "dev.iaiabot.furufuru"
-archivesBaseName = "furufuru"
 version = FURUFURU_VERSION_NAME
 
 android {
-    compileSdk 36
+    compileSdk 35
     namespace 'dev.iaiabot.furufuru'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 36
+        targetSdkVersion 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -71,6 +70,10 @@ android {
         unitTests.all {
             testLogging.events = ["passed", "skipped", "failed"]
         }
+    }
+
+    publishing {
+        singleVariant("release") {}
     }
 }
 
@@ -186,8 +189,8 @@ afterEvaluate {
             maven {
                 url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
                 credentials {
-                    username = project.hasProperty("ossrhUsername") ? ossrhUsername : ""
-                    password = project.hasProperty("ossrhPassword") ? ossrhPassword : ""
+                    username = project.findProperty("ossrhUsername") ?: System.getenv("MAVEN_USERNAME")
+                    password = project.findProperty("ossrhPassword") ?: System.getenv("MAVEN_PASSWORD")
                 }
             }
         }
